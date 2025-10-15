@@ -128,6 +128,51 @@
         {{ $slot }}
     </div>
 
+    <!-- Livewire Reconnection Handling -->
+    <script>
+        document.addEventListener('livewire:init', () => {
+            let reconnectBanner = null;
+
+            // Show banner when disconnected
+            Livewire.hook('request', ({ fail }) => {
+                fail(() => {
+                    if (!reconnectBanner) {
+                        reconnectBanner = document.createElement('div');
+                        reconnectBanner.style.cssText = `
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            background: #ff4444;
+                            color: white;
+                            text-align: center;
+                            padding: 0.5rem;
+                            font-family: monospace;
+                            font-weight: bold;
+                            z-index: 9999;
+                        `;
+                        reconnectBanner.textContent = '⚠️ Connection lost. Reconnecting...';
+                        document.body.prepend(reconnectBanner);
+                    }
+                });
+            });
+
+            // Remove banner and refresh when reconnected
+            Livewire.hook('request', ({ succeed }) => {
+                succeed(() => {
+                    if (reconnectBanner) {
+                        reconnectBanner.style.background = '#00ff41';
+                        reconnectBanner.style.color = '#000';
+                        reconnectBanner.textContent = '✓ Reconnected! Refreshing...';
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 500);
+                    }
+                });
+            });
+        });
+    </script>
+
     <!-- Theme Switcher Script -->
     <script>
         function setTheme(theme) {

@@ -113,7 +113,19 @@
                         <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
                     </div>
                     <div class="sm:text-right">
-                        <div style="color: var(--term-dim);">{{ $play->commit_hash }}</div>
+                        <div class="font-mono" style="color: var(--term-dim);">
+                            @php
+                                $hash = $play->commit_hash;
+                                $highlights = $play->highlights ?? [];
+                            @endphp
+                            @for ($i = 0; $i < strlen($hash); $i++)
+                                @if (in_array($i, $highlights))
+                                    <span class="px-0.5 font-bold" style="background: var(--term-text); color: var(--term-bg);">{{ $hash[$i] }}</span>
+                                @else
+                                    <span>{{ $hash[$i] }}</span>
+                                @endif
+                            @endfor
+                        </div>
                         <div class="font-bold {{ $play->payout > 0 ? '' : 'text-red-400' }}"
                              style="{{ $play->payout > 0 ? 'color: var(--term-win);' : '' }}">
                             {{ $play->pattern_name }} {{ $play->payout > 0 ? '+' : '' }}{{ $play->payout }}

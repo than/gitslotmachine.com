@@ -74,10 +74,11 @@
                     }]
                 },
                 options: {
+                    indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: true,
                     scales: {
-                        y: {
+                        x: {
                             beginAtZero: true,
                             grid: {
                                 color: accentColor + '20'
@@ -89,14 +90,15 @@
                                 }
                             }
                         },
-                        x: {
+                        y: {
                             grid: {
-                                color: accentColor + '20'
+                                display: false
                             },
                             ticks: {
                                 color: textColor,
                                 font: {
-                                    family: 'monospace'
+                                    family: 'monospace',
+                                    size: 11
                                 }
                             }
                         }

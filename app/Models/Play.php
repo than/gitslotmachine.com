@@ -13,6 +13,7 @@ class Play extends Model
         'commit_hash',
         'pattern_type',
         'pattern_name',
+        'highlights',
         'payout',
         'repo_balance_after',
         'played_at',
@@ -21,6 +22,7 @@ class Play extends Model
     protected function casts(): array
     {
         return [
+            'highlights' => 'array',
             'payout' => 'integer',
             'repo_balance_after' => 'integer',
             'played_at' => 'datetime',

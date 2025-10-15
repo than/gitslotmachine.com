@@ -60,6 +60,7 @@ class PlayController extends Controller
             'commit_hash' => strtolower($validated['commit_hash']),
             'pattern_type' => $detectedPattern['type'],
             'pattern_name' => $detectedPattern['name'],
+            'highlights' => $detectedPattern['highlights'] ?? [],
             'payout' => $payout,
             'repo_balance_after' => $balanceAfter,
             'played_at' => now(),

@@ -210,13 +210,15 @@
                         <span style="color: var(--term-dim);"> • {{ $play->played_at->diffForHumans() }}</span>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
-                        @php
-                            $net = $play->payout - 10;
-                        @endphp
-                        <span class="font-bold {{ $net >= 0 ? '' : 'text-red-400' }}"
-                             style="{{ $net >= 0 ? 'color: var(--term-win);' : '' }}">
-                            {{ $play->pattern_name }} {{ $net >= 0 ? '+' : '' }}{{ $net }}
-                        </span>
+                        @if($play->payout > 0)
+                            <span class="font-bold" style="color: var(--term-win);">
+                                {{ $play->pattern_name }} +{{ $play->payout }}
+                            </span>
+                        @else
+                            <span class="font-bold text-red-400">
+                                NO WIN -10
+                            </span>
+                        @endif
                         <span class="hash-display" data-hash="{{ $play->commit_hash }}" style="color: var(--term-dim);"></span>
                     </div>
                 </div>

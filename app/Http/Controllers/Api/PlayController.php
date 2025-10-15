@@ -54,7 +54,7 @@ class PlayController extends Controller
         $balanceAfter = $balanceBefore - $wager + $payout;
 
         // Create play
-        Play::create([
+        $play = Play::create([
             'user_id' => $user->id,
             'repository_id' => $repository->id,
             'commit_hash' => strtolower($validated['commit_hash']),
@@ -108,6 +108,9 @@ class PlayController extends Controller
 
         $user->update($updateData);
 
+        // Generate share URL if it's a win
+        $shareUrl = $payout > 0 ? url("/winner/{$play->uuid}") : null;
+
         return response()->json([
             'success' => true,
             'message' => 'Play recorded successfully',
@@ -115,6 +118,7 @@ class PlayController extends Controller
                 'balance' => $balanceAfter,
                 'payout' => $payout,
                 'pattern_name' => $detectedPattern['name'],
+                'share_url' => $shareUrl,
             ],
         ], 201);
     }

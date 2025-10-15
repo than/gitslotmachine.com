@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Play extends Model
 {
     protected $fillable = [
+        'uuid',
         'user_id',
         'repository_id',
         'commit_hash',
@@ -17,6 +19,15 @@ class Play extends Model
         'repo_balance_after',
         'played_at',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Play $play) {
+            if (empty($play->uuid)) {
+                $play->uuid = (string) Str::uuid();
+            }
+        });
+    }
 
     protected function casts(): array
     {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BadgeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -9,3 +10,11 @@ Route::get('/', function () {
 Route::get('/stats', function () {
     return view('stats');
 })->name('stats');
+
+// Fallback routes for when custom domain is not configured
+// These work on the main domain (e.g., gitslotmachinecom-main-vilmm1.laravel.cloud/api/play)
+// Once custom domain is set up, api.gitslotmachine.com will be used instead
+Route::middleware(['api'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->prefix('api')->group(base_path('routes/api.php'));
+
+// Badge fallback route
+Route::get('/badge/{owner}/{repo}.svg', [BadgeController::class, 'show']);

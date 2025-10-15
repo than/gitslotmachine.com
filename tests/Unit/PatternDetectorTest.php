@@ -169,6 +169,14 @@ it('detects THREE_PAIR', function () {
     ]);
 });
 
+it('detects THREE_PAIR with scattered pairs', function () {
+    // 11aa22b has three consecutive pairs scattered throughout
+    $result = $this->detector->detect('11aa22b');
+
+    expect($result['type'])->toBe('THREE_PAIR');
+    expect($result['payout'])->toBe(150);
+});
+
 // THREE_OF_KIND
 it('detects THREE_OF_KIND', function () {
     $result = $this->detector->detect('aaa1234');
@@ -189,6 +197,14 @@ it('detects TWO_PAIR', function () {
         'name' => 'TWO PAIR',
         'payout' => 50,
     ]);
+});
+
+it('does not detect TWO_PAIR for non-consecutive pairs', function () {
+    // d0cca60 has two 0s and two cs but they're not consecutive pairs
+    $result = $this->detector->detect('d0cca60');
+
+    expect($result['type'])->toBe('NO_WIN');
+    expect($result['payout'])->toBe(0);
 });
 
 // ALL_NUMBERS

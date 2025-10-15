@@ -102,8 +102,8 @@
                         <td class="p-3 font-bold" style="color: var(--term-text);">THREE PAIR</td>
                         <td class="p-3"><code>aabbcc1</code></td>
                         <td class="p-3 text-right font-bold" style="color: var(--term-win);">+150</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 400</td>
-                        <td class="p-3">Three pairs</td>
+                        <td class="p-3 text-right hidden sm:table-cell">1 in 1600</td>
+                        <td class="p-3">Three consecutive pairs</td>
                     </tr>
                     <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                         <td class="p-3 font-bold" style="color: var(--term-text);">FULL HOUSE</td>
@@ -123,8 +123,8 @@
                         <td class="p-3 font-bold" style="color: var(--term-text);">TWO PAIR</td>
                         <td class="p-3"><code>aa1bb2c</code></td>
                         <td class="p-3 text-right font-bold" style="color: var(--term-win);">+50</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 30</td>
-                        <td class="p-3">Two pairs</td>
+                        <td class="p-3 text-right hidden sm:table-cell">1 in 45</td>
+                        <td class="p-3">Two consecutive pairs</td>
                     </tr>
                     <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                         <td class="p-3 font-bold" style="color: var(--term-text);">ALL NUMBERS</td>
@@ -142,16 +142,16 @@
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">STATS FOR NERDS</h3>
                 <ul class="space-y-1 text-xs sm:text-sm" style="color: var(--term-dim);">
                     <li><span style="color: var(--term-win);">Check the Stats page</span> for real-world pattern frequencies</li>
-                    <li><span style="color: var(--term-text);">Two Pair</span> is the most common win (~3% of commits)</li>
-                    <li><span style="color: var(--term-text);">All Numbers</span> breaks even at 10 points (~4% of commits)</li>
-                    <li>JACKPOT: 1 in 16.7M commits (good luck!)</li>
+                    <li><span style="color: var(--term-text);">Three of a Kind</span> is the most common win (~7% of commits)</li>
+                    <li><span style="color: var(--term-text);">Two Pair</span> hits about 1 in 45 commits (~2%)</li>
+                    <li><span style="color: var(--term-text);">All Numbers</span> breaks even (~3% of commits)</li>
                 </ul>
             </div>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">PATTERN RULES</h3>
                 <ul class="space-y-1 text-xs sm:text-sm" style="color: var(--term-dim);">
                     <li><span style="color: var(--term-text);">Straights</span> - Sequential hex values (ascending or descending)</li>
-                    <li><span style="color: var(--term-text);">Pairs</span> - Two of the same character anywhere in the hash</li>
+                    <li><span style="color: var(--term-text);">Pairs</span> - Consecutive identical characters (aa, bb, etc.)</li>
                     <li><span style="color: var(--term-text);">Priority</span> - Checked from rarest to most common</li>
                     <li><span style="color: var(--term-text);">All hashes</span> - Every commit gets a fair shake!</li>
                 </ul>

@@ -22,11 +22,12 @@ class StorePlayRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'repo_url' => ['required', 'url', 'regex:/github\.com/'],
             'commit_hash' => ['required', 'string', 'size:7', 'regex:/^[0-9a-f]{7}$/i'],
-            'pattern_type' => ['required', 'string'],
-            'pattern_name' => ['required', 'string'],
-            'payout' => ['required', 'integer', 'min:0'],
+            'commit_full_hash' => ['nullable', 'string', 'size:40', 'regex:/^[0-9a-f]{40}$/i'],
+            'repo_url' => ['required', 'url', 'regex:/github\.com/'],
+            'repo_owner' => ['required', 'string'],
+            'repo_name' => ['required', 'string'],
+            'github_username' => ['required', 'string'],
         ];
     }
 }

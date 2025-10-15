@@ -20,27 +20,17 @@ class PlayController extends Controller
     {
         $validated = $request->validated();
 
-        // Extract owner/repo from URL
-        preg_match('/github\.com\/([^\/]+)\/([^\/]+)/', $validated['repo_url'], $matches);
-        $owner = $matches[1];
-        $repoName = rtrim($matches[2], '.git'); // Remove .git if present
-
-        // Verify pattern matches hash
+        // Server-side pattern detection (don't trust client)
         $detectedPattern = $this->detector->detect($validated['commit_hash']);
-        if ($detectedPattern['type'] !== $validated['pattern_type']) {
-            return response()->json([
-                'message' => 'Pattern mismatch - verification failed',
-                'detected' => $detectedPattern['type'],
-                'claimed' => $validated['pattern_type'],
-            ], 422);
-        }
+        $payout = $detectedPattern['payout'];
+        $wager = 10; // Standard wager
 
         // Find or create user
         $user = User::firstOrCreate(
-            ['github_username' => $owner],
+            ['github_username' => $validated['github_username']],
             [
-                'name' => $owner,
-                'email' => $owner.'@github.com',
+                'name' => $validated['github_username'],
+                'email' => $validated['github_username'].'@github.com',
                 'password' => bcrypt(str()->random()),
                 'total_balance' => 0,
                 'total_commits' => 0,
@@ -50,7 +40,7 @@ class PlayController extends Controller
 
         // Find or create repository
         $repository = Repository::firstOrCreate(
-            ['owner' => $owner, 'name' => $repoName],
+            ['owner' => $validated['repo_owner'], 'name' => $validated['repo_name']],
             [
                 'user_id' => $user->id,
                 'github_url' => $validated['repo_url'],
@@ -59,40 +49,46 @@ class PlayController extends Controller
             ]
         );
 
-        // Calculate new balance (cost 10 credits, add payout)
-        $newBalance = $repository->balance - 10 + $validated['payout'];
+        // Calculate balances
+        $balanceBefore = $repository->balance;
+        $balanceAfter = $balanceBefore - $wager + $payout;
 
         // Create play
         Play::create([
             'user_id' => $user->id,
             'repository_id' => $repository->id,
             'commit_hash' => strtolower($validated['commit_hash']),
-            'pattern_type' => $validated['pattern_type'],
-            'pattern_name' => $validated['pattern_name'],
-            'payout' => $validated['payout'],
-            'repo_balance_after' => $newBalance,
+            'pattern_type' => $detectedPattern['type'],
+            'pattern_name' => $detectedPattern['name'],
+            'payout' => $payout,
+            'repo_balance_after' => $balanceAfter,
             'played_at' => now(),
         ]);
 
         // Update repository stats
         $repository->update([
-            'balance' => $newBalance,
+            'balance' => $balanceAfter,
             'total_commits' => $repository->total_commits + 1,
             'last_commit_hash' => $validated['commit_hash'],
             'last_played_at' => now(),
         ]);
 
         // Update user stats
-        $netWinnings = $validated['payout'] - 10;
+        $netWinnings = $payout - $wager;
         $user->update([
             'total_balance' => $user->total_balance + $netWinnings,
             'total_commits' => $user->total_commits + 1,
-            'biggest_win' => max($user->biggest_win, $validated['payout']),
+            'biggest_win' => max($user->biggest_win, $payout),
         ]);
 
         return response()->json([
+            'success' => true,
             'message' => 'Play recorded successfully',
-            'balance' => $newBalance,
+            'data' => [
+                'balance' => $balanceAfter,
+                'payout' => $payout,
+                'pattern_name' => $detectedPattern['name'],
+            ],
         ], 201);
     }
 }

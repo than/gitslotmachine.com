@@ -43,12 +43,14 @@ class GlobalStats extends Component
 
     private function getRarestPatterns(): array
     {
-        // Exclude NO_WIN from rarest patterns
+        // Get patterns with best profit margin (payout - wager)
         return Play::select('pattern_type', 'pattern_name')
             ->selectRaw('COUNT(*) as count')
+            ->selectRaw('SUM(payout - 10) as net_profit')
+            ->selectRaw('AVG(payout - 10) as avg_profit')
             ->where('pattern_type', '!=', 'NO_WIN')
             ->groupBy('pattern_type', 'pattern_name')
-            ->orderBy('count', 'asc')
+            ->orderByDesc('net_profit')
             ->limit(5)
             ->get()
             ->toArray();
@@ -56,12 +58,13 @@ class GlobalStats extends Component
 
     private function getMostCommonPatterns(): array
     {
-        // Exclude NO_WIN from most common
+        // Get patterns with highest total payouts
         return Play::select('pattern_type', 'pattern_name')
+            ->selectRaw('SUM(payout) as total_payout')
             ->selectRaw('COUNT(*) as count')
             ->where('pattern_type', '!=', 'NO_WIN')
             ->groupBy('pattern_type', 'pattern_name')
-            ->orderByDesc('count')
+            ->orderByDesc('total_payout')
             ->limit(5)
             ->get()
             ->toArray();

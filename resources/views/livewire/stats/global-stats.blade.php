@@ -29,24 +29,32 @@
     <!-- Most Common Patterns -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ MOST COMMON</h3>
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ HIGHEST PAYOUTS</h3>
             <div class="space-y-3">
                 @foreach($most_common_patterns as $pattern)
                 <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                    <span style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</span>
-                    <span class="font-bold" style="color: var(--term-dim);">{{ number_format($pattern['count']) }}</span>
+                    <div>
+                        <div style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</div>
+                        <div class="text-xs" style="color: var(--term-dim);">{{ number_format($pattern['count']) }} hits</div>
+                    </div>
+                    <span class="font-bold" style="color: var(--term-win);">{{ number_format($pattern['total_payout']) }}</span>
                 </div>
                 @endforeach
             </div>
         </div>
 
         <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ RAREST</h3>
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ MOST PROFITABLE</h3>
             <div class="space-y-3">
                 @foreach($rarest_patterns as $pattern)
                 <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                    <span style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</span>
-                    <span class="font-bold" style="color: var(--term-win);">{{ number_format($pattern['count']) }}</span>
+                    <div>
+                        <div style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</div>
+                        <div class="text-xs" style="color: var(--term-dim);">{{ number_format($pattern['count']) }} hits @ {{ $pattern['count'] > 0 ? number_format($pattern['net_profit'] / $pattern['count'], 1) : 0 }} avg</div>
+                    </div>
+                    <span class="font-bold {{ $pattern['net_profit'] >= 0 ? '' : 'text-red-400' }}" style="{{ $pattern['net_profit'] >= 0 ? 'color: var(--term-win);' : '' }}">
+                        {{ $pattern['net_profit'] >= 0 ? '+' : '' }}{{ number_format($pattern['net_profit']) }}
+                    </span>
                 </div>
                 @endforeach
             </div>

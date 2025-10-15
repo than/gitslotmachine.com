@@ -8,6 +8,12 @@
 </head>
 <body class="bg-gray-900 text-white">
     <div class="container mx-auto px-4 py-8">
+        <!-- Navigation -->
+        <nav class="flex justify-center gap-6 mb-8">
+            <a href="{{ route('home') }}" class="text-cyan-400 hover:text-cyan-300 font-semibold border-b-2 border-cyan-400">Leaderboard</a>
+            <a href="{{ route('stats') }}" class="text-gray-400 hover:text-cyan-300">Statistics</a>
+        </nav>
+
         <!-- Header -->
         <header class="text-center mb-12">
             <h1 class="text-6xl font-bold mb-4">🎰 Git Slot Machine 🎰</h1>

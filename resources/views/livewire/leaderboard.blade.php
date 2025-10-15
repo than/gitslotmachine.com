@@ -92,6 +92,12 @@
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
+                            <th class="p-4 cursor-pointer hover:opacity-75 whitespace-nowrap" wire:click="sortBy('longest_streak')">
+                                LONGEST STREAK
+                                @if($sortBy === 'longest_streak')
+                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -106,12 +112,21 @@
                             </td>
                             <td class="p-4 whitespace-nowrap">
                                 @if($user->biggest_win > 0)
-                                    @if($user->biggest_win_pattern)
-                                        <span class="text-xs opacity-75" style="color: var(--term-dim);">{{ $user->biggest_win_pattern }}</span>
-                                    @endif
-                                    <span class="font-bold ml-2" style="color: var(--term-win);">+{{ $user->biggest_win }}</span>
+                                    <span class="font-bold" style="color: var(--term-win);">
+                                        {{ $user->biggest_win_pattern }} +{{ $user->biggest_win }}
+                                    </span>
                                     @if($user->biggest_win_hash)
                                         <span class="text-xs ml-2 font-mono hash-display" data-hash="{{ $user->biggest_win_hash }}" style="color: var(--term-text);"></span>
+                                    @endif
+                                @else
+                                    <span style="color: var(--term-dim);">-</span>
+                                @endif
+                            </td>
+                            <td class="p-4 whitespace-nowrap">
+                                @if($user->longest_streak > 0)
+                                    <span class="font-bold" style="color: var(--term-win);">{{ $user->longest_streak }} wins</span>
+                                    @if($user->longest_streak_ended_at)
+                                        <span class="text-xs ml-2" style="color: var(--term-dim);">{{ $user->longest_streak_ended_at->diffForHumans() }}</span>
                                     @endif
                                 @else
                                     <span style="color: var(--term-dim);">-</span>

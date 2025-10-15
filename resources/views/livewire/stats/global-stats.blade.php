@@ -44,7 +44,7 @@
         </div>
 
         <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ MOST PROFITABLE</h3>
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ RAREST PATTERNS</h3>
             <div class="space-y-3">
                 @foreach($rarest_patterns as $pattern)
                 <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">

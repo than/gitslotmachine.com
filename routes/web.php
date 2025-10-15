@@ -15,6 +15,10 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+Route::get('/odds', function () {
+    return view('odds');
+})->name('odds');
+
 // Fallback routes for when custom domain is not configured
 // These work on the main domain (e.g., gitslotmachinecom-main-vilmm1.laravel.cloud/api/play)
 // Once custom domain is set up, api.gitslotmachine.com will be used instead

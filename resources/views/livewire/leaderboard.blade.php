@@ -209,9 +209,12 @@
                         <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
-                        <span class="font-bold {{ $play->payout > 0 ? '' : 'text-red-400' }}"
-                             style="{{ $play->payout > 0 ? 'color: var(--term-win);' : '' }}">
-                            {{ $play->pattern_name }} {{ $play->payout > 0 ? '+' : '' }}{{ $play->payout }}
+                        @php
+                            $net = $play->payout - 10;
+                        @endphp
+                        <span class="font-bold {{ $net >= 0 ? '' : 'text-red-400' }}"
+                             style="{{ $net >= 0 ? 'color: var(--term-win);' : '' }}">
+                            {{ $play->pattern_name }} {{ $net >= 0 ? '+' : '' }}{{ $net }}
                         </span>
                         <span class="hash-display" data-hash="{{ $play->commit_hash }}" style="color: var(--term-dim);"></span>
                     </div>

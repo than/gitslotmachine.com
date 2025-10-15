@@ -38,42 +38,38 @@ class BadgeController extends Controller
         int $payout,
         int $balance
     ): Response {
-        $payoutText = $payout > 0 ? "+{$payout}" : "{$payout}";
-        $payoutColor = $payout > 0 ? '#10b981' : '#ef4444';
+        $netPayout = $payout - 10;
+        $payoutText = $netPayout > 0 ? "+{$netPayout}" : "{$netPayout}";
+        $rightColor = $netPayout > 0 ? '#4c1' : '#e05d44'; // Green for win, red for loss
+
+        // Build the right side text: "PATTERN +40 • 150"
+        $rightText = "{$pattern} {$payoutText} • {$balance}";
+
+        // Calculate widths (approximate)
+        $leftWidth = 85; // "🎰 slot" section
+        $rightWidth = strlen($rightText) * 6.5 + 20; // Approximate character width
+        $totalWidth = $leftWidth + $rightWidth;
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="30" role="img">
-    <title>Git Slot Machine</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
+    <title>slot: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
-        <stop offset="0" stop-color="#1f2937" stop-opacity=".1"/>
+        <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
     </linearGradient>
     <clipPath id="r">
-        <rect width="400" height="30" rx="3" fill="#fff"/>
+        <rect width="{$totalWidth}" height="20" rx="3" fill="#fff"/>
     </clipPath>
     <g clip-path="url(#r)">
-        <rect width="400" height="30" fill="#1f2937"/>
-        <rect x="0" width="400" height="30" fill="url(#s)"/>
-        <g fill="#fff" text-anchor="start" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
-            <!-- Emoji -->
-            <text x="5" y="20" font-size="16">🎰</text>
-
-            <!-- Hash -->
-            <text x="30" y="20" fill="#9ca3af" font-family="monospace">{$hash}</text>
-
-            <!-- Bullet -->
-            <text x="100" y="20" fill="#6b7280">•</text>
-
-            <!-- Pattern and payout -->
-            <text x="115" y="20" fill="{$payoutColor}" font-weight="bold">{$pattern} {$payoutText}</text>
-
-            <!-- Bullet -->
-            <text x="270" y="20" fill="#6b7280">•</text>
-
-            <!-- Balance -->
-            <text x="285" y="20" fill="#fff">Balance: </text>
-            <text x="340" y="20" fill="#10b981" font-weight="bold">{$balance}</text>
-        </g>
+        <rect width="{$leftWidth}" height="20" fill="#555"/>
+        <rect x="{$leftWidth}" width="{$rightWidth}" height="20" fill="{$rightColor}"/>
+        <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
+        <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
+        <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
+        <text aria-hidden="true" x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
+        <text x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="140" transform="scale(.1)" fill="#fff" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
     </g>
 </svg>
 SVG;
@@ -85,23 +81,31 @@ SVG;
 
     private function generateDefaultBadge(): Response
     {
-        $svg = <<<'SVG'
-<svg xmlns="http://www.w3.org/2000/svg" width="350" height="30" role="img">
-    <title>Git Slot Machine</title>
+        $leftWidth = 85;
+        $rightText = 'no plays yet';
+        $rightWidth = strlen($rightText) * 6.5 + 20;
+        $totalWidth = $leftWidth + $rightWidth;
+
+        $svg = <<<SVG
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
+    <title>slot: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
-        <stop offset="0" stop-color="#1f2937" stop-opacity=".1"/>
+        <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
     </linearGradient>
     <clipPath id="r">
-        <rect width="350" height="30" rx="3" fill="#fff"/>
+        <rect width="{$totalWidth}" height="20" rx="3" fill="#fff"/>
     </clipPath>
     <g clip-path="url(#r)">
-        <rect width="350" height="30" fill="#1f2937"/>
-        <rect x="0" width="350" height="30" fill="url(#s)"/>
-        <g fill="#fff" text-anchor="start" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11">
-            <text x="5" y="20" font-size="16">🎰</text>
-            <text x="30" y="20" fill="#9ca3af">No plays yet • Install git-slot-machine</text>
-        </g>
+        <rect width="{$leftWidth}" height="20" fill="#555"/>
+        <rect x="{$leftWidth}" width="{$rightWidth}" height="20" fill="#9f9f9f"/>
+        <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
+    </g>
+    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
+        <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
+        <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
+        <text aria-hidden="true" x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
+        <text x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="140" transform="scale(.1)" fill="#fff" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
     </g>
 </svg>
 SVG;

@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'github_username',
+        'total_balance',
+        'total_commits',
+        'biggest_win',
     ];
 
     /**
@@ -43,6 +47,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'total_balance' => 'integer',
+            'total_commits' => 'integer',
+            'biggest_win' => 'integer',
         ];
+    }
+
+    public function repositories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Repository::class);
+    }
+
+    public function plays(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Play::class);
     }
 }

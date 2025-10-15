@@ -105,31 +105,19 @@
         @else
         <div class="space-y-3">
             @foreach($recentPlays as $play)
-            <div class="border bg-black/30 p-4 hover:bg-white/5 font-mono text-xs sm:text-sm" style="border-color: var(--term-accent);">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                    <div class="flex-1">
+            <div class="border bg-black/30 px-3 py-2 hover:bg-white/5 font-mono text-xs" style="border-color: var(--term-accent);">
+                <div class="flex items-center justify-between gap-4">
+                    <div class="flex-1 truncate">
                         <span class="font-bold" style="color: var(--term-text);">{{ $play->user->github_username }}</span>
                         <span style="color: var(--term-dim);"> @ </span>
                         <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
                     </div>
-                    <div class="sm:text-right">
-                        <div class="font-mono" style="color: var(--term-dim);">
-                            @php
-                                $hash = $play->commit_hash;
-                                $highlights = $play->highlights ?? [];
-                            @endphp
-                            @for ($i = 0; $i < strlen($hash); $i++)
-                                @if (in_array($i, $highlights))
-                                    <span class="px-0.5 font-bold" style="background: var(--term-text); color: var(--term-bg);">{{ $hash[$i] }}</span>
-                                @else
-                                    <span>{{ $hash[$i] }}</span>
-                                @endif
-                            @endfor
-                        </div>
-                        <div class="font-bold {{ $play->payout > 0 ? '' : 'text-red-400' }}"
+                    <div class="flex items-center gap-3 shrink-0">
+                        <span class="hash-display" data-hash="{{ $play->commit_hash }}" style="color: var(--term-dim);"></span>
+                        <span class="font-bold {{ $play->payout > 0 ? '' : 'text-red-400' }}"
                              style="{{ $play->payout > 0 ? 'color: var(--term-win);' : '' }}">
                             {{ $play->pattern_name }} {{ $play->payout > 0 ? '+' : '' }}{{ $play->payout }}
-                        </div>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -137,4 +125,41 @@
         </div>
         @endif
     </div>
+
+    <script>
+        // Highlight all hashes on page load and Livewire updates
+        function highlightHashes() {
+            document.querySelectorAll('.hash-display').forEach(el => {
+                const hash = el.dataset.hash;
+                if (!hash) return;
+
+                try {
+                    const pattern = window.detectPattern(hash);
+                    const highlights = pattern.highlightIndices || [];
+
+                    let html = '';
+                    for (let i = 0; i < hash.length; i++) {
+                        if (highlights.includes(i)) {
+                            html += `<span class="px-0.5 font-bold" style="background: var(--term-text); color: var(--term-bg);">${hash[i]}</span>`;
+                        } else {
+                            html += hash[i];
+                        }
+                    }
+                    el.innerHTML = html;
+                } catch (e) {
+                    el.textContent = hash;
+                }
+            });
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', highlightHashes);
+
+        // Run after Livewire updates
+        document.addEventListener('livewire:init', () => {
+            Livewire.hook('morph.updated', () => {
+                highlightHashes();
+            });
+        });
+    </script>
 </div>

@@ -121,7 +121,7 @@
         </div>
 
         <div class="footer">
-            {{ $play->repository->owner }}/{{ $play->repository->name }} • gitslotmachine.com
+            {{ $play->repository->displayFullName() }} • gitslotmachine.com
         </div>
     </div>
 </body>

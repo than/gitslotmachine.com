@@ -9,7 +9,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ route('winner.show', $play->uuid) }}">
     <meta property="og:title" content="{{ $play->user->github_username }} hit {{ $play->pattern_name }}!">
-    <meta property="og:description" content="Won +{{ $play->payout - 10 }} points on {{ $play->repository->owner }}/{{ $play->repository->name }} • Hash: {{ $play->commit_hash }}">
+    <meta property="og:description" content="Won +{{ $play->payout - 10 }} points on {{ $play->repository->displayFullName() }} • Hash: {{ $play->commit_hash }}">
     <meta property="og:image" content="{{ route('winner.image', $play->uuid) }}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -18,7 +18,7 @@
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ route('winner.show', $play->uuid) }}">
     <meta property="twitter:title" content="{{ $play->user->github_username }} hit {{ $play->pattern_name }}!">
-    <meta property="twitter:description" content="Won +{{ $play->payout - 10 }} points on {{ $play->repository->owner }}/{{ $play->repository->name }}">
+    <meta property="twitter:description" content="Won +{{ $play->payout - 10 }} points on {{ $play->repository->displayFullName() }}">
     <meta property="twitter:image" content="{{ route('winner.image', $play->uuid) }}">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎰</text></svg>">
@@ -128,7 +128,7 @@
             <div class="border bg-black p-6 font-mono text-sm" style="border-color: var(--term-accent);">
                 <div class="mb-4">
                     <span style="color: var(--term-dim);">Repository:</span>
-                    <span class="font-bold ml-2" style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
+                    <span class="font-bold ml-2" style="color: var(--term-text);">{{ $play->repository->displayFullName() }}</span>
                 </div>
                 <div class="mb-4">
                     <span style="color: var(--term-dim);">Commit Hash:</span>

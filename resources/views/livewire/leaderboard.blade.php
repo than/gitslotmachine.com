@@ -168,7 +168,7 @@
                                 <div class="flex items-center gap-3">
                                     <span class="font-bold" style="color: var(--term-win);">{{ $play->pattern_name }}</span>
                                     <span style="color: var(--term-dim);"> @ </span>
-                                    <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
+                                    <span style="color: var(--term-text);">{{ $play->repository->displayFullName() }}</span>
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <span class="font-bold" style="color: var(--term-win);">+{{ $play->payout }}</span>
@@ -206,7 +206,7 @@
                     <div class="flex-1 truncate">
                         <span class="font-bold" style="color: var(--term-text);">{{ $play->user->github_username }}</span>
                         <span style="color: var(--term-dim);"> @ </span>
-                        <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
+                        <span style="color: var(--term-text);">{{ $play->repository->displayFullName() }}</span>
                         <span style="color: var(--term-dim);"> • {{ $play->played_at->diffForHumans() }}</span>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">

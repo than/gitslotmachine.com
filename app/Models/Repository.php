@@ -40,4 +40,24 @@ class Repository extends Model
     {
         return $this->hasMany(Play::class);
     }
+
+    public function isPrivate(): bool
+    {
+        return $this->owner === 'private' && $this->name === 'private';
+    }
+
+    public function displayOwner(): string
+    {
+        return $this->isPrivate() ? '*******' : $this->owner;
+    }
+
+    public function displayName(): string
+    {
+        return $this->isPrivate() ? '*******' : $this->name;
+    }
+
+    public function displayFullName(): string
+    {
+        return $this->displayOwner() . '/' . $this->displayName();
+    }
 }

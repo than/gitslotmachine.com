@@ -14,6 +14,8 @@ class Leaderboard extends Component
 
     public string $sortDirection = 'desc';
 
+    public ?int $expandedStreak = null;
+
     public function sortBy(string $column): void
     {
         if ($this->sortBy === $column) {
@@ -24,6 +26,11 @@ class Leaderboard extends Component
             $this->sortBy = $column;
             $this->sortDirection = 'desc';
         }
+    }
+
+    public function toggleStreak(int $userId): void
+    {
+        $this->expandedStreak = $this->expandedStreak === $userId ? null : $userId;
     }
 
     public function render()
@@ -44,6 +51,23 @@ class Leaderboard extends Component
             ->limit(100)
             ->get();
 
+        // Longest streaks leaderboard
+        $streaksLeaderboard = User::where('longest_streak', '>', 0)
+            ->orderByDesc('longest_streak')
+            ->limit(10)
+            ->get()
+            ->map(function ($user) {
+                // Get recent winning plays for this user
+                $user->streak_plays = Play::with('repository')
+                    ->where('user_id', $user->id)
+                    ->where('payout', '>', 0)
+                    ->orderByDesc('played_at')
+                    ->limit($user->longest_streak)
+                    ->get();
+
+                return $user;
+            });
+
         // Recent plays
         $recentPlays = Play::with(['user', 'repository'])
             ->orderByDesc('played_at')
@@ -53,6 +77,7 @@ class Leaderboard extends Component
         return view('livewire.leaderboard', [
             'dailyLeaderboard' => $dailyLeaderboard,
             'allTimeLeaderboard' => $allTimeLeaderboard,
+            'streaksLeaderboard' => $streaksLeaderboard,
             'recentPlays' => $recentPlays,
         ]);
     }

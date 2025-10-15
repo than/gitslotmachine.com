@@ -15,6 +15,12 @@
                     style="color: {{ $tab === 'alltime' ? 'var(--term-text)' : 'var(--term-dim)' }}; {{ $tab === 'alltime' ? 'background: rgba(var(--term-accent-rgb), 0.2); border: 1px solid var(--term-accent);' : '' }}">
                     [ALL-TIME]
                 </button>
+                <button
+                    wire:click="$set('tab', 'streaks')"
+                    class="py-2 px-4 font-mono font-bold transition-all"
+                    style="color: {{ $tab === 'streaks' ? 'var(--term-text)' : 'var(--term-dim)' }}; {{ $tab === 'streaks' ? 'background: rgba(var(--term-accent-rgb), 0.2); border: 1px solid var(--term-accent);' : '' }}">
+                    [STREAKS]
+                </button>
             </nav>
         </div>
 
@@ -92,12 +98,6 @@
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
-                            <th class="p-4 cursor-pointer hover:opacity-75 whitespace-nowrap" wire:click="sortBy('longest_streak')">
-                                LONGEST STREAK
-                                @if($sortBy === 'longest_streak')
-                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
-                                @endif
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,20 +122,69 @@
                                     <span style="color: var(--term-dim);">-</span>
                                 @endif
                             </td>
-                            <td class="p-4 whitespace-nowrap">
-                                @if($user->longest_streak > 0)
-                                    <span class="font-bold" style="color: var(--term-win);">{{ $user->longest_streak }} wins</span>
-                                    @if($user->longest_streak_ended_at)
-                                        <span class="text-xs ml-2" style="color: var(--term-dim);">{{ $user->longest_streak_ended_at->diffForHumans() }}</span>
-                                    @endif
-                                @else
-                                    <span style="color: var(--term-dim);">-</span>
-                                @endif
-                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            @endif
+        </div>
+        @endif
+
+        <!-- Streaks Leaderboard -->
+        @if($tab === 'streaks')
+        <div class="mt-8 border bg-black/30" style="border-color: var(--term-accent);">
+            @if($streaksLeaderboard->isEmpty())
+            <div class="text-center py-12" style="color: var(--term-dim);">
+                &gt; No streaks yet. Start winning to build a streak!
+            </div>
+            @else
+            <div class="space-y-2 p-4">
+                @foreach($streaksLeaderboard as $index => $user)
+                <div class="border bg-black/20" style="border-color: var(--term-accent);">
+                    <!-- Streak Header (Clickable) -->
+                    <button
+                        wire:click="toggleStreak({{ $user->id }})"
+                        class="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition font-mono">
+                        <div class="flex items-center gap-4">
+                            <span class="text-xl font-bold" style="color: var(--term-text);">{{ $index + 1 }}</span>
+                            <span class="font-bold" style="color: var(--term-text);">{{ $user->github_username }}</span>
+                            <span class="font-bold" style="color: var(--term-win);">{{ $user->longest_streak }} wins</span>
+                            @if($user->longest_streak_ended_at)
+                                <span class="text-xs" style="color: var(--term-dim);">{{ $user->longest_streak_ended_at->diffForHumans() }}</span>
+                            @else
+                                <span class="text-xs" style="color: var(--term-win);">ACTIVE</span>
+                            @endif
+                        </div>
+                        <span class="text-xl" style="color: var(--term-text);">{{ $expandedStreak === $user->id ? '▼' : '▶' }}</span>
+                    </button>
+
+                    <!-- Streak Details (Accordion Content) -->
+                    @if($expandedStreak === $user->id)
+                    <div class="px-4 pb-4 border-t" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                        <div class="mt-3 space-y-2">
+                            @forelse($user->streak_plays as $play)
+                            <div class="flex items-center justify-between py-2 px-3 bg-black/30 rounded text-sm">
+                                <div class="flex items-center gap-3">
+                                    <span class="font-bold" style="color: var(--term-win);">{{ $play->pattern_name }}</span>
+                                    <span style="color: var(--term-dim);"> @ </span>
+                                    <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="font-bold" style="color: var(--term-win);">+{{ $play->payout }}</span>
+                                    <span class="hash-display text-xs" data-hash="{{ $play->commit_hash }}" style="color: var(--term-dim);"></span>
+                                </div>
+                            </div>
+                            @empty
+                            <div class="text-center py-4" style="color: var(--term-dim);">
+                                &gt; No winning plays found
+                            </div>
+                            @endforelse
+                        </div>
+                    </div>
+                    @endif
+                </div>
+                @endforeach
             </div>
             @endif
         </div>

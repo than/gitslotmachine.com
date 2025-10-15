@@ -13,6 +13,9 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 it('can submit a play', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_type' => 'THREE_PAIR',
         'pattern_name' => 'THREE PAIR',
@@ -40,6 +43,9 @@ it('can submit a play', function () {
 it('rejects invalid hash length', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'abc',
         'pattern_type' => 'NO_WIN',
         'pattern_name' => 'NO WIN',
@@ -53,6 +59,9 @@ it('rejects invalid hash length', function () {
 it('rejects non-hex characters in hash', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'gggg123',
         'pattern_type' => 'NO_WIN',
         'pattern_name' => 'NO WIN',
@@ -66,6 +75,9 @@ it('rejects non-hex characters in hash', function () {
 it('rejects mismatched pattern', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1', // Actually THREE_PAIR
         'pattern_type' => 'NO_WIN', // Claiming NO_WIN
         'pattern_name' => 'NO WIN',
@@ -89,6 +101,9 @@ it('updates existing user and repo', function () {
 
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'abacfed',
         'pattern_type' => 'ALL_LETTERS',
         'pattern_name' => 'ALL LETTERS',
@@ -114,6 +129,9 @@ it('calculates correct balance with no win', function () {
 
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'abcd123',
         'pattern_type' => 'NO_WIN',
         'pattern_name' => 'NO WIN',
@@ -129,6 +147,9 @@ it('calculates correct balance with no win', function () {
 
 it('requires repo_url field', function () {
     $response = postJson('/api/play', [
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_type' => 'THREE_PAIR',
         'pattern_name' => 'THREE PAIR',
@@ -142,6 +163,9 @@ it('requires repo_url field', function () {
 it('requires commit_hash field', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'pattern_type' => 'THREE_PAIR',
         'pattern_name' => 'THREE PAIR',
         'payout' => 150,
@@ -154,6 +178,9 @@ it('requires commit_hash field', function () {
 it('requires pattern_type field', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_name' => 'THREE PAIR',
         'payout' => 150,
@@ -166,6 +193,9 @@ it('requires pattern_type field', function () {
 it('requires pattern_name field', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_type' => 'THREE_PAIR',
         'payout' => 150,
@@ -178,6 +208,9 @@ it('requires pattern_name field', function () {
 it('requires payout field', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_type' => 'THREE_PAIR',
         'pattern_name' => 'THREE PAIR',
@@ -190,6 +223,9 @@ it('requires payout field', function () {
 it('rejects non-github URLs', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://gitlab.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1',
         'pattern_type' => 'THREE_PAIR',
         'pattern_name' => 'THREE PAIR',
@@ -217,6 +253,9 @@ it('updates user stats correctly', function () {
 
     postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
         'commit_hash' => 'abacfed',
         'pattern_type' => 'ALL_LETTERS',
         'pattern_name' => 'ALL LETTERS',
@@ -227,4 +266,122 @@ it('updates user stats correctly', function () {
     expect($user->total_commits)->toBe(1);
     expect($user->total_balance)->toBe(290); // 300 payout - 10 cost
     expect($user->biggest_win)->toBe(300);
+});
+
+it('increments current streak on win', function () {
+    $user = User::factory()->create([
+        'github_username' => 'thantibbetts',
+        'current_streak' => 0,
+    ]);
+
+    Repository::factory()->create([
+        'user_id' => $user->id,
+        'owner' => 'thantibbetts',
+        'name' => 'test-repo',
+        'balance' => 100,
+    ]);
+
+    postJson('/api/play', [
+        'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
+        'commit_hash' => 'aabbcc1',
+        'pattern_type' => 'THREE_PAIR',
+        'pattern_name' => 'THREE PAIR',
+        'payout' => 150,
+    ]);
+
+    $user->refresh();
+    expect($user->current_streak)->toBe(1);
+});
+
+it('resets current streak on loss', function () {
+    $user = User::factory()->create([
+        'github_username' => 'thantibbetts',
+        'current_streak' => 3,
+    ]);
+
+    Repository::factory()->create([
+        'user_id' => $user->id,
+        'owner' => 'thantibbetts',
+        'name' => 'test-repo',
+        'balance' => 100,
+    ]);
+
+    postJson('/api/play', [
+        'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
+        'commit_hash' => 'abcd123',
+        'pattern_type' => 'NO_WIN',
+        'pattern_name' => 'NO WIN',
+        'payout' => 0,
+    ]);
+
+    $user->refresh();
+    expect($user->current_streak)->toBe(0);
+});
+
+it('updates longest streak when current streak exceeds it', function () {
+    $user = User::factory()->create([
+        'github_username' => 'thantibbetts',
+        'current_streak' => 4,
+        'longest_streak' => 3,
+    ]);
+
+    Repository::factory()->create([
+        'user_id' => $user->id,
+        'owner' => 'thantibbetts',
+        'name' => 'test-repo',
+        'balance' => 100,
+    ]);
+
+    postJson('/api/play', [
+        'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
+        'commit_hash' => 'aabbcc1',
+        'pattern_type' => 'THREE_PAIR',
+        'pattern_name' => 'THREE PAIR',
+        'payout' => 150,
+    ]);
+
+    $user->refresh();
+    expect($user->current_streak)->toBe(5);
+    expect($user->longest_streak)->toBe(5);
+});
+
+it('records when longest streak ended', function () {
+    $user = User::factory()->create([
+        'github_username' => 'thantibbetts',
+        'current_streak' => 5,
+        'longest_streak' => 5,
+        'longest_streak_ended_at' => null,
+    ]);
+
+    Repository::factory()->create([
+        'user_id' => $user->id,
+        'owner' => 'thantibbetts',
+        'name' => 'test-repo',
+        'balance' => 100,
+    ]);
+
+    postJson('/api/play', [
+        'repo_url' => 'https://github.com/thantibbetts/test-repo',
+        'repo_owner' => 'thantibbetts',
+        'repo_name' => 'test-repo',
+        'github_username' => 'thantibbetts',
+        'commit_hash' => 'abcd123',
+        'pattern_type' => 'NO_WIN',
+        'pattern_name' => 'NO WIN',
+        'payout' => 0,
+    ]);
+
+    $user->refresh();
+    expect($user->current_streak)->toBe(0);
+    expect($user->longest_streak)->toBe(5);
+    expect($user->longest_streak_ended_at)->not->toBeNull();
 });

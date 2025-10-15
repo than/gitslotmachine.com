@@ -26,6 +26,11 @@ class User extends Authenticatable
         'total_balance',
         'total_commits',
         'biggest_win',
+        'biggest_win_pattern',
+        'biggest_win_hash',
+        'current_streak',
+        'longest_streak',
+        'longest_streak_ended_at',
     ];
 
     /**
@@ -51,6 +56,9 @@ class User extends Authenticatable
             'total_balance' => 'integer',
             'total_commits' => 'integer',
             'biggest_win' => 'integer',
+            'current_streak' => 'integer',
+            'longest_streak' => 'integer',
+            'longest_streak_ended_at' => 'datetime',
         ];
     }
 

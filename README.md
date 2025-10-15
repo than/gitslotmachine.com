@@ -1,5 +1,7 @@
 # 🎰 Git Slot Machine
 
+[![Git Slot Machine](https://gitslotmachine.com/badge/than/gitslotmachine.com.svg)](https://gitslotmachine.com)
+
 [![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
 [![Livewire](https://img.shields.io/badge/Livewire-3-4E56A6?logo=livewire)](https://livewire.laravel.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
@@ -303,6 +305,14 @@ Pushes to `main` branch trigger automatic deployment on Laravel Cloud.
 ## Contributing
 
 Contributions welcome! Please open an issue or PR.
+
+---
+
+## Support
+
+Enjoying Git Slot Machine? Consider sponsoring development:
+
+[![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-pink?logo=github)](https://github.com/sponsors/than)
 
 ---
 

@@ -37,6 +37,14 @@
                                 <li>Links open in new tab for better UX</li>
                             </ul>
                         </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #a78bfa;">⚡ Performance:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Optimized daily leaderboard query with composite index</li>
+                                <li>Replaced DATE() function with range comparison for index usage</li>
+                                <li>Faster page loads as plays table grows</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

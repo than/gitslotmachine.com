@@ -123,4 +123,17 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Application Domain
+    |--------------------------------------------------------------------------
+    |
+    | This is the base domain for the application, used for subdomain routing.
+    | For local development, use *.test (e.g., gitslotmachine.test).
+    | For production, use the actual domain (e.g., gitslotmachine.com).
+    |
+    */
+
+    'domain' => env('APP_DOMAIN', 'gitslotmachine.test'),
+
 ];

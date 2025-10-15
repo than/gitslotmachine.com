@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repository;
+use App\Services\PatternDetector;
 use Illuminate\Http\Response;
 
 class BadgeController extends Controller
 {
+    public function __construct(
+        private PatternDetector $detector
+    ) {}
     public function show(string $owner, string $repo): Response
     {
         // Remove .svg extension if present
@@ -42,11 +46,11 @@ class BadgeController extends Controller
         $payoutText = $netPayout > 0 ? "+{$netPayout}" : "{$netPayout}";
         $rightColor = $netPayout > 0 ? '#4c1' : '#e05d44'; // Green for win, red for loss
 
-        // Build the right side text: "PATTERN +40 • 150"
-        $rightText = "{$pattern} {$payoutText} • {$balance}";
+        // Build the right side text: "PATTERN +40 • hash"
+        $rightText = "{$pattern} {$payoutText} • {$hash}";
 
         // Calculate widths (approximate)
-        $leftWidth = 85; // "🎰 slot" section
+        $leftWidth = 95; // "GitSlots" section
         $rightWidth = strlen($rightText) * 6.5 + 20; // Approximate character width
         $totalWidth = $leftWidth + $rightWidth;
 
@@ -55,8 +59,8 @@ class BadgeController extends Controller
         $rightTextLength = ($rightWidth - 10) * 10;
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
-    <title>slot: {$rightText}</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="GitSlots: {$rightText}">
+    <title>GitSlots: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
         <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
@@ -70,8 +74,8 @@ class BadgeController extends Controller
         <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
-        <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
-        <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
+        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="850">GitSlots</text>
+        <text x="475" y="140" transform="scale(.1)" fill="#fff" textLength="850">GitSlots</text>
         <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
         <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
     </g>
@@ -85,7 +89,7 @@ SVG;
 
     private function generateDefaultBadge(): Response
     {
-        $leftWidth = 85;
+        $leftWidth = 95;
         $rightText = 'no plays yet';
         $rightWidth = strlen($rightText) * 6.5 + 20;
         $totalWidth = $leftWidth + $rightWidth;
@@ -95,8 +99,8 @@ SVG;
         $rightTextLength = ($rightWidth - 10) * 10;
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
-    <title>slot: {$rightText}</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="GitSlots: {$rightText}">
+    <title>GitSlots: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
         <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
@@ -110,8 +114,8 @@ SVG;
         <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
-        <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
-        <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
+        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="850">GitSlots</text>
+        <text x="475" y="140" transform="scale(.1)" fill="#fff" textLength="850">GitSlots</text>
         <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
         <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
     </g>

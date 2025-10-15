@@ -128,9 +128,37 @@
                style="color: {{ $activeTab === 'about' ? 'var(--term-text)' : 'var(--term-dim)' }};">
                 [HOW TO PLAY]
             </a>
+            <a href="{{ route('privacy') }}"
+               class="font-bold hover:opacity-80 transition-opacity"
+               style="color: {{ $activeTab === 'privacy' ? 'var(--term-text)' : 'var(--term-dim)' }};">
+                [PRIVACY]
+            </a>
         </nav>
 
         {{ $slot }}
+
+        <!-- Footer -->
+        <footer class="mt-12 pt-8 border-t text-center" style="border-color: var(--term-accent);">
+            <div class="flex flex-col items-center gap-4">
+                <p class="text-sm font-mono" style="color: var(--term-dim);">
+                    Enjoying Git Slot Machine?
+                </p>
+                <iframe src="https://github.com/sponsors/than/button" title="Sponsor than" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
+                <div class="flex gap-4 text-xs font-mono" style="color: var(--term-dim);">
+                    <a href="https://github.com/than/gitslotmachine.com" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity" style="color: var(--term-accent);">
+                        GitHub
+                    </a>
+                    <span>•</span>
+                    <a href="https://github.com/than/git-slot-machine" target="_blank" rel="noopener" class="hover:opacity-80 transition-opacity" style="color: var(--term-accent);">
+                        CLI
+                    </a>
+                    <span>•</span>
+                    <a href="{{ route('privacy') }}" class="hover:opacity-80 transition-opacity" style="color: var(--term-accent);">
+                        Privacy
+                    </a>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Livewire Reconnection Handling -->

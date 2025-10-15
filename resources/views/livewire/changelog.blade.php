@@ -37,10 +37,20 @@
                             </ul>
                         </div>
                         <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">📄 Documentation:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Added comprehensive privacy policy page</li>
+                                <li>Clear explanations of data collection and user rights</li>
+                                <li>Added [PRIVACY] navigation link</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
                             <span style="color: #66d9ef;">🎨 UI/UX:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
                                 <li>Swapped header text - "COMMIT & SPIN" in ASCII box, "GIT SLOT MACHINE" as H1</li>
                                 <li>Removed version number from landing page ASCII box</li>
+                                <li>Added footer with GitHub Sponsors button</li>
+                                <li>Footer includes links to GitHub repos and privacy policy</li>
                             </ul>
                         </div>
                     </div>

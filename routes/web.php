@@ -23,6 +23,10 @@ Route::get('/changelog', function () {
     return view('changelog');
 })->name('changelog');
 
+Route::get('/privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
 Route::get('/winner/{uuid}', [App\Http\Controllers\WinnerController::class, 'show'])->name('winner.show');
 Route::get('/winner/{uuid}/image.png', [App\Http\Controllers\WinnerController::class, 'image'])->name('winner.image');
 

@@ -42,7 +42,7 @@
                 @foreach($rarest_patterns as $pattern)
                 <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                     <span style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</span>
-                    <span class="text-yellow-400 font-bold">{{ number_format($pattern['count']) }}</span>
+                    <span class="font-bold" style="color: var(--term-win);">{{ number_format($pattern['count']) }}</span>
                 </div>
                 @endforeach
             </div>

@@ -43,7 +43,7 @@
                             <td class="p-4 font-bold" style="color: var(--term-text);">{{ $user->github_username }}</td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->daily_commits }}</td>
                             <td class="p-4 font-bold {{ $user->daily_winnings >= 0 ? '' : 'text-red-400' }}"
-                                style="{{ $user->daily_winnings >= 0 ? 'color: var(--term-text);' : '' }}">
+                                style="{{ $user->daily_winnings >= 0 ? 'color: var(--term-win);' : '' }}">
                                 {{ $user->daily_winnings >= 0 ? '+' : '' }}{{ $user->daily_winnings }}
                             </td>
                         </tr>
@@ -81,10 +81,10 @@
                             <td class="p-4 font-bold" style="color: var(--term-text);">{{ $user->github_username }}</td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->total_commits }}</td>
                             <td class="p-4 font-bold {{ $user->total_balance >= 0 ? '' : 'text-red-400' }}"
-                                style="{{ $user->total_balance >= 0 ? 'color: var(--term-text);' : '' }}">
+                                style="{{ $user->total_balance >= 0 ? 'color: var(--term-win);' : '' }}">
                                 {{ $user->total_balance }}
                             </td>
-                            <td class="p-4 text-yellow-400 font-bold">{{ $user->biggest_win }}</td>
+                            <td class="p-4 font-bold" style="color: var(--term-win);">{{ $user->biggest_win }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -115,7 +115,7 @@
                     <div class="sm:text-right">
                         <div style="color: var(--term-dim);">{{ $play->commit_hash }}</div>
                         <div class="font-bold {{ $play->payout > 0 ? '' : 'text-red-400' }}"
-                             style="{{ $play->payout > 0 ? 'color: var(--term-text);' : '' }}">
+                             style="{{ $play->payout > 0 ? 'color: var(--term-win);' : '' }}">
                             {{ $play->pattern_name }} {{ $play->payout > 0 ? '+' : '' }}{{ $play->payout }}
                         </div>
                     </div>

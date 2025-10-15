@@ -42,6 +42,15 @@
                     <button onclick="setTheme('green-blue')" title="IBM Green"
                         class="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
                         style="background: #001f3f; border-color: #00ff00;"></button>
+                    <button onclick="setTheme('monokai')" title="Monokai"
+                        class="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
+                        style="background: #272822; border-color: #66d9ef;"></button>
+                    <button onclick="setTheme('dracula')" title="Dracula"
+                        class="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
+                        style="background: #282a36; border-color: #bd93f9;"></button>
+                    <button onclick="setTheme('solarized')" title="Solarized Dark"
+                        class="w-6 h-6 rounded border-2 hover:scale-110 transition-transform"
+                        style="background: #002b36; border-color: #2aa198;"></button>
                 </div>
 
                 <span class="text-xs" style="color: var(--term-dim);">git-slot-machine v1.0.0</span>

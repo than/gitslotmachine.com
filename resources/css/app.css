@@ -15,6 +15,7 @@
     --term-text: #00ff41;
     --term-dim: #33ff66;
     --term-accent: #00ff41;
+    --term-win: #ffff00;
 }
 
 [data-theme="green"] {
@@ -22,6 +23,7 @@
     --term-text: #00ff41;
     --term-dim: #33ff66;
     --term-accent: #00ff41;
+    --term-win: #ffff00;
 }
 
 [data-theme="amber"] {
@@ -29,6 +31,7 @@
     --term-text: #ffb000;
     --term-dim: #ff8800;
     --term-accent: #ffb000;
+    --term-win: #00ff00;
 }
 
 [data-theme="white-blue"] {
@@ -36,6 +39,7 @@
     --term-text: #ffffff;
     --term-dim: #aaaaaa;
     --term-accent: #ffffff;
+    --term-win: #ffff00;
 }
 
 [data-theme="green-blue"] {
@@ -43,4 +47,29 @@
     --term-text: #00ff00;
     --term-dim: #00aa00;
     --term-accent: #00ff00;
+    --term-win: #ffff00;
+}
+
+[data-theme="monokai"] {
+    --term-bg: #272822;
+    --term-text: #f8f8f2;
+    --term-dim: #75715e;
+    --term-accent: #66d9ef;
+    --term-win: #e6db74;
+}
+
+[data-theme="dracula"] {
+    --term-bg: #282a36;
+    --term-text: #f8f8f2;
+    --term-dim: #6272a4;
+    --term-accent: #bd93f9;
+    --term-win: #50fa7b;
+}
+
+[data-theme="solarized"] {
+    --term-bg: #002b36;
+    --term-text: #839496;
+    --term-dim: #586e75;
+    --term-accent: #2aa198;
+    --term-win: #b58900;
 }

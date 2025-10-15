@@ -121,13 +121,13 @@ class PatternDetector
             return 'THREE_OF_KIND';
         }
 
-        // Check for three consecutive pairs
-        if ($this->countConsecutivePairs($hash) === 3) {
+        // Check for three pairs (2-2-2-1)
+        if ($distribution[0] === 2 && $distribution[1] === 2 && $distribution[2] === 2) {
             return 'THREE_PAIR';
         }
 
-        // Check for two consecutive pairs
-        if ($this->countConsecutivePairs($hash) === 2) {
+        // Check for two pairs (2-2-...)
+        if ($distribution[0] === 2 && $distribution[1] === 2) {
             return 'TWO_PAIR';
         }
 
@@ -187,23 +187,6 @@ class PatternDetector
     private function isAllNumbers(string $hash): bool
     {
         return preg_match('/^[0-9]+$/', $hash) === 1;
-    }
-
-    private function countConsecutivePairs(string $hash): int
-    {
-        $pairCount = 0;
-        $i = 0;
-
-        while ($i < strlen($hash) - 1) {
-            if ($hash[$i] === $hash[$i + 1]) {
-                $pairCount++;
-                $i += 2; // Skip both characters of the pair
-            } else {
-                $i++;
-            }
-        }
-
-        return $pairCount;
     }
 
     private function getDistribution(string $hash): array

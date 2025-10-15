@@ -168,9 +168,9 @@
                     let html = '';
                     for (let i = 0; i < hash.length; i++) {
                         if (highlights.includes(i)) {
-                            html += `<span class="inline-block px-1.5" style="background: var(--term-text); color: var(--term-bg); font-weight: 900;">${hash[i]}</span>`;
+                            html += `<span class="inline-block px-1" style="background: var(--term-text); color: var(--term-bg); font-weight: 900;">${hash[i]}</span>`;
                         } else {
-                            html += `<span class="inline-block px-1.5">${hash[i]}</span>`;
+                            html += `<span class="inline-block px-1">${hash[i]}</span>`;
                         }
                     }
                     el.innerHTML = html;

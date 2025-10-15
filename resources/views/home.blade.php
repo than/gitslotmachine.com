@@ -7,34 +7,42 @@
 ╚═══════════════════════════════════════╝
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
-        <p class="text-sm sm:text-lg" style="color: var(--term-dim);">&gt; Every commit is your chance to win.</p>
-        <p class="text-sm sm:text-lg font-mono" style="color: var(--term-dim);">&gt; <span id="typewriter"></span></p>
+        <p class="text-sm sm:text-lg font-mono" style="color: var(--term-dim);">
+            &gt; <span id="typewriter" style="display: inline-block; min-width: 280px; text-align: left;">Every commit is your chance to win.</span>
+        </p>
     </header>
 
     <script>
-        const text = "Will you hit the jackpot?";
+        const messages = [
+            "Every commit is your chance to win.",
+            "Will you hit the jackpot?"
+        ];
         const typewriterEl = document.getElementById('typewriter');
+        let messageIndex = 0;
         let charIndex = 0;
         let isTyping = true;
 
         function typewriter() {
+            const currentMessage = messages[messageIndex];
+
             if (isTyping) {
-                if (charIndex < text.length) {
-                    typewriterEl.textContent = text.substring(0, charIndex + 1);
+                if (charIndex < currentMessage.length) {
+                    typewriterEl.textContent = currentMessage.substring(0, charIndex + 1);
                     charIndex++;
-                    setTimeout(typewriter, 100);
+                    setTimeout(typewriter, 80);
                 } else {
                     isTyping = false;
                     setTimeout(typewriter, 2000); // Pause before erasing
                 }
             } else {
                 if (charIndex > 0) {
-                    typewriterEl.textContent = text.substring(0, charIndex - 1);
+                    typewriterEl.textContent = currentMessage.substring(0, charIndex - 1);
                     charIndex--;
-                    setTimeout(typewriter, 50);
+                    setTimeout(typewriter, 40);
                 } else {
                     isTyping = true;
-                    setTimeout(typewriter, 1000); // Pause before typing again
+                    messageIndex = (messageIndex + 1) % messages.length;
+                    setTimeout(typewriter, 500); // Pause before typing next message
                 }
             }
         }

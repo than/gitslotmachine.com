@@ -35,6 +35,7 @@
                                 <li>Improved text readability across all themes</li>
                                 <li>Updated --term-dim colors for better contrast: Dracula, DOS Blue, IBM Green, and Monokai</li>
                                 <li>Brighter secondary text makes large blocks easier to read</li>
+                                <li>Fixed ALL LETTERS demo hash (abcdef1 → abcdefa)</li>
                             </ul>
                         </div>
                     </div>

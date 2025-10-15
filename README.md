@@ -1,5 +1,11 @@
 # 🎰 Git Slot Machine
 
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
+[![Livewire](https://img.shields.io/badge/Livewire-3-4E56A6?logo=livewire)](https://livewire.laravel.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org)
+[![GitHub stars](https://img.shields.io/github/stars/than/gitslotmachine.com.svg)](https://github.com/than/gitslotmachine.com/stargazers)
+
 **Turn your git commits into a slot machine game!**
 
 Git Slot Machine is a fun CLI tool that analyzes your commit hashes and rewards you based on patterns found in the first 7 characters. Every commit you make is a pull of the lever — will you hit the jackpot?

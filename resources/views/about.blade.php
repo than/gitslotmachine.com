@@ -17,7 +17,7 @@
         <div class="space-y-6">
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ INSTALLATION</h3>
-                <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto" style="border-color: rgba(var(--term-accent-rgb), 0.5); color: var(--term-dim);">npm install -g git-slot-machine
+                <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto" style="border-color: rgba(var(--term-accent-rgb), 0.5); color: var(--term-text);">npm install -g git-slot-machine
 cd your-repo
 git-slot-machine init</pre>
                 <div class="mt-4 flex flex-wrap gap-3">

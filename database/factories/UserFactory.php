@@ -29,6 +29,10 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'github_username' => fake()->userName(),
+            'total_balance' => 0,
+            'total_commits' => 0,
+            'biggest_win' => 0,
         ];
     }
 

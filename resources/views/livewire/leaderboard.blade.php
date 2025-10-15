@@ -84,7 +84,12 @@
                                 style="{{ $user->total_balance >= 0 ? 'color: var(--term-win);' : '' }}">
                                 {{ $user->total_balance }}
                             </td>
-                            <td class="p-4 font-bold" style="color: var(--term-win);">{{ $user->biggest_win }}</td>
+                            <td class="p-4 font-bold" style="color: var(--term-win);">
+                                {{ $user->biggest_win }}
+                                @if($user->biggest_win_pattern)
+                                    <span class="text-xs opacity-75">({{ $user->biggest_win_pattern }})</span>
+                                @endif
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -105,7 +110,7 @@
         @else
         <div class="space-y-3">
             @foreach($recentPlays as $play)
-            <div class="border bg-black/30 px-3 py-2 hover:bg-white/5 font-mono text-xs" style="border-color: var(--term-accent);">
+            <div class="border bg-black/30 px-3 py-2 hover:bg-white/5 font-mono text-sm" style="border-color: var(--term-accent);">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1 truncate">
                         <span class="font-bold" style="color: var(--term-text);">{{ $play->user->github_username }}</span>
@@ -140,7 +145,7 @@
                     let html = '';
                     for (let i = 0; i < hash.length; i++) {
                         if (highlights.includes(i)) {
-                            html += `<span class="px-0.5 font-bold" style="background: var(--term-text); color: var(--term-bg);">${hash[i]}</span>`;
+                            html += `<span class="px-0.5" style="background: var(--term-text); color: var(--term-bg); font-weight: 900;">${hash[i]}</span>`;
                         } else {
                             html += hash[i];
                         }

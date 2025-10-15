@@ -75,11 +75,18 @@ class PlayController extends Controller
 
         // Update user stats
         $netWinnings = $payout - $wager;
-        $user->update([
+        $updateData = [
             'total_balance' => $user->total_balance + $netWinnings,
             'total_commits' => $user->total_commits + 1,
-            'biggest_win' => max($user->biggest_win, $payout),
-        ]);
+        ];
+
+        // Update biggest win if this is a new record
+        if ($payout > $user->biggest_win) {
+            $updateData['biggest_win'] = $payout;
+            $updateData['biggest_win_pattern'] = $detectedPattern['name'];
+        }
+
+        $user->update($updateData);
 
         return response()->json([
             'success' => true,

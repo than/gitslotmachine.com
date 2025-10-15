@@ -8,7 +8,7 @@
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
         <p class="text-sm sm:text-lg font-mono" style="color: var(--term-dim);">
-            &gt; <span id="typewriter" style="display: inline-block; min-width: 380px; text-align: left;">Every commit is your chance to win.</span>
+            &gt; <span id="typewriter">Every commit is your chance to win.</span>
         </p>
     </header>
 
@@ -42,7 +42,9 @@
                 } else {
                     isTyping = true;
                     messageIndex = (messageIndex + 1) % messages.length;
-                    setTimeout(typewriter, 500); // Pause before typing next message
+                    // If we've completed both messages (back to first), pause for 30 seconds
+                    const delay = messageIndex === 0 ? 30000 : 500;
+                    setTimeout(typewriter, delay);
                 }
             }
         }

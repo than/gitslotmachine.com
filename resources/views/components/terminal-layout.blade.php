@@ -121,7 +121,7 @@
             <a href="{{ route('about') }}"
                class="font-bold hover:opacity-80 transition-opacity"
                style="color: {{ $activeTab === 'about' ? 'var(--term-text)' : 'var(--term-dim)' }};">
-                [ABOUT]
+                [HOW TO PLAY]
             </a>
         </nav>
 

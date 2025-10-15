@@ -35,17 +35,17 @@ git-slot-machine init</pre>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT HAPPENS?</h3>
-                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Every time you commit, the slot machine spins using your commit hash. Different patterns win different payouts!</p>
+                <p class="text-sm sm:text-base" style="color: var(--term-text);">Every time you commit, the slot machine spins using your commit hash. Different patterns win different payouts!</p>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ LEADERBOARD</h3>
-                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Compete globally! Your plays are automatically tracked here. Daily leaderboard resets at midnight UTC.</p>
+                <p class="text-sm sm:text-base" style="color: var(--term-text);">Compete globally! Your plays are automatically tracked here. Daily leaderboard resets at midnight UTC.</p>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT IS THIS?</h3>
-                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Ever catch yourself looking at your Git commits and noticing a fun pattern or a run of numbers? Maybe you got really lucky and had something spell out a word, or hit all the same character in a row? That little dopamine hit when you see <span class="font-bold" style="color: var(--term-text);">aed3333</span> or <span class="font-bold" style="color: var(--term-text);">abc1234</span> is real. This tool turns that casual observation into an actual game—every commit you make becomes a spin on the slot machine. Different patterns pay out different amounts, and you can compete with developers around the world to see who gets the luckiest (or commits the most!).</p>
+                <p class="text-sm sm:text-base" style="color: var(--term-text);">Ever catch yourself looking at your Git commits and noticing a fun pattern or a run of numbers? Maybe you got really lucky and had something spell out a word, or hit all the same character in a row? That little dopamine hit when you see <span class="font-bold" style="color: var(--term-accent);">aed3333</span> or <span class="font-bold" style="color: var(--term-accent);">abc1234</span> is real. This tool turns that casual observation into an actual game—every commit you make becomes a spin on the slot machine. Different patterns pay out different amounts, and you can compete with developers around the world to see who gets the luckiest (or commits the most!).</p>
             </div>
         </div>
     </div>

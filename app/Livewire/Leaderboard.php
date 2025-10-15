@@ -10,6 +10,22 @@ class Leaderboard extends Component
 {
     public string $tab = 'daily';
 
+    public string $sortBy = 'total_balance';
+
+    public string $sortDirection = 'desc';
+
+    public function sortBy(string $column): void
+    {
+        if ($this->sortBy === $column) {
+            // Toggle direction if already sorting by this column
+            $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Default to desc for new column
+            $this->sortBy = $column;
+            $this->sortDirection = 'desc';
+        }
+    }
+
     public function render()
     {
         // Daily leaderboard
@@ -24,7 +40,7 @@ class Leaderboard extends Component
             ->get();
 
         // All-time leaderboard
-        $allTimeLeaderboard = User::orderByDesc('total_balance')
+        $allTimeLeaderboard = User::orderBy($this->sortBy, $this->sortDirection)
             ->limit(100)
             ->get();
 

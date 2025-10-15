@@ -68,10 +68,30 @@
                     <thead>
                         <tr class="text-left border-b" style="color: var(--term-text); border-color: var(--term-accent);">
                             <th class="p-4">#</th>
-                            <th class="p-4">PLAYER</th>
-                            <th class="p-4">COMMITS</th>
-                            <th class="p-4">BALANCE</th>
-                            <th class="p-4">BIGGEST</th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('github_username')">
+                                PLAYER
+                                @if($sortBy === 'github_username')
+                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('total_commits')">
+                                COMMITS
+                                @if($sortBy === 'total_commits')
+                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('total_balance')">
+                                BALANCE
+                                @if($sortBy === 'total_balance')
+                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('biggest_win')">
+                                BIGGEST
+                                @if($sortBy === 'biggest_win')
+                                    <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,10 +104,13 @@
                                 style="{{ $user->total_balance >= 0 ? 'color: var(--term-win);' : '' }}">
                                 {{ $user->total_balance }}
                             </td>
-                            <td class="p-4 font-bold" style="color: var(--term-win);">
-                                {{ $user->biggest_win }}
+                            <td class="p-4">
+                                <div class="font-bold" style="color: var(--term-win);">{{ $user->biggest_win }}</div>
                                 @if($user->biggest_win_pattern)
-                                    <span class="text-xs opacity-75">({{ $user->biggest_win_pattern }})</span>
+                                    <div class="text-xs opacity-75" style="color: var(--term-dim);">{{ $user->biggest_win_pattern }}</div>
+                                @endif
+                                @if($user->biggest_win_hash)
+                                    <div class="text-xs font-mono hash-display" data-hash="{{ $user->biggest_win_hash }}" style="color: var(--term-dim);"></div>
                                 @endif
                             </td>
                         </tr>

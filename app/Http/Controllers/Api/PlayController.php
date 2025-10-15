@@ -84,6 +84,7 @@ class PlayController extends Controller
         if ($payout > $user->biggest_win) {
             $updateData['biggest_win'] = $payout;
             $updateData['biggest_win_pattern'] = $detectedPattern['name'];
+            $updateData['biggest_win_hash'] = strtolower($validated['commit_hash']);
         }
 
         $user->update($updateData);

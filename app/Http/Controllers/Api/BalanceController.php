@@ -25,6 +25,8 @@ class BalanceController extends Controller
                 'total_commits' => $totalCommits,
                 'total_winnings' => $totalWinnings,
                 'biggest_win' => $biggestWin,
+                'biggest_win_pattern' => $user->biggest_win_pattern,
+                'biggest_win_hash' => $user->biggest_win_hash,
             ],
         ]);
     }

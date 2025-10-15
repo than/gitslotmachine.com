@@ -29,7 +29,7 @@
                 if (charIndex < currentMessage.length) {
                     typewriterEl.textContent = currentMessage.substring(0, charIndex + 1);
                     charIndex++;
-                    setTimeout(typewriter, 80);
+                    setTimeout(typewriter, 72);
                 } else {
                     isTyping = false;
                     setTimeout(typewriter, 2000); // Pause before erasing
@@ -38,7 +38,7 @@
                 if (charIndex > 0) {
                     typewriterEl.textContent = currentMessage.substring(0, charIndex - 1);
                     charIndex--;
-                    setTimeout(typewriter, 40);
+                    setTimeout(typewriter, 36);
                 } else {
                     isTyping = true;
                     messageIndex = (messageIndex + 1) % messages.length;

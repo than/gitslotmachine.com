@@ -40,6 +40,18 @@ This application is a Laravel application and its main Laravel ecosystems packag
 ## Documentation Files
 - You must only create documentation files if explicitly requested by the user.
 
+## Git Slot Machine Project Workflow
+- **ALWAYS use TodoWrite** when starting any feature or bugfix task
+- Todo items MUST include:
+  1. Implement the feature/fix
+  2. Update changelog (resources/views/livewire/changelog.blade.php)
+  3. Bump version if needed (resources/views/components/terminal-layout.blade.php)
+  4. Commit and push
+- Mark each todo as completed immediately after finishing
+- Version bumping rules:
+  - v1.x.0 = New features (minor version)
+  - v1.0.x = Bug fixes and performance improvements (patch version)
+
 
 === boost rules ===
 

@@ -20,6 +20,17 @@
                 <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto" style="border-color: rgba(var(--term-accent-rgb), 0.5); color: var(--term-dim);">npm install -g git-slot-machine
 cd your-repo
 git-slot-machine init</pre>
+                <div class="mt-4 flex flex-wrap gap-3">
+                    <a href="https://www.npmjs.com/package/git-slot-machine" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border px-3 py-2 text-sm font-mono hover:bg-white/10 transition-colors" style="border-color: var(--term-accent); color: var(--term-text);">
+                        <span style="color: var(--term-accent);">[</span>NPM<span style="color: var(--term-accent);">]</span>
+                    </a>
+                    <a href="https://github.com/than/git-slot-machine" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border px-3 py-2 text-sm font-mono hover:bg-white/10 transition-colors" style="border-color: var(--term-accent); color: var(--term-text);">
+                        <span style="color: var(--term-accent);">[</span>CLI SOURCE<span style="color: var(--term-accent);">]</span>
+                    </a>
+                    <a href="https://github.com/than/gitslotmachine.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 border px-3 py-2 text-sm font-mono hover:bg-white/10 transition-colors" style="border-color: var(--term-accent); color: var(--term-text);">
+                        <span style="color: var(--term-accent);">[</span>API SOURCE<span style="color: var(--term-accent);">]</span>
+                    </a>
+                </div>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">

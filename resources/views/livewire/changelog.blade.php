@@ -30,7 +30,7 @@
                     </div>
                     <div class="pl-4 space-y-2 text-sm">
                         <div style="color: var(--term-text);">
-                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <span style="color: var(--term-win);">🚀 LAUNCHED:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
                                 <li>Privacy mode for private repositories - display as *******/*******</li>
                                 <li>Shields.io-style badges for README files</li>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="pl-4 space-y-2 text-sm">
                         <div style="color: var(--term-text);">
-                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <span style="color: var(--term-win);">🚀 LAUNCHED:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
                                 <li>Laravel API integration with authentication</li>
                                 <li>Auto-sync balance with server after each play</li>

@@ -8,7 +8,7 @@
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
         <p class="text-sm sm:text-lg font-mono" style="color: var(--term-dim);">
-            &gt; <span id="typewriter" style="display: inline-block; min-width: 280px; text-align: left;">Every commit is your chance to win.</span>
+            &gt; <span id="typewriter" style="display: inline-block; min-width: 336px; text-align: left;">Every commit is your chance to win.</span>
         </p>
     </header>
 

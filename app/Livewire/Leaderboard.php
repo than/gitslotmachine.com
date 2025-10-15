@@ -35,12 +35,15 @@ class Leaderboard extends Component
 
     public function render()
     {
-        // Daily leaderboard
+        // Daily leaderboard - optimized to use index (no DATE() function)
+        $todayStart = today()->startOfDay();
+        $todayEnd = today()->endOfDay();
+
         $dailyLeaderboard = User::select('users.*')
             ->selectRaw('SUM(plays.payout - 10) as daily_winnings')
             ->selectRaw('COUNT(plays.id) as daily_commits')
             ->join('plays', 'plays.user_id', '=', 'users.id')
-            ->whereDate('plays.played_at', today())
+            ->whereBetween('plays.played_at', [$todayStart, $todayEnd])
             ->groupBy('users.id')
             ->orderByDesc('daily_winnings')
             ->limit(100)

@@ -37,7 +37,7 @@
 [data-theme="white-blue"] {
     --term-bg: #0000aa;
     --term-text: #ffffff;
-    --term-dim: #aaaaaa;
+    --term-dim: #cccccc;
     --term-accent: #ffffff;
     --term-win: #ffff00;
 }
@@ -45,7 +45,7 @@
 [data-theme="green-blue"] {
     --term-bg: #001f3f;
     --term-text: #00ff00;
-    --term-dim: #00aa00;
+    --term-dim: #00cc00;
     --term-accent: #00ff00;
     --term-win: #ffff00;
 }
@@ -53,7 +53,7 @@
 [data-theme="monokai"] {
     --term-bg: #272822;
     --term-text: #f8f8f2;
-    --term-dim: #75715e;
+    --term-dim: #a09f93;
     --term-accent: #66d9ef;
     --term-win: #e6db74;
 }

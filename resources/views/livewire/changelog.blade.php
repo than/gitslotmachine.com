@@ -32,8 +32,9 @@
                         <div style="color: var(--term-text);">
                             <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
-                                <li>Improved text readability in Dracula (purple) theme</li>
-                                <li>Updated --term-dim color for better contrast on dark backgrounds</li>
+                                <li>Improved text readability across all themes</li>
+                                <li>Updated --term-dim colors for better contrast: Dracula, DOS Blue, IBM Green, and Monokai</li>
+                                <li>Brighter secondary text makes large blocks easier to read</li>
                             </ul>
                         </div>
                     </div>

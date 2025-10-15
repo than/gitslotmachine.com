@@ -65,7 +65,7 @@
                             <span style="color: var(--term-accent);">●</span>
                         </div>
                         <span id="random-hash" class="text-xs font-mono text-center" style="color: var(--term-dim);"></span>
-                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v1.0.0</span>
+                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v1.0.1</span>
                     </div>
                     <div class="border-t pt-2" style="border-color: rgba(var(--term-accent-rgb), 0.3);"></div>
                 </div>
@@ -185,9 +185,16 @@
             localStorage.setItem('terminal-theme', theme);
         }
 
-        // Load saved theme on page load
+        // Load saved theme on page load, or pick random theme for first-time visitors
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('terminal-theme') || 'green';
+            let savedTheme = localStorage.getItem('terminal-theme');
+
+            // If no saved theme, pick a random one
+            if (!savedTheme) {
+                const themes = ['green', 'amber', 'white-blue', 'green-blue', 'monokai', 'dracula', 'solarized'];
+                savedTheme = themes[Math.floor(Math.random() * themes.length)];
+            }
+
             setTheme(savedTheme);
         });
 

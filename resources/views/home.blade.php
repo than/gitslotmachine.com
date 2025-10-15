@@ -8,8 +8,12 @@
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
 
+        <p class="text-sm sm:text-lg font-mono mb-6" style="color: var(--term-dim);">
+            &gt; Every commit is your chance to win.
+        </p>
+
         <!-- Live Demo -->
-        <div class="mb-6 p-4 bg-black border font-mono text-sm" style="border-color: var(--term-accent);">
+        <div class="p-4 bg-black border font-mono text-sm" style="border-color: var(--term-accent);">
             <div id="slot-demo-line1" style="color: var(--term-text); min-height: 1.25rem;">
                 <span style="color: var(--term-dim);">$</span> <span id="slot-demo-command"></span>
             </div>
@@ -17,10 +21,6 @@
                 &nbsp;
             </div>
         </div>
-
-        <p class="text-sm sm:text-lg font-mono" style="color: var(--term-dim);">
-            &gt; <span id="typewriter">Every commit is your chance to win.</span>
-        </p>
     </header>
 
     <script>
@@ -131,46 +131,6 @@
 
         // Start slot demo after a brief delay
         setTimeout(() => animateSlot(), 1000);
-
-        // Typewriter animation
-        const messages = [
-            "Every commit is your chance to win.",
-            "Will you hit the jackpot?"
-        ];
-        const typewriterEl = document.getElementById('typewriter');
-        let messageIndex = 0;
-        let charIndex = 0;
-        let isTyping = true;
-
-        function typewriter() {
-            const currentMessage = messages[messageIndex];
-
-            if (isTyping) {
-                if (charIndex < currentMessage.length) {
-                    typewriterEl.textContent = currentMessage.substring(0, charIndex + 1);
-                    charIndex++;
-                    setTimeout(typewriter, 72);
-                } else {
-                    isTyping = false;
-                    setTimeout(typewriter, 2000); // Pause before erasing
-                }
-            } else {
-                if (charIndex > 0) {
-                    typewriterEl.textContent = currentMessage.substring(0, charIndex - 1);
-                    charIndex--;
-                    setTimeout(typewriter, 36);
-                } else {
-                    isTyping = true;
-                    messageIndex = (messageIndex + 1) % messages.length;
-                    // If we've completed both messages (back to first), pause for 30 seconds
-                    const delay = messageIndex === 0 ? 30000 : 500;
-                    setTimeout(typewriter, delay);
-                }
-            }
-        }
-
-        // Start the typewriter animation
-        typewriter();
     </script>
 
     <!-- Livewire Leaderboard Component (auto-refreshes every 5 seconds) -->

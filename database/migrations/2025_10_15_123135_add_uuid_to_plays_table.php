@@ -11,17 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('plays', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id')->nullable()->unique();
-        });
+        // Check if column already exists (idempotent migration)
+        if (!Schema::hasColumn('plays', 'uuid')) {
+            Schema::table('plays', function (Blueprint $table) {
+                $table->uuid('uuid')->after('id')->nullable()->unique();
+            });
 
-        // Backfill UUIDs for existing plays
-        DB::statement('UPDATE plays SET uuid = gen_random_uuid() WHERE uuid IS NULL');
+            // Backfill UUIDs for existing plays
+            DB::statement('UPDATE plays SET uuid = gen_random_uuid() WHERE uuid IS NULL');
 
-        // Make non-nullable after backfill
-        Schema::table('plays', function (Blueprint $table) {
-            $table->uuid('uuid')->nullable(false)->change();
-        });
+            // Make non-nullable after backfill
+            Schema::table('plays', function (Blueprint $table) {
+                $table->uuid('uuid')->nullable(false)->change();
+            });
+        }
     }
 
     /**

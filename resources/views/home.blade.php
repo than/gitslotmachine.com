@@ -1,96 +1,44 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git Slot Machine - Global Leaderboard</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎰</text></svg>">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-900 text-white">
-    <div class="max-w-4xl mx-auto px-4 py-8">
-        <!-- Navigation -->
-        <nav class="flex justify-center gap-6 mb-8">
-            <a href="{{ route('home') }}" class="text-cyan-400 hover:text-cyan-300 font-semibold border-b-2 border-cyan-400">Leaderboard</a>
-            <a href="{{ route('stats') }}" class="text-gray-400 hover:text-cyan-300">Statistics</a>
-        </nav>
+<x-terminal-layout title="Leaderboard" activeTab="home">
+    <!-- Header -->
+    <header class="text-center mb-12 border p-6 bg-black/30" style="border-color: var(--term-accent);">
+        <pre class="text-xs sm:text-sm mb-4" style="color: var(--term-text);">
+╔═══════════════════════════════════════╗
+║       GIT SLOT MACHINE v1.0.0        ║
+╚═══════════════════════════════════════╝
+</pre>
+        <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
+        <p class="text-sm sm:text-lg" style="color: var(--term-dim);">&gt; Every commit is a spin. Will you hit the jackpot?</p>
+    </header>
 
-        <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-6xl font-bold mb-4">🎰 Git Slot Machine 🎰</h1>
-            <p class="text-xl text-gray-400">Every commit is a spin. Will you hit the jackpot?</p>
-        </header>
+    <!-- Livewire Leaderboard Component (auto-refreshes every 5 seconds) -->
+    <livewire:leaderboard />
 
-        <!-- Livewire Leaderboard Component (auto-refreshes every 5 seconds) -->
-        <livewire:leaderboard />
+    <!-- FAQ Section -->
+    <div class="mt-16 border-t pt-16" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8" style="color: var(--term-text);">&gt; HOW IT WORKS</h2>
 
-        <!-- FAQ Section -->
-        <div class="mt-16 border-t border-gray-700 pt-16">
-            <h2 class="text-3xl font-bold mb-8">How It Works</h2>
-
-            <div class="space-y-6 text-gray-300">
-                <div>
-                    <h3 class="text-xl font-bold text-white mb-2">Installation</h3>
-                    <pre class="bg-gray-800 p-4 rounded-lg">npm install -g git-slot-machine
+        <div class="space-y-6">
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ INSTALLATION</h3>
+                <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto" style="border-color: rgba(var(--term-accent-rgb), 0.5); color: var(--term-dim);">npm install -g git-slot-machine
 cd your-repo
 git-slot-machine init</pre>
-                </div>
+            </div>
 
-                <div>
-                    <h3 class="text-xl font-bold text-white mb-2">What happens?</h3>
-                    <p>Every time you commit, the slot machine spins using your commit hash. Different patterns win different payouts!</p>
-                </div>
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT HAPPENS?</h3>
+                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Every time you commit, the slot machine spins using your commit hash. Different patterns win different payouts!</p>
+            </div>
 
-                <div>
-                    <h3 class="text-xl font-bold text-white mb-2">Leaderboard</h3>
-                    <p>Compete globally! Your plays are automatically tracked here. Daily leaderboard resets at midnight UTC.</p>
-                </div>
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ LEADERBOARD</h3>
+                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Compete globally! Your plays are automatically tracked here. Daily leaderboard resets at midnight UTC.</p>
+            </div>
+
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT IS THIS?</h3>
+                <p class="text-sm sm:text-base" style="color: var(--term-dim);">Ever catch yourself looking at your Git commits and noticing a fun pattern or a run of numbers? Maybe you got really lucky and had something spell out a word, or hit all the same character in a row? That little dopamine hit when you see <span class="font-bold" style="color: var(--term-text);">a1b2c3d</span> or <span class="font-bold" style="color: var(--term-text);">7777777</span> is real. This tool turns that casual observation into an actual game—every commit you make becomes a spin on the slot machine. Different patterns pay out different amounts, and you can compete with developers around the world to see who gets the luckiest (or commits the most!).</p>
             </div>
         </div>
     </div>
-
-    <script>
-        // Animated favicon slot machine
-        const slotEmojis = ['🎰', '🎲', '🃏', '💎', '🍒', '🍋', '⭐', '7️⃣', '💰', '🎯'];
-
-        function changeFavicon(emoji) {
-            const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-            link.type = 'image/svg+xml';
-            link.rel = 'icon';
-            link.href = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${emoji}</text></svg>`;
-            document.head.appendChild(link);
-        }
-
-        function spinFavicon() {
-            let frame = 0;
-            const totalFrames = 25;
-
-            function spin() {
-                if (frame < totalFrames) {
-                    // Random emoji from array
-                    const emoji = slotEmojis[Math.floor(Math.random() * slotEmojis.length)];
-                    changeFavicon(emoji);
-
-                    // Calculate delay - start fast (50ms), end slow (300ms)
-                    const progress = frame / totalFrames;
-                    const delay = 50 + (progress * progress * 250); // Quadratic easing
-
-                    frame++;
-                    setTimeout(spin, delay);
-                } else {
-                    // Land on slot machine emoji
-                    changeFavicon('🎰');
-                }
-            }
-
-            spin();
-        }
-
-        // Spin once on page load after 2 seconds
-        setTimeout(spinFavicon, 2000);
-
-        // Then spin every minute
-        setInterval(spinFavicon, 60000);
-    </script>
-</body>
-</html>
+</x-terminal-layout>

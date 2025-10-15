@@ -1,48 +1,48 @@
 <div wire:poll.30s class="space-y-8">
     <!-- Overview Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-gray-800 rounded-lg p-6">
-            <div class="text-gray-400 text-sm">Total Plays</div>
-            <div class="text-4xl font-bold text-white mt-2">{{ number_format($total_plays) }}</div>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Plays</div>
+            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_plays) }}</div>
         </div>
-        <div class="bg-gray-800 rounded-lg p-6">
-            <div class="text-gray-400 text-sm">Total Payouts</div>
-            <div class="text-4xl font-bold text-green-400 mt-2">{{ number_format($total_payouts) }}</div>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Payouts</div>
+            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_payouts) }}</div>
         </div>
-        <div class="bg-gray-800 rounded-lg p-6">
-            <div class="text-gray-400 text-sm">Average Per Play</div>
-            <div class="text-4xl font-bold text-cyan-400 mt-2">{{ $total_plays > 0 ? round($total_payouts / $total_plays, 2) : 0 }}</div>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Avg Per Play</div>
+            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ $total_plays > 0 ? round($total_payouts / $total_plays, 2) : 0 }}</div>
         </div>
     </div>
 
     @if(count($pattern_distribution) > 0)
     <!-- Pattern Distribution Chart -->
-    <div class="bg-gray-800 rounded-lg p-6">
-        <h3 class="text-2xl font-bold text-white mb-6">Pattern Distribution</h3>
+    <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+        <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">&gt; PATTERN DISTRIBUTION</h3>
         <canvas id="patternChart" height="100"></canvas>
     </div>
 
     <!-- Most Common Patterns -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="bg-gray-800 rounded-lg p-6">
-            <h3 class="text-xl font-bold text-white mb-4">Most Common</h3>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ MOST COMMON</h3>
             <div class="space-y-3">
                 @foreach($most_common_patterns as $pattern)
-                <div class="flex justify-between items-center">
-                    <span class="text-white">{{ $pattern['pattern_name'] }}</span>
-                    <span class="text-gray-400">{{ number_format($pattern['count']) }}</span>
+                <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                    <span style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</span>
+                    <span class="font-bold" style="color: var(--term-dim);">{{ number_format($pattern['count']) }}</span>
                 </div>
                 @endforeach
             </div>
         </div>
 
-        <div class="bg-gray-800 rounded-lg p-6">
-            <h3 class="text-xl font-bold text-white mb-4">Rarest Patterns</h3>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-text);">$ RAREST</h3>
             <div class="space-y-3">
                 @foreach($rarest_patterns as $pattern)
-                <div class="flex justify-between items-center">
-                    <span class="text-white">{{ $pattern['pattern_name'] }}</span>
-                    <span class="text-yellow-400">{{ number_format($pattern['count']) }}</span>
+                <div class="flex justify-between items-center border-b pb-2" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                    <span style="color: var(--term-text);">{{ $pattern['pattern_name'] }}</span>
+                    <span class="text-yellow-400 font-bold">{{ number_format($pattern['count']) }}</span>
                 </div>
                 @endforeach
             </div>
@@ -56,6 +56,11 @@
             const ctx = document.getElementById('patternChart').getContext('2d');
             const patternData = @json($pattern_distribution);
 
+            // Get current theme colors
+            const styles = getComputedStyle(document.documentElement);
+            const accentColor = styles.getPropertyValue('--term-accent').trim();
+            const textColor = styles.getPropertyValue('--term-text').trim();
+
             new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -63,9 +68,9 @@
                     datasets: [{
                         label: 'Frequency',
                         data: patternData.map(p => p.count),
-                        backgroundColor: '#06b6d4',
-                        borderColor: '#0891b2',
-                        borderWidth: 1
+                        backgroundColor: accentColor + '80',
+                        borderColor: accentColor,
+                        borderWidth: 2
                     }]
                 },
                 options: {
@@ -75,18 +80,24 @@
                         y: {
                             beginAtZero: true,
                             grid: {
-                                color: '#374151'
+                                color: accentColor + '20'
                             },
                             ticks: {
-                                color: '#9ca3af'
+                                color: textColor,
+                                font: {
+                                    family: 'monospace'
+                                }
                             }
                         },
                         x: {
                             grid: {
-                                color: '#374151'
+                                color: accentColor + '20'
                             },
                             ticks: {
-                                color: '#9ca3af'
+                                color: textColor,
+                                font: {
+                                    family: 'monospace'
+                                }
                             }
                         }
                     },
@@ -100,8 +111,8 @@
         }
     </script>
     @else
-    <div class="bg-gray-800 rounded-lg p-12 text-center">
-        <p class="text-gray-400 text-xl">No plays yet. Start playing to see statistics!</p>
+    <div class="border bg-black/30 p-12 text-center font-mono" style="border-color: var(--term-accent);">
+        <p class="text-lg sm:text-xl" style="color: var(--term-dim);">&gt; No plays yet. Start playing to see statistics!</p>
     </div>
     @endif
 </div>

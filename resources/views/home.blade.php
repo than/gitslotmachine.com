@@ -52,28 +52,20 @@
             return Array.from({ length: 7 }, () => getRandomHex()).join('');
         }
 
-        async function typeCommand(text, speed = 50) {
-            commandEl.textContent = '';
-            for (let i = 0; i < text.length; i++) {
-                commandEl.textContent += text[i];
-                await sleep(speed);
-            }
-        }
-
         async function animateSlot() {
             const play = demoPlays[currentPlayIndex];
 
             // First run: show full setup sequence
             if (isFirstRun) {
-                // Type: git-slot-machine init
-                await typeCommand('git-slot-machine init');
+                // Show: git-slot-machine init
+                commandEl.textContent = 'git-slot-machine init';
                 await sleep(800);
                 line2El.innerHTML = '<span style="color: #00ff00;">✓</span> Post-commit hook installed';
                 await sleep(1500);
 
-                // Type: git commit
+                // Show: git commit
                 line2El.innerHTML = '&nbsp;';
-                await typeCommand('git commit -m "add the best feature in the world"', 40);
+                commandEl.textContent = 'git commit -m "add the best feature in the world"';
                 await sleep(800);
                 line2El.innerHTML = '[main ' + play.hash + '] add the best feature in the world';
                 await sleep(1200);
@@ -83,7 +75,7 @@
 
             // Show spin command
             line2El.innerHTML = '&nbsp;';
-            await typeCommand('git-slot-machine spin --small', 50);
+            commandEl.textContent = 'git-slot-machine spin --small';
             await sleep(500);
 
             // Animate spinning hash (8 frames)

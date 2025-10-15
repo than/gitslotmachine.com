@@ -207,6 +207,7 @@
                         <span class="font-bold" style="color: var(--term-text);">{{ $play->user->github_username }}</span>
                         <span style="color: var(--term-dim);"> @ </span>
                         <span style="color: var(--term-text);">{{ $play->repository->owner }}/{{ $play->repository->name }}</span>
+                        <span style="color: var(--term-dim);"> • {{ $play->played_at->diffForHumans() }}</span>
                     </div>
                     <div class="flex items-center gap-3 shrink-0">
                         @php

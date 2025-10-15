@@ -118,6 +118,11 @@
                style="color: {{ $activeTab === 'odds' ? 'var(--term-text)' : 'var(--term-dim)' }};">
                 [ODDS]
             </a>
+            <a href="{{ route('changelog') }}"
+               class="font-bold hover:opacity-80 transition-opacity"
+               style="color: {{ $activeTab === 'changelog' ? 'var(--term-text)' : 'var(--term-dim)' }};">
+                [CHANGELOG]
+            </a>
             <a href="{{ route('about') }}"
                class="font-bold hover:opacity-80 transition-opacity"
                style="color: {{ $activeTab === 'about' ? 'var(--term-text)' : 'var(--term-dim)' }};">

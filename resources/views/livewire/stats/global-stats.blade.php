@@ -1,9 +1,13 @@
 <div wire:poll.30s class="space-y-8">
     <!-- Overview Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
         <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Plays</div>
             <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_plays) }}</div>
+        </div>
+        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Win Rate</div>
+            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-win);">{{ $win_rate }}%</div>
         </div>
         <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Payouts</div>

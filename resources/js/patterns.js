@@ -17,8 +17,12 @@ export function detectPattern(hash) {
     // Detect pattern - check in order of rarity/value
     let type;
 
+    // Check for the secret ultimate jackpot: 7777777
+    if (lowerHash === '7777777') {
+        type = 'LUCKY_SEVENS';
+    }
     // Check for all same first (highest value)
-    if (distribution[0] === 7) {
+    else if (distribution[0] === 7) {
         type = 'ALL_SAME';
     }
     // Check for 6 of a kind
@@ -187,7 +191,7 @@ function getHighlightIndices(hash, type) {
     }
 
     // For all letters or all numbers, highlight everything
-    if (type === 'ALL_LETTERS' || type === 'ALL_NUMBERS' || type === 'ALL_SAME') {
+    if (type === 'ALL_LETTERS' || type === 'ALL_NUMBERS' || type === 'ALL_SAME' || type === 'LUCKY_SEVENS') {
         return [0, 1, 2, 3, 4, 5, 6];
     }
 

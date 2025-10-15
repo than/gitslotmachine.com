@@ -7,6 +7,7 @@ use InvalidArgumentException;
 class PatternDetector
 {
     private const PAYOUTS = [
+        'LUCKY_SEVENS' => ['name' => 'LUCKY SEVENS', 'payout' => 1000000],
         'ALL_SAME' => ['name' => 'JACKPOT', 'payout' => 10000],
         'SIX_OF_KIND' => ['name' => 'HEXTET', 'payout' => 5000],
         'STRAIGHT_7' => ['name' => 'LUCKY SEVEN', 'payout' => 2500],
@@ -54,6 +55,11 @@ class PatternDetector
     private function detectPatternType(string $hash): string
     {
         $distribution = $this->getDistribution($hash);
+
+        // Check for the secret ultimate jackpot: 7777777
+        if ($hash === '7777777') {
+            return 'LUCKY_SEVENS';
+        }
 
         // Check for all same first (highest value)
         if ($distribution[0] === 7) {

@@ -1,61 +1,313 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎰 Git Slot Machine
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Turn your git commits into a slot machine game!**
 
-## About Laravel
+Git Slot Machine is a fun CLI tool that analyzes your commit hashes and rewards you based on patterns found in the first 7 characters. Every commit you make is a pull of the lever — will you hit the jackpot?
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+🎰 **Live Site:** [gitslotmachine.com](https://gitslotmachine.com)
+📦 **CLI Package:** [npm](https://www.npmjs.com/package/git-slot-machine) | [GitHub](https://github.com/than/git-slot-machine)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Features
 
-## Learning Laravel
+- **Automated gameplay** via post-commit hook
+- **Global leaderboards** with daily and all-time rankings
+- **Win streak tracking** with detailed history
+- **Pattern-based payouts** (poker-style hands in hex)
+- **Real-time stats** and analytics
+- **Winner sharing** with Open Graph images
+- **Token-based authentication** (GitHub username)
+- **Retro terminal aesthetic** with theme picker
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Laravel 12** - Modern PHP framework
+- **Livewire 3** - Reactive components
+- **PostgreSQL** - Database
+- **Tailwind CSS 4** - Styling
+- **Laravel Sanctum** - API authentication
+- **Spatie Browsershot** - OG image generation
+- **Pest 4** - Testing framework
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Installation
 
-### Premium Partners
+### Prerequisites
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+- PHP 8.4+
+- Composer
+- Node.js 18+
+- PostgreSQL
+- Chrome/Chromium (for OG image generation)
+
+### Local Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/than/gitslotmachine.com.git
+cd gitslotmachine.com
+
+# Install PHP dependencies
+composer install
+
+# Install Node dependencies
+npm install
+
+# Copy environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Configure database in .env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=gitslotmachine
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+
+# Run migrations
+php artisan migrate
+
+# Build assets
+npm run build
+
+# Start development server
+php artisan serve
+```
+
+### Development
+
+```bash
+# Run both PHP server and Vite dev server
+composer run dev
+
+# Or run separately:
+php artisan serve
+npm run dev
+```
+
+---
+
+## API Endpoints
+
+### Authentication
+
+**Create Token**
+```http
+POST /api/auth/token
+Content-Type: application/json
+
+{
+  "github_username": "your-username"
+}
+```
+
+**Get User Info**
+```http
+GET /api/auth/user
+Authorization: Bearer {token}
+```
+
+**Delete Token**
+```http
+DELETE /api/auth/token
+Authorization: Bearer {token}
+```
+
+### Gameplay
+
+**Submit Play**
+```http
+POST /api/play
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "commit_hash": "a1b2c3d",
+  "commit_full_hash": "a1b2c3d4e5f6...",
+  "pattern_type": "TWO_PAIR",
+  "pattern_name": "TWO PAIR",
+  "payout": 50,
+  "wager": 10,
+  "balance_before": 100,
+  "balance_after": 140,
+  "repo_url": "https://github.com/user/repo",
+  "github_username": "your-username",
+  "repo_owner": "user",
+  "repo_name": "repo"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "balance": 140,
+    "payout": 50,
+    "pattern_name": "TWO PAIR",
+    "share_url": "https://gitslotmachine.com/winner/{uuid}"
+  }
+}
+```
+
+**Get Balance**
+```http
+GET /api/balance
+Authorization: Bearer {token}
+```
+
+---
+
+## Database Schema
+
+### Users Table
+```sql
+- id
+- github_username (unique)
+- balance
+- total_commits
+- total_winnings
+- biggest_win
+- biggest_win_pattern
+- biggest_win_hash
+- current_streak
+- longest_streak
+- longest_streak_ended_at
+- timestamps
+```
+
+### Plays Table
+```sql
+- id
+- uuid (unique, for sharing)
+- user_id
+- commit_hash
+- commit_full_hash
+- pattern_type
+- pattern_name
+- payout
+- wager
+- balance_before
+- balance_after
+- repo_url
+- repo_owner
+- repo_name
+- timestamps
+```
+
+---
+
+## Pattern Detection
+
+Patterns are detected in the first 7 characters of a git commit hash using poker-style logic:
+
+| Pattern | Example | Payout | Probability |
+|---------|---------|--------|-------------|
+| JACKPOT | `aaaaaaa` | 10,000 | 1 in 16.7M |
+| HEXTET | `aaaaaa1` | 5,000 | 1 in 160K |
+| LUCKY SEVEN | `1234567` | 2,500 | 1 in 2.5M |
+| FULLEST HOUSE | `aaaabbb` | 2,000 | 1 in 32K |
+| FIVE OF A KIND | `aaaaa12` | 1,000 | 1 in 8K |
+| BIG STRAIGHT | `012345a` | 500 | 1 in 280K |
+| FOUR OF A KIND | `aaaa123` | 400 | 1 in 800 |
+| ALL LETTERS | `abcdefa` | 300 | 1 in 960 |
+| STRAIGHT | `01234ab` | 200 | 1 in 9K |
+| DOUBLE TRIPLE | `aaabbb1` | 150 | 1 in 2K |
+| FULL HOUSE | `aaaabb1` | 100 | 1 in 1K |
+| THREE PAIR | `aabbcc1` | 150 | 1 in 1.6K |
+| THREE OF A KIND | `aaa1234` | 50 | 1 in 15 |
+| TWO PAIR | `aabb1cd` | 50 | 1 in 45 |
+| ALL NUMBERS | `1230984` | 10 | 1 in 27 |
+| NO WIN | `abcd123` | 0 | ~35% |
+
+**Note:** "Pairs" require consecutive identical characters (e.g., `aa`, `bb`).
+
+See full pattern logic in `app/Services/PatternDetector.php`.
+
+---
+
+## Testing
+
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test file
+php artisan test tests/Feature/ApiPlayTest.php
+
+# Run with coverage
+php artisan test --coverage
+```
+
+---
+
+## Commands
+
+```bash
+# Backfill streak data for existing plays
+php artisan streaks:backfill
+```
+
+---
+
+## Deployment
+
+This project is designed to deploy on [Laravel Cloud](https://cloud.laravel.com).
+
+### Environment Variables
+
+Required production environment variables:
+
+```env
+APP_NAME="Git Slot Machine"
+APP_ENV=production
+APP_KEY=base64:...
+APP_DEBUG=false
+APP_URL=https://gitslotmachine.com
+
+DB_CONNECTION=pgsql
+DB_HOST=...
+DB_PORT=5432
+DB_DATABASE=...
+DB_USERNAME=...
+DB_PASSWORD=...
+
+SESSION_DRIVER=database
+CACHE_STORE=database
+QUEUE_CONNECTION=database
+
+# For OG image generation
+BROWSERSHOT_NODE_BIN=/path/to/node
+BROWSERSHOT_NPM_BIN=/path/to/npm
+```
+
+### Auto-Deployment
+
+Pushes to `main` branch trigger automatic deployment on Laravel Cloud.
+
+---
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions welcome! Please open an issue or PR.
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License - see [LICENSE](LICENSE) file for details.
+
+---
+
+## Credits
+
+Built by [Than Tibbetts](https://github.com/than)
+
+Powered by [Laravel](https://laravel.com) and [Livewire](https://livewire.laravel.com)

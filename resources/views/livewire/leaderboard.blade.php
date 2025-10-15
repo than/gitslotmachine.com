@@ -67,27 +67,27 @@
                 <table class="w-full font-mono">
                     <thead>
                         <tr class="text-left border-b" style="color: var(--term-text); border-color: var(--term-accent);">
-                            <th class="p-4">#</th>
-                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('github_username')">
+                            <th class="p-4 w-16">#</th>
+                            <th class="p-4 cursor-pointer hover:opacity-75 w-1/4" wire:click="sortBy('github_username')">
                                 PLAYER
                                 @if($sortBy === 'github_username')
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
-                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('total_commits')">
+                            <th class="p-4 cursor-pointer hover:opacity-75 w-1/6" wire:click="sortBy('total_commits')">
                                 COMMITS
                                 @if($sortBy === 'total_commits')
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
-                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('total_balance')">
+                            <th class="p-4 cursor-pointer hover:opacity-75 w-1/6" wire:click="sortBy('total_balance')">
                                 BALANCE
                                 @if($sortBy === 'total_balance')
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
                             </th>
-                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortBy('biggest_win')">
-                                BIGGEST
+                            <th class="p-4 cursor-pointer hover:opacity-75 whitespace-nowrap" wire:click="sortBy('biggest_win')">
+                                BIGGEST WIN
                                 @if($sortBy === 'biggest_win')
                                     <span class="text-xs">{{ $sortDirection === 'asc' ? '▲' : '▼' }}</span>
                                 @endif
@@ -104,13 +104,13 @@
                                 style="{{ $user->total_balance >= 0 ? 'color: var(--term-win);' : '' }}">
                                 {{ $user->total_balance }}
                             </td>
-                            <td class="p-4">
-                                <div class="font-bold" style="color: var(--term-win);">{{ $user->biggest_win }}</div>
+                            <td class="p-4 whitespace-nowrap">
+                                <span class="font-bold" style="color: var(--term-win);">{{ $user->biggest_win }}</span>
                                 @if($user->biggest_win_pattern)
-                                    <div class="text-xs opacity-75" style="color: var(--term-dim);">{{ $user->biggest_win_pattern }}</div>
+                                    <span class="text-xs ml-2 opacity-75" style="color: var(--term-dim);">({{ $user->biggest_win_pattern }})</span>
                                 @endif
                                 @if($user->biggest_win_hash)
-                                    <div class="text-xs font-mono hash-display" data-hash="{{ $user->biggest_win_hash }}" style="color: var(--term-dim);"></div>
+                                    <span class="text-xs ml-2 font-mono hash-display" data-hash="{{ $user->biggest_win_hash }}" style="color: var(--term-text);"></span>
                                 @endif
                             </td>
                         </tr>
@@ -168,9 +168,9 @@
                     let html = '';
                     for (let i = 0; i < hash.length; i++) {
                         if (highlights.includes(i)) {
-                            html += `<span class="px-0.5" style="background: var(--term-text); color: var(--term-bg); font-weight: 900;">${hash[i]}</span>`;
+                            html += `<span class="inline-block px-0.5" style="background: var(--term-text); color: var(--term-bg); font-weight: 900;">${hash[i]}</span>`;
                         } else {
-                            html += hash[i];
+                            html += `<span class="inline-block px-0.5">${hash[i]}</span>`;
                         }
                     }
                     el.innerHTML = html;

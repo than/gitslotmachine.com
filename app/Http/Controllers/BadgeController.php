@@ -50,6 +50,10 @@ class BadgeController extends Controller
         $rightWidth = strlen($rightText) * 6.5 + 20; // Approximate character width
         $totalWidth = $leftWidth + $rightWidth;
 
+        // Pre-calculate SVG text positions (can't do complex math in heredoc)
+        $rightTextX = $leftWidth * 10 + ($rightWidth * 10 / 2);
+        $rightTextLength = ($rightWidth - 10) * 10;
+
         $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
     <title>slot: {$rightText}</title>
@@ -68,8 +72,8 @@ class BadgeController extends Controller
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
         <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
         <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
-        <text aria-hidden="true" x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
-        <text x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="140" transform="scale(.1)" fill="#fff" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
+        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
+        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
     </g>
 </svg>
 SVG;
@@ -85,6 +89,10 @@ SVG;
         $rightText = 'no plays yet';
         $rightWidth = strlen($rightText) * 6.5 + 20;
         $totalWidth = $leftWidth + $rightWidth;
+
+        // Pre-calculate SVG text positions (can't do complex math in heredoc)
+        $rightTextX = $leftWidth * 10 + ($rightWidth * 10 / 2);
+        $rightTextLength = ($rightWidth - 10) * 10;
 
         $svg = <<<SVG
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="slot: {$rightText}">
@@ -104,8 +112,8 @@ SVG;
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
         <text aria-hidden="true" x="425" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="750">🎰 slot</text>
         <text x="425" y="140" transform="scale(.1)" fill="#fff" textLength="750">🎰 slot</text>
-        <text aria-hidden="true" x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
-        <text x="{$leftWidth * 10 + ($rightWidth * 10 / 2)}" y="140" transform="scale(.1)" fill="#fff" textLength="{($rightWidth - 10) * 10}">{$rightText}</text>
+        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
+        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
     </g>
 </svg>
 SVG;

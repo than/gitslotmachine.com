@@ -10,8 +10,11 @@
 
         <!-- Live Demo -->
         <div class="mb-6 p-4 bg-black border font-mono text-sm" style="border-color: var(--term-accent);">
-            <div id="slot-demo" style="color: var(--term-text);">
-                <span style="color: var(--term-dim);">$</span> git-slot-machine spin --small
+            <div id="slot-demo-line1" style="color: var(--term-text); min-height: 1.25rem;">
+                <span style="color: var(--term-dim);">$</span> <span id="slot-demo-command"></span>
+            </div>
+            <div id="slot-demo-line2" style="color: var(--term-text); min-height: 1.25rem;">
+                &nbsp;
             </div>
         </div>
 
@@ -21,25 +24,24 @@
     </header>
 
     <script>
-        // Slot machine demo patterns (curated for visual interest)
+        // Slot machine demo patterns (curated for visual interest, first one always wins)
         const demoPlays = [
-            { hash: 'aabbccd', pattern: 'TWO PAIR', payout: 50, win: true },
-            { hash: '1234567', pattern: 'LUCKY SEVEN', payout: 2500, win: true },
+            { hash: 'aaa1234', pattern: 'THREE OF A KIND', payout: 50, win: true },
             { hash: 'abc1234', pattern: 'NO WIN', payout: 0, win: false },
             { hash: 'aaaa123', pattern: 'FOUR OF A KIND', payout: 400, win: true },
             { hash: '3456789', pattern: 'NO WIN', payout: 0, win: false },
-            { hash: 'fedcba9', pattern: 'LUCKY SEVEN', payout: 2500, win: true },
-            { hash: 'aaa1234', pattern: 'THREE OF A KIND', payout: 50, win: true },
             { hash: 'abcdef1', pattern: 'ALL LETTERS', payout: 300, win: true },
             { hash: '1234098', pattern: 'ALL NUMBERS', payout: 10, win: true },
-            { hash: 'aaaabbb', pattern: 'FULLEST HOUSE', payout: 2000, win: true },
+            { hash: 'aabbccd', pattern: 'TWO PAIR', payout: 50, win: true },
+            { hash: 'f1e2d3c', pattern: 'NO WIN', payout: 0, win: false },
+            { hash: '1234567', pattern: 'LUCKY SEVEN', payout: 2500, win: true },
         ];
 
         let currentPlayIndex = 0;
         let slotDemoBalance = 100;
-        const slotDemoEl = document.getElementById('slot-demo');
-        const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--term-accent');
-        const textColor = getComputedStyle(document.documentElement).getPropertyValue('--term-text');
+        let isFirstRun = true;
+        const commandEl = document.getElementById('slot-demo-command');
+        const line2El = document.getElementById('slot-demo-line2');
         const dimColor = getComputedStyle(document.documentElement).getPropertyValue('--term-dim');
 
         function getRandomHex() {
@@ -50,35 +52,68 @@
             return Array.from({ length: 7 }, () => getRandomHex()).join('');
         }
 
+        async function typeCommand(text, speed = 50) {
+            commandEl.textContent = '';
+            for (let i = 0; i < text.length; i++) {
+                commandEl.textContent += text[i];
+                await sleep(speed);
+            }
+        }
+
         async function animateSlot() {
             const play = demoPlays[currentPlayIndex];
 
-            // Show command prompt
-            slotDemoEl.innerHTML = `<span style="color: ${dimColor};">$</span> git-slot-machine spin --small`;
-            await sleep(800);
+            // First run: show full setup sequence
+            if (isFirstRun) {
+                // Type: git-slot-machine init
+                await typeCommand('git-slot-machine init');
+                await sleep(800);
+                line2El.innerHTML = '<span style="color: #00ff00;">✓</span> Post-commit hook installed';
+                await sleep(1500);
+
+                // Type: git commit
+                line2El.innerHTML = '&nbsp;';
+                await typeCommand('git commit -m "add the best feature in the world"', 40);
+                await sleep(800);
+                line2El.innerHTML = '[main ' + play.hash + '] add the best feature in the world';
+                await sleep(1200);
+
+                isFirstRun = false;
+            }
+
+            // Show spin command
+            line2El.innerHTML = '&nbsp;';
+            await typeCommand('git-slot-machine spin --small', 50);
+            await sleep(500);
 
             // Animate spinning hash (8 frames)
             for (let i = 0; i < 8; i++) {
                 const randomHash = generateRandomHash();
-                slotDemoEl.innerHTML = `<span style="color: ${dimColor};">$</span> git-slot-machine spin --small<br><span style="color: ${accentColor};">${randomHash}</span>`;
+                line2El.innerHTML = `<span style="color: var(--term-accent);">${randomHash}</span>`;
                 await sleep(80);
             }
 
             // Show final hash
-            slotDemoEl.innerHTML = `<span style="color: ${dimColor};">$</span> git-slot-machine spin --small<br><span style="color: ${accentColor};">${play.hash}</span>`;
+            line2El.innerHTML = `<span style="color: var(--term-accent);">${play.hash}</span>`;
             await sleep(300);
 
-            // Show result
+            // Show result with CLI colors
             const netResult = play.payout - 10;
-            const resultColor = play.win ? accentColor : '#ff0000';
-            const resultText = play.win
-                ? `${play.pattern} +${play.payout}`
-                : 'NO WIN -10';
+            let resultHTML = `<span style="color: var(--term-accent);">${play.hash}</span> <span style="color: ${dimColor};">•</span> `;
+
+            if (play.win) {
+                // Win: cyan/green for pattern name and payout
+                resultHTML += `<span style="color: #00ffff; font-weight: bold;">${play.pattern}</span> <span style="color: #00ff00; font-weight: bold;">+${play.payout}</span>`;
+            } else {
+                // Loss: red
+                resultHTML += `<span style="color: #ff0000;">NO WIN -10</span>`;
+            }
 
             slotDemoBalance += netResult;
             const balanceColor = slotDemoBalance >= 0 ? '#00ff00' : '#ff0000';
+            resultHTML += ` <span style="color: ${dimColor};">•</span> <span style="color: #ffffff;">Balance: <span style="color: ${balanceColor}; font-weight: bold;">${slotDemoBalance}</span></span>`;
 
-            slotDemoEl.innerHTML = `<span style="color: ${dimColor};">$</span> git-slot-machine spin --small<br><span style="color: ${accentColor};">${play.hash}</span> <span style="color: ${dimColor};">•</span> <span style="color: ${resultColor}; font-weight: bold;">${resultText}</span> <span style="color: ${dimColor};">•</span> <span style="color: ${textColor};">Balance: <span style="color: ${balanceColor}; font-weight: bold;">${slotDemoBalance}</span></span>`;
+            line2El.innerHTML = resultHTML;
 
             // Wait before next play
             await sleep(3000);

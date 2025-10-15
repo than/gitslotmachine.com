@@ -7,7 +7,7 @@
 ╚═══════════════════════════════════════╝
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
-        <p class="text-sm sm:text-lg" style="color: var(--term-dim);">&gt; Every commit is a spin. Will you hit the jackpot?</p>
+        <p class="text-sm sm:text-lg" style="color: var(--term-dim);">&gt; Every commit is your chance to win.</p>
     </header>
 
     <!-- Livewire Leaderboard Component (auto-refreshes every 5 seconds) -->

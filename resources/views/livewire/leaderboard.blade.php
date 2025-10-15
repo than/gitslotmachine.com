@@ -47,7 +47,7 @@
                         <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
-                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:opacity-75 transition-opacity" style="color: var(--term-text);">{{ $user->github_username }}</a>
+                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
                             </td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->daily_commits }}</td>
                             <td class="p-4 font-bold {{ $user->daily_winnings >= 0 ? '' : 'text-red-400' }}"
@@ -107,7 +107,7 @@
                         <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
-                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:opacity-75 transition-opacity" style="color: var(--term-text);">{{ $user->github_username }}</a>
+                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
                             </td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->total_commits }}</td>
                             <td class="p-4 font-bold {{ $user->total_balance >= 0 ? '' : 'text-red-400' }}"
@@ -208,7 +208,7 @@
             <div class="border bg-black/30 px-3 py-2 hover:bg-white/5 font-mono text-sm" style="border-color: var(--term-accent);">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1 truncate">
-                        <a href="https://github.com/{{ $play->user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:opacity-75 transition-opacity" style="color: var(--term-text);">{{ $play->user->github_username }}</a>
+                        <a href="https://github.com/{{ $play->user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:underline" style="color: var(--term-text);">{{ $play->user->github_username }}</a>
                         <span style="color: var(--term-dim);"> @ </span>
                         <span style="color: var(--term-text);">{{ $play->repository->displayFullName() }}</span>
                         <span style="color: var(--term-dim);"> • {{ $play->played_at->diffForHumans() }}</span>

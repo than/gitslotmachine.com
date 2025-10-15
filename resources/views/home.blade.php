@@ -30,7 +30,7 @@
             { hash: 'abc1234', pattern: 'NO WIN', payout: 0, win: false, commit: 'fix typo in readme' },
             { hash: 'aaaa123', pattern: 'FOUR OF A KIND', payout: 400, win: true, commit: 'refactor authentication logic' },
             { hash: '3456789', pattern: 'NO WIN', payout: 0, win: false, commit: 'update dependencies' },
-            { hash: 'abcdef1', pattern: 'ALL LETTERS', payout: 300, win: true, commit: 'implement dark mode' },
+            { hash: 'abcdefa', pattern: 'ALL LETTERS', payout: 300, win: true, commit: 'implement dark mode' },
             { hash: '1234098', pattern: 'ALL NUMBERS', payout: 10, win: true, commit: 'add unit tests' },
             { hash: 'aabbccd', pattern: 'TWO PAIR', payout: 50, win: true, commit: 'optimize database queries' },
             { hash: 'f1e2d3c', pattern: 'NO WIN', payout: 0, win: false, commit: 'update changelog' },

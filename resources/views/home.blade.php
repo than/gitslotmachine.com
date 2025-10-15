@@ -8,12 +8,12 @@
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 COMMIT & SPIN 🎰</h1>
 
-        <p class="text-sm sm:text-lg font-mono mb-6" style="color: var(--term-dim);">
+        <p class="text-sm sm:text-lg font-mono mb-6 text-left" style="color: var(--term-dim);">
             &gt; Every commit is your chance to win.
         </p>
 
         <!-- Live Demo -->
-        <div class="p-4 bg-black border font-mono text-sm" style="border-color: var(--term-accent);">
+        <div class="p-4 bg-black border font-mono text-sm text-left mx-auto" style="border-color: var(--term-accent); max-width: 66.666667%;">
             <div id="slot-demo-line1" style="color: var(--term-text); min-height: 1.25rem;">
                 <span style="color: var(--term-dim);">$</span> <span id="slot-demo-command"></span>
             </div>
@@ -26,15 +26,15 @@
     <script>
         // Slot machine demo patterns (curated for visual interest, first one always wins)
         const demoPlays = [
-            { hash: 'aaa1234', pattern: 'THREE OF A KIND', payout: 50, win: true },
-            { hash: 'abc1234', pattern: 'NO WIN', payout: 0, win: false },
-            { hash: 'aaaa123', pattern: 'FOUR OF A KIND', payout: 400, win: true },
-            { hash: '3456789', pattern: 'NO WIN', payout: 0, win: false },
-            { hash: 'abcdef1', pattern: 'ALL LETTERS', payout: 300, win: true },
-            { hash: '1234098', pattern: 'ALL NUMBERS', payout: 10, win: true },
-            { hash: 'aabbccd', pattern: 'TWO PAIR', payout: 50, win: true },
-            { hash: 'f1e2d3c', pattern: 'NO WIN', payout: 0, win: false },
-            { hash: '1234567', pattern: 'LUCKY SEVEN', payout: 2500, win: true },
+            { hash: 'aaa1234', pattern: 'THREE OF A KIND', payout: 50, win: true, commit: 'add the best feature in the world' },
+            { hash: 'abc1234', pattern: 'NO WIN', payout: 0, win: false, commit: 'fix typo in readme' },
+            { hash: 'aaaa123', pattern: 'FOUR OF A KIND', payout: 400, win: true, commit: 'refactor authentication logic' },
+            { hash: '3456789', pattern: 'NO WIN', payout: 0, win: false, commit: 'update dependencies' },
+            { hash: 'abcdef1', pattern: 'ALL LETTERS', payout: 300, win: true, commit: 'implement dark mode' },
+            { hash: '1234098', pattern: 'ALL NUMBERS', payout: 10, win: true, commit: 'add unit tests' },
+            { hash: 'aabbccd', pattern: 'TWO PAIR', payout: 50, win: true, commit: 'optimize database queries' },
+            { hash: 'f1e2d3c', pattern: 'NO WIN', payout: 0, win: false, commit: 'update changelog' },
+            { hash: '1234567', pattern: 'LUCKY SEVEN', payout: 2500, win: true, commit: 'launch v2.0' },
         ];
 
         let currentPlayIndex = 0;
@@ -63,19 +63,16 @@
                 line2El.innerHTML = '<span style="color: #00ff00;">✓</span> Post-commit hook installed';
                 await sleep(1500);
 
-                // Show: git commit
-                line2El.innerHTML = '&nbsp;';
-                commandEl.textContent = 'git commit -m "add the best feature in the world"';
-                await sleep(800);
-                line2El.innerHTML = '[main ' + play.hash + '] add the best feature in the world';
-                await sleep(1200);
-
                 isFirstRun = false;
             }
 
-            // Show spin command
+            // Show git commit command
             line2El.innerHTML = '&nbsp;';
-            commandEl.textContent = 'git-slot-machine spin --small';
+            commandEl.textContent = `git commit -m "${play.commit}"`;
+            await sleep(800);
+
+            // Show git commit output
+            line2El.innerHTML = `[main ${play.hash}] ${play.commit}`;
             await sleep(500);
 
             // Animate spinning hash (8 frames)

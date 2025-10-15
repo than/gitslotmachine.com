@@ -141,10 +141,10 @@
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">STATS FOR NERDS</h3>
                 <ul class="space-y-1 text-xs sm:text-sm" style="color: var(--term-dim);">
-                    <li><span style="color: var(--term-win);">~65% win rate</span> - Most commits win something!</li>
-                    <li><span style="color: var(--term-text);">Positive expected value</span> - Math is on your side</li>
-                    <li>In 100 commits: expect ~35 no-wins, ~3 two pairs, ~1 three of a kind</li>
-                    <li>JACKPOT odds: 1 in 16.7M (you'd need to commit 46K times/day for 1,000 years)</li>
+                    <li><span style="color: var(--term-win);">Check the Stats page</span> for real-world pattern frequencies</li>
+                    <li><span style="color: var(--term-text);">Two Pair</span> is the most common win (~3% of commits)</li>
+                    <li><span style="color: var(--term-text);">All Numbers</span> breaks even at 10 points (~4% of commits)</li>
+                    <li>JACKPOT: 1 in 16.7M commits (good luck!)</li>
                 </ul>
             </div>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">

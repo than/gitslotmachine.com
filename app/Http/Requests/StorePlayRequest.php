@@ -24,7 +24,12 @@ class StorePlayRequest extends FormRequest
         return [
             'commit_hash' => ['required', 'string', 'size:7', 'regex:/^[0-9a-f]{7}$/i'],
             'commit_full_hash' => ['nullable', 'string', 'size:40', 'regex:/^[0-9a-f]{40}$/i'],
-            'repo_url' => ['required', 'url', 'regex:/github\.com/'],
+            'repo_url' => ['required', 'string', function ($attribute, $value, $fail) {
+                // Allow "private" for privacy mode, otherwise must be a valid GitHub URL
+                if ($value !== 'private' && (!filter_var($value, FILTER_VALIDATE_URL) || !str_contains($value, 'github.com'))) {
+                    $fail('The ' . $attribute . ' must be a valid GitHub URL or "private".');
+                }
+            }],
             'repo_owner' => ['required', 'string'],
             'repo_name' => ['required', 'string'],
             'github_username' => ['required', 'string'],

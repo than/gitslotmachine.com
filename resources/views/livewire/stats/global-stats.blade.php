@@ -61,6 +61,70 @@
         </div>
     </div>
 
+    <!-- Theoretical vs Actual Comparison -->
+    <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+        <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">&gt; THEORY VS REALITY</h3>
+        <p class="mb-4 text-sm" style="color: var(--term-dim);">How do real-world probabilities compare to the math?</p>
+
+        <div class="border bg-black/30 overflow-x-auto" style="border-color: var(--term-accent);">
+            <table class="w-full font-mono text-xs sm:text-sm">
+                <thead>
+                    <tr class="border-b" style="color: var(--term-text); border-color: var(--term-accent);">
+                        <th class="p-3 text-left">PATTERN</th>
+                        <th class="p-3 text-right">EXPECTED</th>
+                        <th class="p-3 text-right">ACTUAL</th>
+                        <th class="p-3 text-right">VARIANCE</th>
+                        <th class="p-3 text-right hidden sm:table-cell">ACTUAL %</th>
+                    </tr>
+                </thead>
+                <tbody style="color: var(--term-dim);">
+                    @foreach($theoretical_vs_actual as $stat)
+                    <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                        <td class="p-3 font-bold" style="color: var(--term-text);">{{ $stat['pattern_name'] }}</td>
+                        <td class="p-3 text-right">{{ $stat['expected_count'] >= 1 ? number_format($stat['expected_count'], 1) : number_format($stat['expected_count'], 4) }}</td>
+                        <td class="p-3 text-right font-bold" style="color: {{ $stat['actual_count'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">{{ number_format($stat['actual_count']) }}</td>
+                        <td class="p-3 text-right {{ $stat['variance'] > 0 ? '' : 'opacity-50' }}" style="color: {{ $stat['variance'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">
+                            {{ $stat['variance'] > 0 ? '+' : '' }}{{ $stat['variance'] >= 1 ? number_format($stat['variance'], 1) : number_format($stat['variance'], 4) }}
+                        </td>
+                        <td class="p-3 text-right hidden sm:table-cell">{{ number_format($stat['actual_probability'] * 100, 3) }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Legendary Wins -->
+    @if(count($legendary_wins) > 0)
+    <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+        <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">🏆 LEGENDARY WINS 🏆</h3>
+        <p class="mb-4 text-sm" style="color: var(--term-dim);">The rarest patterns that have actually been hit</p>
+
+        <div class="space-y-3">
+            @foreach($legendary_wins as $win)
+            <div class="border bg-black/40 p-4" style="border-color: var(--term-accent);">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="text-lg sm:text-xl font-bold" style="color: var(--term-win);">{{ $win['pattern_name'] }}</span>
+                            <code class="text-base sm:text-lg" style="color: var(--term-text);">{{ $win['hash_short'] }}</code>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs sm:text-sm">
+                            <a href="https://github.com/{{ $win['github_username'] }}" target="_blank" class="hover:underline" style="color: var(--term-accent);">@{{ $win['github_username'] }}</a>
+                            <span style="color: var(--term-dim);">{{ \Carbon\Carbon::parse($win['played_at'])->diffForHumans() }}</span>
+                            @if($win['repo_url'] && $win['repo_url'] !== 'private')
+                            <a href="{{ $win['repo_url'] }}/commit/{{ $win['hash_full'] }}" target="_blank" class="hover:underline hidden sm:inline" style="color: var(--term-dim);">{{ $win['repo_owner'] }}/{{ $win['repo_name'] }}</a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: var(--term-win);">+{{ number_format($win['payout']) }}</div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     <!-- Chart.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

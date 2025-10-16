@@ -44,7 +44,7 @@
                     </thead>
                     <tbody>
                         @foreach($dailyLeaderboard as $index => $user)
-                        <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                        <tr class="border-b hover:bg-white/5" style="border-color: var(--term-dim);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
                                 <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
@@ -104,7 +104,7 @@
                     </thead>
                     <tbody>
                         @foreach($allTimeLeaderboard as $index => $user)
-                        <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                        <tr class="border-b hover:bg-white/5" style="border-color: var(--term-dim);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
                                 <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
@@ -165,7 +165,7 @@
 
                     <!-- Streak Details (Accordion Content) -->
                     @if($expandedStreak === $user->id)
-                    <div class="px-4 pb-4 border-t" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                    <div class="px-4 pb-4 border-t" style="border-color: var(--term-dim);">
                         <div class="mt-3 space-y-2">
                             @forelse($user->streak_plays as $play)
                             <div class="flex items-center justify-between py-2 px-3 bg-black/30 rounded text-sm">

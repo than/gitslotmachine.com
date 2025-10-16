@@ -67,7 +67,7 @@
                         <span id="random-hash" class="text-xs font-mono text-center" style="color: var(--term-dim);"></span>
                         <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v1.1.2</span>
                     </div>
-                    <div class="border-t pt-2" style="border-color: rgba(var(--term-accent-rgb), 0.3);"></div>
+                    <div class="border-t pt-2" style="border-color: var(--term-dim);"></div>
                 </div>
 
                 <!-- Back Face - Theme Picker -->
@@ -96,7 +96,7 @@
                             class="w-8 h-8 rounded border-2 hover:scale-125 transition-transform"
                             style="background: #002b36; border-color: #2aa198;"></button>
                     </div>
-                    <div class="border-t pt-2" style="border-color: rgba(var(--term-accent-rgb), 0.3);"></div>
+                    <div class="border-t pt-2" style="border-color: var(--term-dim);"></div>
                 </div>
             </div>
         </div>

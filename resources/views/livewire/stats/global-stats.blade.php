@@ -126,7 +126,7 @@
     @endif
 
     <!-- Luckiest Repos -->
-    @if(isset($luckiest_repos) && count($luckiest_repos) > 0)
+    @if(count($luckiest_repos ?? []) > 0)
     <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
         <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">🍀 LUCKIEST REPOS 🍀</h3>
         <p class="mb-4 text-sm" style="color: var(--term-dim);">Repositories with the highest net profit (min. 5 plays)</p>

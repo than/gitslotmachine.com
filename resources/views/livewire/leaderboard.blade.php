@@ -38,8 +38,18 @@
                         <tr class="text-left border-b" style="color: var(--term-text); border-color: var(--term-accent);">
                             <th class="p-4">#</th>
                             <th class="p-4">PLAYER</th>
-                            <th class="p-4">COMMITS</th>
-                            <th class="p-4">NET</th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortDailyBy('daily_commits')">
+                                COMMITS
+                                @if($dailySortBy === 'daily_commits')
+                                    <span class="text-xs">{{ $dailySortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
+                            <th class="p-4 cursor-pointer hover:opacity-75" wire:click="sortDailyBy('daily_winnings')">
+                                WINNINGS
+                                @if($dailySortBy === 'daily_winnings')
+                                    <span class="text-xs">{{ $dailySortDirection === 'asc' ? '▲' : '▼' }}</span>
+                                @endif
+                            </th>
                         </tr>
                     </thead>
                     <tbody>

@@ -14,6 +14,10 @@ class Leaderboard extends Component
 
     public string $sortDirection = 'desc';
 
+    public string $dailySortBy = 'daily_winnings';
+
+    public string $dailySortDirection = 'desc';
+
     public ?int $expandedStreak = null;
 
     public function sortBy(string $column): void
@@ -25,6 +29,18 @@ class Leaderboard extends Component
             // Default to desc for new column
             $this->sortBy = $column;
             $this->sortDirection = 'desc';
+        }
+    }
+
+    public function sortDailyBy(string $column): void
+    {
+        if ($this->dailySortBy === $column) {
+            // Toggle direction if already sorting by this column
+            $this->dailySortDirection = $this->dailySortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            // Default to desc for new column
+            $this->dailySortBy = $column;
+            $this->dailySortDirection = 'desc';
         }
     }
 
@@ -46,7 +62,7 @@ class Leaderboard extends Component
             ->whereBetween('plays.played_at', [$todayStart, $todayEnd])
             ->whereIn('users.moderation_status', ['approved', 'pending'])
             ->groupBy('users.id')
-            ->orderByDesc('daily_winnings')
+            ->orderBy($this->dailySortBy, $this->dailySortDirection)
             ->limit(100)
             ->get();
 

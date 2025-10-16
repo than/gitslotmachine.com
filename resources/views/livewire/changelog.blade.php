@@ -184,6 +184,32 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.3.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.3.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #ff6b6b;">⚠️ Breaking Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Adopted Laravel/Artisan-style <code>resource:action</code> command pattern</li>
+                                <li><code>config set sync-enabled false</code> → <code>sync:disable</code></li>
+                                <li><code>config set sync-enabled true</code> → <code>sync:enable</code></li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Added <code>username:set &lt;username&gt;</code> for easier username changes</li>
+                                <li>Shorter, more memorable commands for common operations</li>
+                                <li>Better command discoverability with resource-based organization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.2.4 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

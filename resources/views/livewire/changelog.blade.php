@@ -166,6 +166,46 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.1.2 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.1.2</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🎨 UI/UX:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Enhanced privacy mode messaging with visual indicators</li>
+                                <li>Green checkmarks (✓) show data that IS sent to server</li>
+                                <li>Red X marks (✗) show data that is NOT sent (privacy mode)</li>
+                                <li>Added explanatory note for privacy mode repo handling</li>
+                                <li>Clearer distinction between public and private repo modes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Version 1.1.1 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.1.1</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Fixed ES Module compatibility with chalk v5+</li>
+                                <li>Converted from CommonJS to ES Modules (ESM)</li>
+                                <li>Added explicit .js file extensions to all imports</li>
+                                <li>Updated TypeScript to compile to ES2022 modules</li>
+                                <li>Resolves ERR_REQUIRE_ESM error on Node.js 22+</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.1.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

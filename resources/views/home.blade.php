@@ -65,7 +65,14 @@
 
             // First run: show full setup sequence
             if (isFirstRun) {
+                // Type: npm install -g git-slot-machine
+                await typeText(commandEl, 'npm install -g git-slot-machine', 40);
+                await sleep(800);
+                line2El.innerHTML = '<span style="color: var(--term-dim);">added 3 packages in 1s</span>';
+                await sleep(2000);
+
                 // Type: git-slot-machine init
+                line2El.innerHTML = '&nbsp;';
                 await typeText(commandEl, 'git-slot-machine init', 40);
                 await sleep(600);
                 line2El.innerHTML = '<span style="color: #00ff00;">✓</span> Post-commit hook installed';

@@ -184,6 +184,42 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.2.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.2.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #ff6b6b;">⚠️ Breaking Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Simplified command structure - auth commands moved to top-level</li>
+                                <li><code>git-slot-machine auth login</code> → <code>git-slot-machine login &lt;username&gt;</code></li>
+                                <li><code>git-slot-machine auth status</code> → <code>git-slot-machine status</code></li>
+                                <li><code>git-slot-machine auth logout</code> → <code>git-slot-machine logout</code></li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Automatic GitHub username detection (gh CLI → git config → email → prompt)</li>
+                                <li>Opt-in leaderboard prompt during init with username confirmation</li>
+                                <li>Postinstall script with setup instructions (global installs only)</li>
+                                <li>GitHub username now stored globally as developer identity</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🎨 UI/UX:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Clearer onboarding experience with guided prompts</li>
+                                <li>Better username detection reduces manual entry</li>
+                                <li>More intuitive command structure without nested subcommands</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.1.2 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

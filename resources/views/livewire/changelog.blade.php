@@ -22,6 +22,24 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.1.1 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.1.1</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-15</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🎨 UI/UX:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Added typing effect to homepage terminal demo</li>
+                                <li>More relaxed timing between animation steps</li>
+                                <li>Commands now type out character by character for classic terminal feel</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.1.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

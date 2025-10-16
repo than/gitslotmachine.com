@@ -52,39 +52,47 @@
             return Array.from({ length: 7 }, () => getRandomHex()).join('');
         }
 
+        async function typeText(element, text, speed = 50) {
+            element.textContent = '';
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text[i];
+                await sleep(speed);
+            }
+        }
+
         async function animateSlot() {
             const play = demoPlays[currentPlayIndex];
 
             // First run: show full setup sequence
             if (isFirstRun) {
-                // Show: git-slot-machine init
-                commandEl.textContent = 'git-slot-machine init';
-                await sleep(800);
+                // Type: git-slot-machine init
+                await typeText(commandEl, 'git-slot-machine init', 40);
+                await sleep(600);
                 line2El.innerHTML = '<span style="color: #00ff00;">✓</span> Post-commit hook installed';
-                await sleep(1500);
+                await sleep(2000);
 
                 isFirstRun = false;
             }
 
-            // Show git commit command
+            // Type git commit command
             line2El.innerHTML = '&nbsp;';
-            commandEl.textContent = `git commit -m "${play.commit}"`;
+            await typeText(commandEl, `git commit -m "${play.commit}"`, 30);
             await sleep(800);
 
             // Show git commit output
             line2El.innerHTML = `[main ${play.hash}] ${play.commit}`;
-            await sleep(500);
+            await sleep(800);
 
-            // Animate spinning hash (8 frames)
-            for (let i = 0; i < 8; i++) {
+            // Animate spinning hash (10 frames, slower)
+            for (let i = 0; i < 10; i++) {
                 const randomHash = generateRandomHash();
                 line2El.innerHTML = `<span style="color: var(--term-accent);">${randomHash}</span>`;
-                await sleep(80);
+                await sleep(100);
             }
 
             // Show final hash
             line2El.innerHTML = `<span style="color: var(--term-accent);">${play.hash}</span>`;
-            await sleep(300);
+            await sleep(500);
 
             // Show result with CLI colors
             const netResult = play.payout - 10;
@@ -104,8 +112,8 @@
 
             line2El.innerHTML = resultHTML;
 
-            // Wait before next play
-            await sleep(3000);
+            // Wait longer before next play (more relaxed)
+            await sleep(4000);
 
             // Move to next play
             currentPlayIndex = (currentPlayIndex + 1) % demoPlays.length;

@@ -47,7 +47,11 @@
                         <tr class="border-b hover:bg-white/5" style="border-color: var(--term-dim);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
-                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
+                                @if($user->isApproved())
+                                    <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->display_name }}</a>
+                                @else
+                                    <span style="color: var(--term-dim);">{{ $user->display_name }}</span>
+                                @endif
                             </td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->daily_commits }}</td>
                             <td class="p-4 font-bold {{ $user->daily_winnings >= 0 ? '' : 'text-red-400' }}"
@@ -107,7 +111,11 @@
                         <tr class="border-b hover:bg-white/5" style="border-color: var(--term-dim);">
                             <td class="p-4 text-xl" style="color: var(--term-text);">{{ $index + 1 }}</td>
                             <td class="p-4 font-bold">
-                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->github_username }}</a>
+                                @if($user->isApproved())
+                                    <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="hover:underline" style="color: var(--term-text);">{{ $user->display_name }}</a>
+                                @else
+                                    <span style="color: var(--term-dim);">{{ $user->display_name }}</span>
+                                @endif
                             </td>
                             <td class="p-4" style="color: var(--term-dim);">{{ $user->total_commits }}</td>
                             <td class="p-4 font-bold {{ $user->total_balance >= 0 ? '' : 'text-red-400' }}"
@@ -152,7 +160,11 @@
                         class="w-full px-4 py-3 flex items-center justify-between hover:bg-white/5 transition font-mono">
                         <div class="flex items-center gap-4">
                             <span class="text-xl font-bold" style="color: var(--term-text);">{{ $index + 1 }}</span>
-                            <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:opacity-75 transition-opacity" style="color: var(--term-text);" onclick="event.stopPropagation()">{{ $user->github_username }}</a>
+                            @if($user->isApproved())
+                                <a href="https://github.com/{{ $user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:opacity-75 transition-opacity" style="color: var(--term-text);" onclick="event.stopPropagation()">{{ $user->display_name }}</a>
+                            @else
+                                <span class="font-bold" style="color: var(--term-dim);">{{ $user->display_name }}</span>
+                            @endif
                             <span class="font-bold" style="color: var(--term-win);">{{ $user->longest_streak }} wins</span>
                             @if($user->longest_streak_ended_at)
                                 <span class="text-xs" style="color: var(--term-dim);">{{ $user->longest_streak_ended_at->diffForHumans() }}</span>
@@ -208,7 +220,11 @@
             <div class="border bg-black/30 px-3 py-2 hover:bg-white/5 font-mono text-sm" style="border-color: var(--term-accent);">
                 <div class="flex items-center justify-between gap-4">
                     <div class="flex-1 truncate">
-                        <a href="https://github.com/{{ $play->user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:underline" style="color: var(--term-text);">{{ $play->user->github_username }}</a>
+                        @if($play->user->isApproved())
+                            <a href="https://github.com/{{ $play->user->github_username }}" target="_blank" rel="noopener" class="font-bold hover:underline" style="color: var(--term-text);">{{ $play->user->display_name }}</a>
+                        @else
+                            <span class="font-bold" style="color: var(--term-dim);">{{ $play->user->display_name }}</span>
+                        @endif
                         <span style="color: var(--term-dim);"> @ </span>
                         <span style="color: var(--term-text);">{{ $play->repository->displayFullName() }}</span>
                         <span style="color: var(--term-dim);"> • {{ $play->played_at->diffForHumans() }}</span>

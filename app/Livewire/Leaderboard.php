@@ -44,18 +44,21 @@ class Leaderboard extends Component
             ->selectRaw('COUNT(plays.id) as daily_commits')
             ->join('plays', 'plays.user_id', '=', 'users.id')
             ->whereBetween('plays.played_at', [$todayStart, $todayEnd])
+            ->whereIn('users.moderation_status', ['approved', 'pending'])
             ->groupBy('users.id')
             ->orderByDesc('daily_winnings')
             ->limit(100)
             ->get();
 
         // All-time leaderboard
-        $allTimeLeaderboard = User::orderBy($this->sortBy, $this->sortDirection)
+        $allTimeLeaderboard = User::whereIn('moderation_status', ['approved', 'pending'])
+            ->orderBy($this->sortBy, $this->sortDirection)
             ->limit(100)
             ->get();
 
         // Longest streaks leaderboard
         $streaksLeaderboard = User::where('longest_streak', '>', 0)
+            ->whereIn('moderation_status', ['approved', 'pending'])
             ->orderByDesc('longest_streak')
             ->limit(10)
             ->get()
@@ -73,6 +76,9 @@ class Leaderboard extends Component
 
         // Recent plays
         $recentPlays = Play::with(['user', 'repository'])
+            ->whereHas('user', function ($query) {
+                $query->whereIn('moderation_status', ['approved', 'pending']);
+            })
             ->orderByDesc('played_at')
             ->limit(20)
             ->get();

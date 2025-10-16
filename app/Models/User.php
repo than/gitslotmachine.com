@@ -23,6 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'github_username',
+        'moderation_status',
+        'moderated_at',
         'total_balance',
         'total_commits',
         'biggest_win',
@@ -53,6 +55,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'moderated_at' => 'datetime',
             'total_balance' => 'integer',
             'total_commits' => 'integer',
             'biggest_win' => 'integer',
@@ -70,5 +73,63 @@ class User extends Authenticatable
     public function plays(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Play::class);
+    }
+
+    /**
+     * Check if the user is approved for display
+     */
+    public function isApproved(): bool
+    {
+        return $this->moderation_status === 'approved';
+    }
+
+    /**
+     * Check if the user is pending moderation
+     */
+    public function isPending(): bool
+    {
+        return $this->moderation_status === 'pending';
+    }
+
+    /**
+     * Check if the user is rejected
+     */
+    public function isRejected(): bool
+    {
+        return $this->moderation_status === 'rejected';
+    }
+
+    /**
+     * Get the display name for the user (respects moderation status)
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        if ($this->isApproved()) {
+            return $this->github_username;
+        }
+
+        return '*******';
+    }
+
+    /**
+     * Approve the user
+     */
+    public function approve(): void
+    {
+        $this->update([
+            'moderation_status' => 'approved',
+            'moderated_at' => now(),
+        ]);
+    }
+
+    /**
+     * Reject the user
+     */
+    public function reject(): void
+    {
+        $this->update([
+            'moderation_status' => 'rejected',
+            'moderated_at' => now(),
+        ]);
     }
 }

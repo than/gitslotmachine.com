@@ -138,8 +138,15 @@ class GlobalStats extends Component
         $legendaryPatterns = ['ALL_SAME', 'SIX_OF_KIND', 'STRAIGHT_7', 'FULLEST_HOUSE', 'FIVE_OF_KIND'];
 
         // PostgreSQL-compatible ordering using CASE
-        $plays = Play::select('plays.*', 'users.github_username')
+        $plays = Play::select(
+            'plays.*',
+            'users.github_username',
+            'repositories.github_url as repo_url',
+            'repositories.owner as repo_owner',
+            'repositories.name as repo_name'
+        )
             ->join('users', 'plays.user_id', '=', 'users.id')
+            ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
             ->whereIn('plays.pattern_type', $legendaryPatterns)
             ->orderByRaw("CASE
                 WHEN plays.pattern_type = 'ALL_SAME' THEN 1
@@ -151,7 +158,14 @@ class GlobalStats extends Component
             END")
             ->orderByDesc('plays.played_at')
             ->limit(10)
-            ->get();
+            ->get()
+            ->map(function ($play) {
+                // Add computed attributes
+                $play->hash_short = $play->commit_hash;
+                $play->hash_full = $play->commit_hash;
+
+                return $play;
+            });
 
         return $plays->toArray();
     }

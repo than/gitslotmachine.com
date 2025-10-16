@@ -44,6 +44,18 @@ git-slot-machine init</pre>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WINNER SHARING</h3>
+                <p class="text-sm sm:text-base mb-4" style="color: var(--term-text);">Every win gets a shareable URL with beautiful Open Graph images for social media!</p>
+                <div class="space-y-2 text-xs sm:text-sm mb-4" style="color: var(--term-text);">
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> CLI shows share URL when you win (payout > 0)</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Auto-generated 1200x630 terminal-themed OG images</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Works on Twitter, Facebook, LinkedIn, Discord, Slack</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Permanent links - winner pages never expire</p>
+                </div>
+                <p class="text-xs" style="color: var(--term-dim);">Format: <span class="font-mono" style="color: var(--term-text);">gitslotmachine.com/winner/{'{uuid}'}</span></p>
+            </div>
+
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ REPOSITORY BADGES</h3>
                 <p class="text-sm sm:text-base mb-4" style="color: var(--term-text);">Show off your last commit results with dynamic badges! Add this to your README:</p>
                 <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto mb-4" style="border-color: var(--term-accent); color: var(--term-accent);">[![Git Slot Machine](https://gitslotmachine.com/badge/owner/repo.svg)](https://gitslotmachine.com)</pre>

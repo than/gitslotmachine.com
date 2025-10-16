@@ -248,6 +248,38 @@ Perfect for README files, profile pages, or anywhere you want to show your Git S
 
 ---
 
+## Winner Sharing
+
+Every winning commit gets a shareable URL with Open Graph images for social media!
+
+### How It Works
+
+When you win (any payout > 0), the CLI displays a share URL:
+
+```
+Share your win:
+https://gitslotmachine.com/winner/{uuid}
+```
+
+### Features
+
+- **Beautiful OG Images** - Auto-generated 1200x630 terminal-themed images
+- **Social Media Ready** - Works on Twitter, Facebook, LinkedIn, Discord, Slack
+- **Permanent Links** - Winner pages never expire
+- **Stats Display** - Shows pattern, hash, payout, repository, and username
+
+### Example Winner Page
+
+Visit any winner URL to see:
+- Terminal-themed winner card with full stats
+- Theme picker (hover over terminal header)
+- Install instructions for new users
+- Auto-generated Open Graph image for social sharing
+
+Try sharing your next big win! 🎰
+
+---
+
 ## Pattern Detection
 
 Patterns are detected in the first 7 characters of a git commit hash using poker-style logic:

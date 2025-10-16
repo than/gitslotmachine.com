@@ -218,6 +218,25 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.3.2 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.3.2</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Choose between personal or organization credit during <code>init</code></li>
+                                <li>Per-repo configuration stored locally in <code>.git/slot-machine-config.json</code></li>
+                                <li>Perfect for company repos (credit the org) or personal projects (credit yourself)</li>
+                                <li>Prompt only shows when repo owner differs from your personal username</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.3.1 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

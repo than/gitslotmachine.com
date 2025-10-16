@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    @if(count($pattern_distribution) > 0)
+    @if(count($pattern_distribution ?? []) > 0)
     <!-- Pattern Distribution Chart -->
     <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
         <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">&gt; PATTERN DISTRIBUTION</h3>
@@ -95,7 +95,7 @@
     </div>
 
     <!-- Legendary Wins -->
-    @if(count($legendary_wins) > 0)
+    @if(count($legendary_wins ?? []) > 0)
     <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
         <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">🏆 LEGENDARY WINS 🏆</h3>
         <p class="mb-4 text-sm" style="color: var(--term-dim);">The rarest patterns that have actually been hit</p>

@@ -24,6 +24,7 @@ class GlobalStats extends Component
                 'most_common_patterns' => $this->getMostCommonPatterns(),
                 'theoretical_vs_actual' => $this->getTheoreticalVsActual($totalPlays),
                 'legendary_wins' => $this->getLegendaryWins(),
+                'luckiest_repos' => $this->getLuckiestRepos(),
             ];
         });
 
@@ -168,5 +169,36 @@ class GlobalStats extends Component
             });
 
         return $plays->toArray();
+    }
+
+    private function getLuckiestRepos(): array
+    {
+        // Get repos with highest net profit (total payouts - wagers)
+        // Minimum 5 plays to qualify
+        $repos = Play::select(
+            'repositories.id',
+            'repositories.owner',
+            'repositories.name',
+            'repositories.github_url',
+            'repositories.balance'
+        )
+            ->selectRaw('COUNT(*) as total_plays')
+            ->selectRaw('SUM(plays.payout) as total_payout')
+            ->selectRaw('SUM(plays.payout - 10) as net_profit')
+            ->selectRaw('ROUND(AVG(plays.payout), 2) as avg_payout')
+            ->selectRaw('ROUND((COUNT(CASE WHEN plays.payout > 0 THEN 1 END) * 100.0 / COUNT(*)), 2) as win_rate')
+            ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
+            ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
+            ->having('total_plays', '>=', 5)
+            ->orderByDesc('net_profit')
+            ->limit(10)
+            ->get()
+            ->map(function ($repo) {
+                $repo->repo_full_name = $repo->owner.'/'.$repo->name;
+
+                return $repo;
+            });
+
+        return $repos->toArray();
     }
 }

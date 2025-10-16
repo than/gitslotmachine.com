@@ -82,3 +82,54 @@ it('does not show legendary wins section when none exist', function () {
     // Section should not appear
     expect($response->getContent())->not->toContain('LEGENDARY WINS');
 });
+
+it('displays luckiest repositories section', function () {
+    $user = User::factory()->create();
+
+    // Create a lucky repo with high net profit
+    $luckyRepo = Repository::factory()->create([
+        'owner' => 'lucky-owner',
+        'name' => 'lucky-repo',
+        'balance' => 500,
+    ]);
+
+    // 10 plays with high payouts
+    for ($i = 0; $i < 10; $i++) {
+        Play::create([
+            'user_id' => $user->id,
+            'repository_id' => $luckyRepo->id,
+            'commit_hash' => 'abc123'.$i,
+            'pattern_type' => 'FOUR_OF_KIND',
+            'pattern_name' => 'FOUR OF A KIND',
+            'payout' => 100,
+            'repo_balance_after' => 100 + ($i * 90),
+            'played_at' => now()->subDays($i),
+        ]);
+    }
+
+    // Create an unlucky repo with low payouts
+    $unluckyRepo = Repository::factory()->create([
+        'owner' => 'unlucky-owner',
+        'name' => 'unlucky-repo',
+        'balance' => 50,
+    ]);
+
+    for ($i = 0; $i < 10; $i++) {
+        Play::create([
+            'user_id' => $user->id,
+            'repository_id' => $unluckyRepo->id,
+            'commit_hash' => 'def456'.$i,
+            'pattern_type' => 'NO_WIN',
+            'pattern_name' => 'NO WIN',
+            'payout' => 0,
+            'repo_balance_after' => 100 - (($i + 1) * 10),
+            'played_at' => now()->subDays($i),
+        ]);
+    }
+
+    get('/stats')
+        ->assertOk()
+        ->assertSee('LUCKIEST REPOS')
+        ->assertSee('lucky-owner/lucky-repo')
+        ->assertSee('+900'); // 10 plays * (100 payout - 10 wager)
+});

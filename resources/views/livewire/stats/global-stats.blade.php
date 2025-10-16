@@ -125,6 +125,35 @@
     </div>
     @endif
 
+    <!-- Luckiest Repos -->
+    @if(count($luckiest_repos) > 0)
+    <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+        <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">🍀 LUCKIEST REPOS 🍀</h3>
+        <p class="mb-4 text-sm" style="color: var(--term-dim);">Repositories with the highest net profit (min. 5 plays)</p>
+
+        <div class="space-y-3">
+            @foreach($luckiest_repos as $repo)
+            <div class="border bg-black/40 p-4" style="border-color: var(--term-accent);">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <a href="{{ $repo['github_url'] }}" target="_blank" class="text-lg sm:text-xl font-bold hover:underline" style="color: var(--term-win);">{{ $repo['repo_full_name'] }}</a>
+                            <span class="text-xs px-2 py-1 border rounded" style="color: var(--term-dim); border-color: var(--term-accent);">Balance: {{ number_format($repo['balance']) }}</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs sm:text-sm">
+                            <span style="color: var(--term-dim);">{{ number_format($repo['total_plays']) }} plays</span>
+                            <span style="color: var(--term-dim);">{{ $repo['win_rate'] }}% win rate</span>
+                            <span style="color: var(--term-dim);">{{ number_format($repo['avg_payout'], 1) }} avg payout</span>
+                        </div>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: var(--term-win);">{{ $repo['net_profit'] >= 0 ? '+' : '' }}{{ number_format($repo['net_profit']) }}</div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     <!-- Chart.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

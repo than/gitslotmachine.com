@@ -22,6 +22,25 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.4.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.4.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-01-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Luckiest Repos section showing repositories with highest net profit</li>
+                                <li>Min. 5 plays required to qualify for luckiest repos list</li>
+                                <li>Displays net profit, win rate, avg payout, and current balance per repo</li>
+                                <li>Click repo name to view on GitHub</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.3.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

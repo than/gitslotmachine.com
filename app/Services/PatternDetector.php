@@ -15,7 +15,7 @@ class PatternDetector
         'FIVE_OF_KIND' => ['name' => 'FIVE OF A KIND', 'payout' => 1000],
         'STRAIGHT_6' => ['name' => 'BIG STRAIGHT', 'payout' => 500],
         'FOUR_OF_KIND' => ['name' => 'FOUR OF A KIND', 'payout' => 400],
-        'ALL_LETTERS' => ['name' => 'ALL LETTERS', 'payout' => 300],
+        'ALL_LETTERS' => ['name' => 'ALPHABET SOUP', 'payout' => 300],
         'STRAIGHT_5' => ['name' => 'STRAIGHT', 'payout' => 200],
         'THREE_OF_KIND_PLUS_THREE' => ['name' => 'DOUBLE TRIPLE', 'payout' => 150],
         'FULL_HOUSE' => ['name' => 'FULL HOUSE', 'payout' => 100],

@@ -78,7 +78,7 @@
                         <td class="p-3">Four of a kind</td>
                     </tr>
                     <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">ALL LETTERS</td>
+                        <td class="p-3 font-bold" style="color: var(--term-text);">ALPHABET SOUP</td>
                         <td class="p-3"><code>abcdefa</code></td>
                         <td class="p-3 text-right font-bold" style="color: var(--term-win);">+300</td>
                         <td class="p-3 text-right hidden sm:table-cell">1 in 960</td>

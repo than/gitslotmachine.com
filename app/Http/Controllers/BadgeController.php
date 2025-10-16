@@ -49,18 +49,20 @@ class BadgeController extends Controller
         // Build the right side text: "PATTERN +40 • hash"
         $rightText = "{$pattern} {$payoutText} • {$hash}";
 
+        // Left side text with emoji
+        $leftText = '🎰 GitSlots';
+
         // Calculate widths (approximate)
-        $leftWidth = 95; // "GitSlots" section
+        $leftWidth = 95; // Left section with emoji
         $rightWidth = strlen($rightText) * 6.5 + 20; // Approximate character width
         $totalWidth = $leftWidth + $rightWidth;
 
         // Pre-calculate SVG text positions (can't do complex math in heredoc)
         $rightTextX = $leftWidth * 10 + ($rightWidth * 10 / 2);
-        $rightTextLength = ($rightWidth - 10) * 10;
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="GitSlots: {$rightText}">
-    <title>GitSlots: {$rightText}</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="{$leftText}: {$rightText}">
+    <title>{$leftText}: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
         <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
@@ -74,10 +76,10 @@ class BadgeController extends Controller
         <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
-        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="850">GitSlots</text>
-        <text x="475" y="140" transform="scale(.1)" fill="#fff" textLength="850">GitSlots</text>
-        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
-        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
+        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)">{$leftText}</text>
+        <text x="475" y="140" transform="scale(.1)" fill="#fff">{$leftText}</text>
+        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)">{$rightText}</text>
+        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff">{$rightText}</text>
     </g>
 </svg>
 SVG;
@@ -89,6 +91,7 @@ SVG;
 
     private function generateDefaultBadge(): Response
     {
+        $leftText = '🎰 GitSlots';
         $leftWidth = 95;
         $rightText = 'no plays yet';
         $rightWidth = strlen($rightText) * 6.5 + 20;
@@ -96,11 +99,10 @@ SVG;
 
         // Pre-calculate SVG text positions (can't do complex math in heredoc)
         $rightTextX = $leftWidth * 10 + ($rightWidth * 10 / 2);
-        $rightTextLength = ($rightWidth - 10) * 10;
 
         $svg = <<<SVG
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="GitSlots: {$rightText}">
-    <title>GitSlots: {$rightText}</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{$totalWidth}" height="20" role="img" aria-label="{$leftText}: {$rightText}">
+    <title>{$leftText}: {$rightText}</title>
     <linearGradient id="s" x2="0" y2="100%">
         <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
         <stop offset="1" stop-opacity=".1"/>
@@ -114,10 +116,10 @@ SVG;
         <rect width="{$totalWidth}" height="20" fill="url(#s)"/>
     </g>
     <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="110">
-        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="850">GitSlots</text>
-        <text x="475" y="140" transform="scale(.1)" fill="#fff" textLength="850">GitSlots</text>
-        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="{$rightTextLength}">{$rightText}</text>
-        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff" textLength="{$rightTextLength}">{$rightText}</text>
+        <text aria-hidden="true" x="475" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)">{$leftText}</text>
+        <text x="475" y="140" transform="scale(.1)" fill="#fff">{$leftText}</text>
+        <text aria-hidden="true" x="{$rightTextX}" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)">{$rightText}</text>
+        <text x="{$rightTextX}" y="140" transform="scale(.1)" fill="#fff">{$rightText}</text>
     </g>
 </svg>
 SVG;

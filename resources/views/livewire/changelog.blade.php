@@ -37,6 +37,13 @@
                                 <li>Commands now type out character by character for classic terminal feel</li>
                             </ul>
                         </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Fixed badge text spacing - removed textLength attribute causing "G i t S l o t s"</li>
+                                <li>Added slot machine emoji (🎰) back to badge left side</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

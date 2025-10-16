@@ -138,7 +138,6 @@
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
                             <a href="{{ $repo['github_url'] }}" target="_blank" class="text-lg sm:text-xl font-bold hover:underline" style="color: var(--term-win);">{{ $repo['repo_full_name'] }}</a>
-                            <span class="text-xs px-2 py-1 border rounded" style="color: var(--term-dim); border-color: var(--term-accent);">Balance: {{ number_format($repo['balance']) }}</span>
                         </div>
                         <div class="flex items-center gap-4 text-xs sm:text-sm">
                             <span style="color: var(--term-dim);">{{ number_format($repo['total_plays']) }} plays</span>
@@ -146,7 +145,7 @@
                             <span style="color: var(--term-dim);">{{ number_format($repo['avg_payout'], 1) }} avg payout</span>
                         </div>
                     </div>
-                    <div class="text-2xl sm:text-3xl font-bold" style="color: var(--term-win);">{{ $repo['net_profit'] >= 0 ? '+' : '' }}{{ number_format($repo['net_profit']) }}</div>
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: {{ $repo['net_profit'] >= 0 ? 'var(--term-win)' : '#ff0000' }};">{{ $repo['net_profit'] >= 0 ? '+' : '' }}{{ number_format($repo['net_profit']) }}</div>
                 </div>
             </div>
             @endforeach

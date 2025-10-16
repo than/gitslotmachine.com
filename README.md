@@ -24,6 +24,7 @@ Git Slot Machine is a fun CLI tool that analyzes your commit hashes and rewards 
 - **Win streak tracking** with detailed history
 - **Pattern-based payouts** (poker-style hands in hex)
 - **Real-time stats** and analytics
+- **Repository badges** showing last play results
 - **Winner sharing** with Open Graph images
 - **Token-based authentication** (GitHub username)
 - **Retro terminal aesthetic** with theme picker
@@ -209,6 +210,41 @@ Authorization: Bearer {token}
 - repo_name
 - timestamps
 ```
+
+---
+
+## Repository Badges
+
+Show off your latest commit results with dynamic repository badges!
+
+### Badge URL Format
+
+```
+https://gitslotmachine.com/badge/{owner}/{repo}.svg
+```
+
+### Examples
+
+**Markdown:**
+```markdown
+[![Git Slot Machine](https://gitslotmachine.com/badge/your-username/your-repo.svg)](https://gitslotmachine.com)
+```
+
+**HTML:**
+```html
+<a href="https://gitslotmachine.com">
+  <img src="https://gitslotmachine.com/badge/your-username/your-repo.svg" alt="Git Slot Machine">
+</a>
+```
+
+### How Badges Work
+
+- **Green badge** - Your last commit was a winner! Shows pattern name, payout, and commit hash
+- **Red badge** - Last commit didn't win. Shows payout and commit hash
+- **Gray badge** - Repository hasn't played yet. Time to install the CLI!
+- **Auto-updates** - Badge refreshes every 5 minutes with latest play results
+
+Perfect for README files, profile pages, or anywhere you want to show your Git Slot Machine stats!
 
 ---
 

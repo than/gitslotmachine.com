@@ -44,6 +44,18 @@ git-slot-machine init</pre>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ REPOSITORY BADGES</h3>
+                <p class="text-sm sm:text-base mb-4" style="color: var(--term-text);">Show off your last commit results with dynamic badges! Add this to your README:</p>
+                <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto mb-4" style="border-color: var(--term-accent); color: var(--term-accent);">[![Git Slot Machine](https://gitslotmachine.com/badge/owner/repo.svg)](https://gitslotmachine.com)</pre>
+                <div class="space-y-2 text-xs sm:text-sm" style="color: var(--term-text);">
+                    <p><span class="font-bold" style="color: #00ff00;">✓ Green</span> - Last commit won! Shows pattern, payout, and hash</p>
+                    <p><span class="font-bold" style="color: #ff0000;">✗ Red</span> - Last commit didn't win. Better luck next time!</p>
+                    <p><span class="font-bold" style="color: #9f9f9f;">○ Gray</span> - No plays yet. Install the CLI to start!</p>
+                    <p style="color: var(--term-dim);">Badge auto-refreshes every 5 minutes</p>
+                </div>
+            </div>
+
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT IS THIS?</h3>
                 <p class="text-sm sm:text-base" style="color: var(--term-text);">Ever catch yourself looking at your Git commits and noticing a fun pattern or a run of numbers? Maybe you got really lucky and had something spell out a word, or hit all the same character in a row? That little dopamine hit when you see <span class="font-bold" style="color: var(--term-accent);">aed3333</span> or <span class="font-bold" style="color: var(--term-accent);">abc1234</span> is real. This tool turns that casual observation into an actual game—every commit you make becomes a spin on the slot machine. Different patterns pay out different amounts, and you can compete with developers around the world to see who gets the luckiest (or commits the most!).</p>
             </div>

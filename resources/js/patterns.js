@@ -77,9 +77,13 @@ export function detectPattern(hash) {
     else if (countConsecutivePairs(lowerHash) === 2) {
         type = 'TWO_PAIR';
     }
-    // Check for all numbers (break-even)
+    // Check for all numbers
     else if (isAllNumbers(lowerHash)) {
         type = 'ALL_NUMBERS';
+    }
+    // Check for one consecutive pair (break-even)
+    else if (countConsecutivePairs(lowerHash) === 1) {
+        type = 'ONE_PAIR';
     }
     // Everything else is no win
     else {
@@ -230,7 +234,7 @@ function getHighlightIndices(hash, type) {
             }
         }
     }
-    else if (type === 'THREE_PAIR' || type === 'TWO_PAIR') {
+    else if (type === 'THREE_PAIR' || type === 'TWO_PAIR' || type === 'ONE_PAIR') {
         // Highlight only consecutive pairs (adjacent identical characters)
         let i = 0;
         while (i < lowerHash.length - 1) {

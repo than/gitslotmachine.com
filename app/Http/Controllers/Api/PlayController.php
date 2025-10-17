@@ -92,17 +92,13 @@ class PlayController extends Controller
             // Win - increment current streak
             $updateData['current_streak'] = $user->current_streak + 1;
 
-            // Update longest streak if current exceeds it
-            if ($updateData['current_streak'] > $user->longest_streak) {
+            // Update longest streak and timestamp if current equals or exceeds it
+            if ($updateData['current_streak'] >= $user->longest_streak) {
                 $updateData['longest_streak'] = $updateData['current_streak'];
-            }
-        } else {
-            // Loss - record when longest streak ended if this breaks it
-            if ($user->current_streak > 0 && $user->current_streak === $user->longest_streak) {
                 $updateData['longest_streak_ended_at'] = now();
             }
-
-            // Reset current streak
+        } else {
+            // Loss - reset current streak
             $updateData['current_streak'] = 0;
         }
 

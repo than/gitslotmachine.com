@@ -14,12 +14,34 @@ class GlobalStats extends Component
         $stats = Cache::remember('global-stats', 300, function () {
             $totalPlays = Play::count();
             $winningPlays = Play::where('payout', '>', 0)->count();
+            $totalPayouts = Play::sum('payout');
+
+            // Calculate days since launch (first play)
+            $firstPlay = Play::oldest('played_at')->first();
+            $daysSinceLaunch = $firstPlay
+                ? max(1, now()->diffInDays($firstPlay->played_at))
+                : 1;
+
+            // Calculate theoretical win rate based on pattern probabilities
+            $theoreticalWinRate = $this->getTheoreticalWinRate();
+
+            // Calculate avg per win (only winning plays)
+            $avgPerWin = $winningPlays > 0 ? $totalPayouts / $winningPlays : 0;
+
+            // Calculate net per play (payout - wager)
+            $totalWagers = $totalPlays * 10;
+            $netPerPlay = $totalPlays > 0 ? ($totalPayouts - $totalWagers) / $totalPlays : 0;
 
             return [
                 'pattern_distribution' => $this->getPatternDistribution(),
                 'total_plays' => $totalPlays,
-                'total_payouts' => Play::sum('payout'),
+                'total_payouts' => $totalPayouts,
                 'win_rate' => $totalPlays > 0 ? number_format(($winningPlays / $totalPlays) * 100, 1) : '0.0',
+                'plays_per_day' => number_format($totalPlays / $daysSinceLaunch, 1),
+                'theoretical_win_rate' => number_format($theoreticalWinRate * 100, 1),
+                'payouts_per_day' => number_format($totalPayouts / $daysSinceLaunch, 1),
+                'avg_per_win' => number_format($avgPerWin, 2),
+                'net_per_play' => number_format($netPerPlay, 2),
                 'rarest_patterns' => $this->getRarestPatterns(),
                 'most_common_patterns' => $this->getMostCommonPatterns(),
                 'theoretical_vs_actual' => $this->getTheoreticalVsActual($totalPlays),
@@ -71,6 +93,31 @@ class GlobalStats extends Component
             ->limit(5)
             ->get()
             ->toArray();
+    }
+
+    private function getTheoreticalWinRate(): float
+    {
+        // Sum all winning pattern probabilities (everything except NO_WIN)
+        $winningProbabilities = [
+            'ALL_SAME' => 1 / 16777216,
+            'SIX_OF_KIND' => 1 / 159784,
+            'STRAIGHT_7' => 1 / 2500000,
+            'FULLEST_HOUSE' => 1 / 31956,
+            'FIVE_OF_KIND' => 1 / 7989,
+            'STRAIGHT_6' => 1 / 280000,
+            'FOUR_OF_KIND' => 1 / 799,
+            'ALL_LETTERS' => 1 / 959,
+            'STRAIGHT_5' => 1 / 9000,
+            'THREE_OF_KIND_PLUS_THREE' => 1 / 2000,
+            'FULL_HOUSE' => 1 / 1000,
+            'THREE_PAIR' => 1 / 1600,
+            'THREE_OF_KIND' => 1 / 133,
+            'TWO_PAIR' => 1 / 45,
+            'ALL_NUMBERS' => 1 / 485,
+            'ONE_PAIR' => 1 / 7,
+        ];
+
+        return array_sum($winningProbabilities);
     }
 
     private function getTheoreticalVsActual(int $totalPlays): array

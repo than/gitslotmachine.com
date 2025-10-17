@@ -1,21 +1,60 @@
 <div wire:poll.30s class="space-y-8">
-    <!-- Overview Cards -->
+    <!-- Overview Cards with Flip -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Plays</div>
-            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_plays) }}</div>
+        <!-- Card 1: Total Plays / Plays Per Day -->
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="flip-face flip-front border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Plays</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_plays) }}</div>
+                </div>
+                <div class="flip-face flip-back border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Plays Per Day</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ $plays_per_day }}</div>
+                </div>
+            </div>
         </div>
-        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Win Rate</div>
-            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-win);">{{ $win_rate }}%</div>
+
+        <!-- Card 2: Win Rate / Expected Win Rate -->
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="flip-face flip-front border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Win Rate</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-win);">{{ $win_rate }}%</div>
+                </div>
+                <div class="flip-face flip-back border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Expected Win Rate</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-dim);">{{ $theoretical_win_rate }}%</div>
+                </div>
+            </div>
         </div>
-        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Payouts</div>
-            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_payouts) }}</div>
+
+        <!-- Card 3: Total Payouts / Payouts Per Day -->
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="flip-face flip-front border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Total Payouts</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ number_format($total_payouts) }}</div>
+                </div>
+                <div class="flip-face flip-back border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Payouts Per Day</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ $payouts_per_day }}</div>
+                </div>
+            </div>
         </div>
-        <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
-            <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Avg Per Play</div>
-            <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ $total_plays > 0 ? round($total_payouts / $total_plays, 2) : 0 }}</div>
+
+        <!-- Card 4: Avg Per Win / Net Per Play -->
+        <div class="flip-container">
+            <div class="flipper">
+                <div class="flip-face flip-front border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Avg Per Win</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: var(--term-text);">{{ $avg_per_win }}</div>
+                </div>
+                <div class="flip-face flip-back border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+                    <div class="text-xs uppercase tracking-wide mb-2" style="color: var(--term-dim);">Net Per Play</div>
+                    <div class="text-3xl sm:text-4xl font-bold" style="color: {{ $net_per_play >= 0 ? 'var(--term-win)' : '#ff6b6b' }};">{{ $net_per_play >= 0 ? '+' : '' }}{{ $net_per_play }}</div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -114,6 +114,12 @@ class GlobalStats extends Component
             $actualCount = $actualCounts[$type] ?? 0;
             $actualProbability = $totalPlays > 0 ? $actualCount / $totalPlays : 0;
 
+            // Only include patterns where we'd expect to see them at least 0.01 times
+            // This filters out ultra-rare patterns that aren't statistically relevant yet
+            if ($expectedCount < 0.01) {
+                continue;
+            }
+
             $comparison[] = [
                 'pattern_type' => $type,
                 'pattern_name' => $patternNames[$type] ?? ucwords(str_replace('_', ' ', strtolower($type))),

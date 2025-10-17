@@ -54,6 +54,41 @@
             right: 0;
             transform: rotateX(180deg);
         }
+
+        /* Probability cell hover effect */
+        .probability-cell {
+            position: relative;
+            cursor: help;
+            transition: color 0.2s ease;
+        }
+
+        .probability-cell:hover {
+            color: var(--term-accent) !important;
+        }
+
+        .probability-cell::after {
+            content: attr(data-calculation);
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            pointer-events: none;
+        }
+
+        .probability-cell:hover::after {
+            opacity: 1;
+        }
+
+        .probability-cell:hover {
+            color: transparent !important;
+        }
     </style>
 </head>
 <body class="font-mono transition-colors duration-300">

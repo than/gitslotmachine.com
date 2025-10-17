@@ -57,6 +57,58 @@ git-slot-machine init</pre>
             </div>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ HOW BALANCES WORK</h3>
+                <div class="space-y-2 text-sm sm:text-base" style="color: var(--term-text);">
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Every repository starts at <span class="font-bold" style="color: var(--term-win);">100 points</span></p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Each play (commit) costs <span class="font-bold">10 points</span> (the wager)</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Win a pattern? The <span class="font-bold" style="color: var(--term-win);">payout is added</span> to your balance</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> No win? You just lose the 10 point wager</p>
+                    <p><span class="font-bold" style="color: var(--term-accent);">•</span> Net profit = <span class="font-mono" style="color: var(--term-dim);">current balance - 100</span></p>
+                </div>
+                <div class="mt-4 p-3 bg-black/50 border" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                    <p class="text-xs sm:text-sm font-mono" style="color: var(--term-dim);">
+                        Example: Balance at 250? You're up 150 points!
+                    </p>
+                </div>
+            </div>
+
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
+                <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ PATTERN ODDS (TOP WINS)</h3>
+                <p class="text-sm sm:text-base mb-4" style="color: var(--term-text);">Quick reference for the most exciting patterns:</p>
+                <div class="space-y-2 text-xs sm:text-sm font-mono" style="color: var(--term-text);">
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">JACKPOT</span> <code class="text-xs" style="color: var(--term-dim);">aaaaaaa</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+10,000 (1 in 16.7M)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">HEXTET</span> <code class="text-xs" style="color: var(--term-dim);">aaaaaa1</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+5,000 (1 in 160K)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">LUCKY SEVEN</span> <code class="text-xs" style="color: var(--term-dim);">1234567</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+2,500 (1 in 2.5M)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">FOUR OF A KIND</span> <code class="text-xs" style="color: var(--term-dim);">aaaa123</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+400 (1 in 800)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">THREE OF A KIND</span> <code class="text-xs" style="color: var(--term-dim);">aaa1234</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+50 (1 in 133)</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span><span style="color: var(--term-accent);">TWO PAIR</span> <code class="text-xs" style="color: var(--term-dim);">aa1bb2c</code></span>
+                        <span class="font-bold" style="color: var(--term-win);">+50 (1 in 45)</span>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
+                    <a href="/odds" class="inline-flex items-center gap-2 text-sm hover:underline" style="color: var(--term-accent);">
+                        View all patterns and odds →
+                    </a>
+                </div>
+            </div>
+
+            <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ LEADERBOARD</h3>
                 <p class="text-sm sm:text-base" style="color: var(--term-text);">Compete globally! Your plays are automatically tracked here. Daily leaderboard resets at midnight UTC.</p>
             </div>

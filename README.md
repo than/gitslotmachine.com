@@ -213,6 +213,34 @@ Authorization: Bearer {token}
 
 ---
 
+## Privacy Mode
+
+Git Slot Machine supports private repositories with automatic privacy protection!
+
+### How Private Repos Work
+
+- **Private repositories** are automatically detected via the GitHub API
+- **Privacy protection** ensures repo names are never displayed publicly
+- **Repository names** display as `*******/*******` on leaderboards and winner pages
+- **Stats still count** - your plays, balance, and wins are tracked normally
+- **Badges still work** - your repo badge will show win/loss but mask the repo name
+
+### Enable/Disable Privacy Mode
+
+Privacy mode is **automatic** - no configuration needed! The CLI checks if your repository is private via the GitHub API when you make a commit.
+
+If you want to make a private repo's name visible:
+1. Change the repository to public on GitHub
+2. Next commit will automatically display the repo name
+
+If you want to hide a public repo's name:
+1. Change the repository to private on GitHub
+2. Next commit will automatically mask the repo name
+
+**Note:** Changing privacy settings only affects future commits. Previous commits retain their original privacy state.
+
+---
+
 ## Repository Badges
 
 Show off your latest commit results with dynamic repository badges!

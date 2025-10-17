@@ -55,39 +55,42 @@
             transform: rotateX(180deg);
         }
 
-        /* Probability cell hover effect */
-        .probability-cell {
-            position: relative;
+        /* Row hover effect - show calculation in description */
+        .odds-row {
             cursor: help;
-            transition: color 0.2s ease;
         }
 
-        .probability-cell:hover {
-            color: var(--term-accent) !important;
+        .odds-row .description-text {
+            transition: opacity 0.2s ease;
         }
 
-        .probability-cell::after {
+        .odds-row:hover .description-text {
+            opacity: 0;
+        }
+
+        .odds-row .description-cell::after {
             content: attr(data-calculation);
             position: absolute;
             top: 0;
-            right: 0;
-            bottom: 0;
             left: 0;
+            bottom: 0;
+            right: 0;
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            padding-right: 0.75rem;
+            padding-left: 0.75rem;
             opacity: 0;
             transition: opacity 0.2s ease;
             pointer-events: none;
+            color: var(--term-accent);
+            font-weight: 600;
         }
 
-        .probability-cell:hover::after {
+        .odds-row:hover .description-cell::after {
             opacity: 1;
         }
 
-        .probability-cell:hover {
-            color: transparent !important;
+        .description-cell {
+            position: relative;
         }
     </style>
 </head>

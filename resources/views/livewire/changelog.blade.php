@@ -32,8 +32,8 @@
                         <div style="color: var(--term-text);">
                             <span style="color: var(--term-win);">✨ New Features:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
-                                <li>Hover effect on Odds page probability column reveals mathematical calculations</li>
-                                <li>Smooth transition animation from "1 in X" to formula notation</li>
+                                <li>Hover any row in odds table to reveal mathematical formula in description column</li>
+                                <li>Smooth transition with help cursor and accent color highlighting</li>
                                 <li>Helps nerds understand the probability math behind each pattern</li>
                             </ul>
                         </div>

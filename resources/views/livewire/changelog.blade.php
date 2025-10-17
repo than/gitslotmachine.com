@@ -22,6 +22,27 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.0.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.0.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #ff6b6b;">⚠️ Breaking Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Complete payout rebalancing based on actual probabilities</li>
+                                <li>Patterns now ordered by rarity (rarest first)</li>
+                                <li>Top-tier payouts massively increased: JACKPOT 100K, LUCKY SEVEN 50K, BIG STRAIGHT 25K</li>
+                                <li>Mid-tier balanced: HEXTET 10K, FULLEST HOUSE 5K, STRAIGHT 2.5K, FIVE OF A KIND 2K</li>
+                                <li>Common patterns remain profitable: THREE OF A KIND 100, TWO PAIR 25, ALL NUMBERS 10</li>
+                                <li>~99% return rate for sustainable long-term play</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.5.1 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

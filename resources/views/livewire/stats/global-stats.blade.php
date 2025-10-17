@@ -81,12 +81,12 @@
                     @foreach($theoretical_vs_actual as $stat)
                     <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                         <td class="p-3 font-bold" style="color: var(--term-text);">{{ $stat['pattern_name'] }}</td>
-                        <td class="p-3 text-right">{{ number_format($stat['expected_count'], 1) }}</td>
-                        <td class="p-3 text-right font-bold" style="color: {{ $stat['actual_count'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">{{ number_format($stat['actual_count'], 1) }}</td>
+                        <td class="p-3 text-right">{{ number_format($stat['expected_count'], 2) }}</td>
+                        <td class="p-3 text-right font-bold" style="color: {{ $stat['actual_count'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">{{ number_format($stat['actual_count'], 2) }}</td>
                         <td class="p-3 text-right {{ $stat['variance'] > 0 ? '' : 'opacity-50' }}" style="color: {{ $stat['variance'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">
-                            {{ $stat['variance'] > 0 ? '+' : '' }}{{ number_format($stat['variance'], 1) }}
+                            {{ $stat['variance'] > 0 ? '+' : '' }}{{ number_format($stat['variance'], 2) }}
                         </td>
-                        <td class="p-3 text-right hidden sm:table-cell">{{ number_format($stat['actual_probability'] * 100, 1) }}%</td>
+                        <td class="p-3 text-right hidden sm:table-cell">{{ number_format($stat['actual_probability'] * 100, 3) }}%</td>
                     </tr>
                     @endforeach
                 </tbody>

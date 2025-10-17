@@ -19,7 +19,7 @@ class GlobalStats extends Component
                 'pattern_distribution' => $this->getPatternDistribution(),
                 'total_plays' => $totalPlays,
                 'total_payouts' => Play::sum('payout'),
-                'win_rate' => $totalPlays > 0 ? round(($winningPlays / $totalPlays) * 100, 2) : 0,
+                'win_rate' => $totalPlays > 0 ? number_format(($winningPlays / $totalPlays) * 100, 1) : '0.0',
                 'rarest_patterns' => $this->getRarestPatterns(),
                 'most_common_patterns' => $this->getMostCommonPatterns(),
                 'theoretical_vs_actual' => $this->getTheoreticalVsActual($totalPlays),
@@ -185,8 +185,8 @@ class GlobalStats extends Component
             ->selectRaw('COUNT(*) as total_plays')
             ->selectRaw('SUM(plays.payout) as total_payout')
             ->selectRaw('SUM(plays.payout - 10) as net_profit')
-            ->selectRaw('ROUND(AVG(plays.payout), 2) as avg_payout')
-            ->selectRaw('ROUND((COUNT(CASE WHEN plays.payout > 0 THEN 1 END) * 100.0 / COUNT(*)), 2) as win_rate')
+            ->selectRaw('ROUND(AVG(plays.payout), 1) as avg_payout')
+            ->selectRaw('ROUND((COUNT(CASE WHEN plays.payout > 0 THEN 1 END) * 100.0 / COUNT(*)), 1) as win_rate')
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
             ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
             ->having('total_plays', '>=', 5)

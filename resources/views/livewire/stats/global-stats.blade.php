@@ -86,7 +86,7 @@
                         <td class="p-3 text-right {{ $stat['variance'] > 0 ? '' : 'opacity-50' }}" style="color: {{ $stat['variance'] > 0 ? 'var(--term-win)' : 'var(--term-dim)' }};">
                             {{ $stat['variance'] > 0 ? '+' : '' }}{{ number_format($stat['variance'], 1) }}
                         </td>
-                        <td class="p-3 text-right hidden sm:table-cell">{{ number_format($stat['actual_probability'] * 100, 3) }}%</td>
+                        <td class="p-3 text-right hidden sm:table-cell">{{ number_format($stat['actual_probability'] * 100, 1) }}%</td>
                     </tr>
                     @endforeach
                 </tbody>

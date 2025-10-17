@@ -1,4 +1,22 @@
 <x-terminal-layout title="Privacy Policy" activeTab="privacy">
+    <x-slot name="meta">
+        <meta name="description" content="Transparent privacy policy for Git Slot Machine. We collect GitHub usernames and gameplay data. No tracking, no ads, no data selling. Your control.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url('/privacy') }}">
+        <meta property="og:title" content="Privacy Policy - Git Slot Machine">
+        <meta property="og:description" content="Transparent privacy policy for Git Slot Machine. We collect GitHub usernames and gameplay data. No tracking, no ads, no data selling. Your control.">
+        <meta property="og:image" content="https://gitslotmachine.com/og-image.png">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ url('/privacy') }}">
+        <meta name="twitter:title" content="Privacy Policy - Git Slot Machine">
+        <meta name="twitter:description" content="Transparent privacy policy for Git Slot Machine. We collect GitHub usernames and gameplay data. No tracking, no ads, no data selling. Your control.">
+        <meta name="twitter:image" content="https://gitslotmachine.com/og-image.png">
+    </x-slot>
+
     <!-- Header -->
     <header class="text-center mb-12 border p-6 bg-black/30" style="border-color: var(--term-accent);">
         <pre class="text-xs sm:text-sm mb-4" style="color: var(--term-text);">

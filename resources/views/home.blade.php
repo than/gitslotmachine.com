@@ -1,4 +1,22 @@
 <x-terminal-layout title="Leaderboard" activeTab="home">
+    <x-slot name="meta">
+        <meta name="description" content="Turn every Git commit into a slot machine spin. Install the CLI, compete on global leaderboards, and win big with lucky commit hashes.">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url('/') }}">
+        <meta property="og:title" content="Git Slot Machine - Commit & Spin">
+        <meta property="og:description" content="Turn every Git commit into a slot machine spin. Install the CLI, compete on global leaderboards, and win big with lucky commit hashes.">
+        <meta property="og:image" content="https://gitslotmachine.com/og-image.png">
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ url('/') }}">
+        <meta name="twitter:title" content="Git Slot Machine - Commit & Spin">
+        <meta name="twitter:description" content="Turn every Git commit into a slot machine spin. Install the CLI, compete on global leaderboards, and win big with lucky commit hashes.">
+        <meta name="twitter:image" content="https://gitslotmachine.com/og-image.png">
+    </x-slot>
+
     <!-- Header -->
     <header class="text-center mb-12 border p-6 bg-black/30" style="border-color: var(--term-accent);">
         <pre class="text-xs sm:text-sm mb-4" style="color: var(--term-text);">

@@ -13,6 +13,18 @@
         </p>
     </header>
 
+    <!-- TL;DR - Moved to Top -->
+    <div class="border bg-black/30 p-6 font-mono text-sm mb-8" style="border-color: var(--term-accent);">
+        <h2 class="text-xl font-bold mb-4" style="color: var(--term-win);">→ TL;DR</h2>
+        <div class="pl-4 space-y-2" style="color: var(--term-text);">
+            <p>✓ We collect your GitHub username and gameplay data to power leaderboards</p>
+            <p>✓ Private repo names are never stored (shown as *******/*******)</p>
+            <p>✓ No tracking cookies, no analytics, no data selling</p>
+            <p>✓ You can request deletion anytime</p>
+            <p>✓ Your data is stored securely</p>
+        </div>
+    </div>
+
     <!-- Privacy Policy Content -->
     <div class="border bg-black/30 p-6 font-mono text-sm mb-8" style="border-color: var(--term-accent);">
         <div class="space-y-6" style="color: var(--term-text);">
@@ -134,17 +146,6 @@
                 </div>
             </section>
 
-            <!-- TL;DR -->
-            <section class="border-t pt-6 mt-6" style="border-color: var(--term-accent);">
-                <h2 class="text-xl font-bold mb-3" style="color: var(--term-win);">→ TL;DR</h2>
-                <div class="pl-4 space-y-2" style="color: var(--term-text);">
-                    <p>✓ We collect your GitHub username and gameplay data to power leaderboards</p>
-                    <p>✓ Private repo names are never stored (shown as *******/*******)</p>
-                    <p>✓ No tracking cookies, no analytics, no data selling</p>
-                    <p>✓ You can request deletion anytime</p>
-                    <p>✓ Your data is stored securely</p>
-                </div>
-            </section>
         </div>
     </div>
 </x-terminal-layout>

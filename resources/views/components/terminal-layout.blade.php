@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="app-version" content="2.1.6">
     <title>{{ $title }} - Git Slot Machine</title>
 
     @isset($meta)
@@ -108,7 +109,7 @@
                             <span style="color: var(--term-accent);">●</span>
                         </div>
                         <span id="random-hash" class="text-xs font-mono text-center" style="color: var(--term-dim);"></span>
-                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v2.1.5</span>
+                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v2.1.6</span>
                     </div>
                     <div class="border-t pt-2" style="border-color: var(--term-dim);"></div>
                 </div>
@@ -203,15 +204,62 @@
         </footer>
     </div>
 
-    <!-- Livewire Reconnection Handling -->
+    <!-- Livewire Reconnection & Update Detection -->
     <script>
         document.addEventListener('livewire:init', () => {
             let reconnectBanner = null;
+            let updateBanner = null;
+            const initialVersion = document.querySelector('meta[name="app-version"]')?.content;
+
+            // Check for version updates
+            function checkForUpdate() {
+                if (updateBanner) return; // Already showing update banner
+
+                fetch(window.location.href, { cache: 'no-store' })
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const currentVersion = doc.querySelector('meta[name="app-version"]')?.content;
+
+                        if (currentVersion && currentVersion !== initialVersion) {
+                            showUpdateBanner();
+                        }
+                    })
+                    .catch(err => console.log('Version check failed:', err));
+            }
+
+            // Show update banner
+            function showUpdateBanner() {
+                if (updateBanner) return;
+
+                updateBanner = document.createElement('div');
+                updateBanner.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    background: #00ff41;
+                    color: #000;
+                    text-align: center;
+                    padding: 0.5rem;
+                    font-family: monospace;
+                    font-weight: bold;
+                    z-index: 9999;
+                    cursor: pointer;
+                `;
+                updateBanner.textContent = '🎰 New version available! Click to refresh';
+                updateBanner.onclick = () => window.location.reload();
+                document.body.prepend(updateBanner);
+            }
+
+            // Check for updates periodically
+            setInterval(checkForUpdate, 30000); // Every 30 seconds
 
             // Show banner when disconnected
             Livewire.hook('request', ({ fail }) => {
                 fail(() => {
-                    if (!reconnectBanner) {
+                    if (!reconnectBanner && !updateBanner) {
                         reconnectBanner = document.createElement('div');
                         reconnectBanner.style.cssText = `
                             position: fixed;

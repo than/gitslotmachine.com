@@ -22,6 +22,24 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.1.6 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.1.6</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Update notification banner shows when new version is deployed</li>
+                                <li>Checks every 30 seconds for new versions</li>
+                                <li>Non-intrusive - click to refresh when ready</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.5 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">
@@ -505,6 +523,22 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.1.6 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.1.6</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Web app: Update notification banner</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.5 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

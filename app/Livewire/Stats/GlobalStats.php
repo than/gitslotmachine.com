@@ -42,8 +42,6 @@ class GlobalStats extends Component
                 'payouts_per_day' => number_format($totalPayouts / $daysSinceLaunch, 1),
                 'avg_per_win' => number_format($avgPerWin, 2),
                 'net_per_play' => number_format($netPerPlay, 2),
-                'rarest_patterns' => $this->getRarestPatterns(),
-                'most_common_patterns' => $this->getMostCommonPatterns(),
                 'theoretical_vs_actual' => $this->getTheoreticalVsActual($totalPlays),
                 'legendary_wins' => $this->getLegendaryWins(),
                 'luckiest_repos' => $this->getLuckiestRepos(),
@@ -66,33 +64,26 @@ class GlobalStats extends Component
             ->toArray();
     }
 
-    private function getRarestPatterns(): array
+    private function getPatternNames(): array
     {
-        // Get patterns with best profit margin (payout - wager)
-        return Play::select('pattern_type', 'pattern_name')
-            ->selectRaw('COUNT(*) as count')
-            ->selectRaw('SUM(payout - 10) as net_profit')
-            ->selectRaw('AVG(payout - 10) as avg_profit')
-            ->where('pattern_type', '!=', 'NO_WIN')
-            ->groupBy('pattern_type', 'pattern_name')
-            ->orderByDesc('net_profit')
-            ->limit(5)
-            ->get()
-            ->toArray();
-    }
-
-    private function getMostCommonPatterns(): array
-    {
-        // Get patterns with highest total payouts
-        return Play::select('pattern_type', 'pattern_name')
-            ->selectRaw('SUM(payout) as total_payout')
-            ->selectRaw('COUNT(*) as count')
-            ->where('pattern_type', '!=', 'NO_WIN')
-            ->groupBy('pattern_type', 'pattern_name')
-            ->orderByDesc('total_payout')
-            ->limit(5)
-            ->get()
-            ->toArray();
+        return [
+            'ALL_SAME' => 'JACKPOT',
+            'SIX_OF_KIND' => 'HEXTET',
+            'STRAIGHT_7' => 'LUCKY SEVEN',
+            'FULLEST_HOUSE' => 'FULLEST HOUSE',
+            'FIVE_OF_KIND' => 'FIVE OF A KIND',
+            'STRAIGHT_6' => 'BIG STRAIGHT',
+            'FOUR_OF_KIND' => 'FOUR OF A KIND',
+            'ALL_LETTERS' => 'ALPHABET SOUP',
+            'STRAIGHT_5' => 'STRAIGHT',
+            'THREE_OF_KIND_PLUS_THREE' => 'DOUBLE TRIPLE',
+            'FULL_HOUSE' => 'FULL HOUSE',
+            'THREE_PAIR' => 'THREE PAIR',
+            'THREE_OF_KIND' => 'THREE OF A KIND',
+            'TWO_PAIR' => 'TWO PAIR',
+            'ALL_NUMBERS' => 'ALL NUMBERS',
+            'ONE_PAIR' => 'ONE PAIR',
+        ];
     }
 
     private function getTheoreticalWinRate(): float
@@ -138,7 +129,8 @@ class GlobalStats extends Component
             'THREE_PAIR' => 1 / 1600,
             'THREE_OF_KIND' => 1 / 133,
             'TWO_PAIR' => 1 / 45,
-            'ALL_NUMBERS' => 1 / 27,
+            'ALL_NUMBERS' => 1 / 485,
+            'ONE_PAIR' => 1 / 7,
         ];
 
         // Get actual counts
@@ -149,11 +141,8 @@ class GlobalStats extends Component
             ->pluck('count', 'pattern_type')
             ->toArray();
 
-        // Get pattern names
-        $patternNames = Play::select('pattern_type', 'pattern_name')
-            ->groupBy('pattern_type', 'pattern_name')
-            ->pluck('pattern_name', 'pattern_type')
-            ->toArray();
+        // Get proper pattern display names
+        $patternNames = $this->getPatternNames();
 
         $comparison = [];
         foreach ($theoreticalProbabilities as $type => $probability) {
@@ -163,7 +152,7 @@ class GlobalStats extends Component
 
             $comparison[] = [
                 'pattern_type' => $type,
-                'pattern_name' => $patternNames[$type] ?? ucwords(str_replace('_', ' ', strtolower($type))),
+                'pattern_name' => $patternNames[$type] ?? $type,
                 'theoretical_probability' => $probability,
                 'actual_count' => $actualCount,
                 'expected_count' => $expectedCount,

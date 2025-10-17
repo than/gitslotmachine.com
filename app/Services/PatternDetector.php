@@ -21,8 +21,9 @@ class PatternDetector
         'ALL_LETTERS' => ['name' => 'ALPHABET SOUP', 'payout' => 250],
         'FOUR_OF_KIND' => ['name' => 'FOUR OF A KIND', 'payout' => 200],
         'THREE_OF_KIND' => ['name' => 'THREE OF A KIND', 'payout' => 100],
+        'ALL_NUMBERS' => ['name' => 'ALL NUMBERS', 'payout' => 50],
         'TWO_PAIR' => ['name' => 'TWO PAIR', 'payout' => 25],
-        'ALL_NUMBERS' => ['name' => 'ALL NUMBERS', 'payout' => 10],
+        'ONE_PAIR' => ['name' => 'ONE PAIR', 'payout' => 10],
         'NO_WIN' => ['name' => 'NO WIN', 'payout' => 0],
     ];
 
@@ -131,9 +132,14 @@ class PatternDetector
             return 'TWO_PAIR';
         }
 
-        // Check for all numbers (break-even)
+        // Check for all numbers
         if ($this->isAllNumbers($hash)) {
             return 'ALL_NUMBERS';
+        }
+
+        // Check for one consecutive pair
+        if ($this->countConsecutivePairs($hash) === 1) {
+            return 'ONE_PAIR';
         }
 
         // Everything else is no win

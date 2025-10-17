@@ -138,6 +138,13 @@
                         <td class="p-3 description-cell" data-calculation="35·16·(15/16)^4·(1/16)^3"><span class="description-text">Three of a kind</span></td>
                     </tr>
                     <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                        <td class="p-3 font-bold" style="color: var(--term-text);">ALL NUMBERS</td>
+                        <td class="p-3"><code>1230984</code></td>
+                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+50</td>
+                        <td class="p-3 text-right hidden sm:table-cell">1 in 485</td>
+                        <td class="p-3 description-cell" data-calculation="(10/16)^7"><span class="description-text">Only numbers (0-9)</span></td>
+                    </tr>
+                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                         <td class="p-3 font-bold" style="color: var(--term-text);">TWO PAIR</td>
                         <td class="p-3"><code>aa1bb2c</code></td>
                         <td class="p-3 text-right font-bold" style="color: var(--term-win);">+25</td>
@@ -145,11 +152,11 @@
                         <td class="p-3 description-cell" data-calculation="15·16·15·(15/16)^3·(1/16)^4"><span class="description-text">Two consecutive pairs</span></td>
                     </tr>
                     <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">ALL NUMBERS</td>
-                        <td class="p-3"><code>1230984</code></td>
+                        <td class="p-3 font-bold" style="color: var(--term-text);">ONE PAIR</td>
+                        <td class="p-3"><code>aa1b3d5</code></td>
                         <td class="p-3 text-right font-bold" style="color: var(--term-text);">+10</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 27</td>
-                        <td class="p-3 description-cell" data-calculation="(10/16)^7"><span class="description-text">Break even</span></td>
+                        <td class="p-3 text-right hidden sm:table-cell">~1 in 7</td>
+                        <td class="p-3 description-cell" data-calculation="~14%"><span class="description-text">Break even</span></td>
                     </tr>
                 </tbody>
             </table>

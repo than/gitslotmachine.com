@@ -22,6 +22,31 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.1.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.1.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li><strong>ONE PAIR pattern</strong> - New break-even at +10 points (~1 in 7 commits)</li>
+                                <li>Exactly one consecutive pair (e.g., <code>aa1b3d5</code>)</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">⚡ Balance Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li><strong>ALL NUMBERS</strong> payout increased: 10 → 50 points</li>
+                                <li>Pattern now properly rewarded for its rarity (1 in 485)</li>
+                                <li>Break-even role moved to ONE PAIR</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.0.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

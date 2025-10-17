@@ -62,7 +62,6 @@
                                 <li>Top-tier payouts massively increased: JACKPOT 100K, LUCKY SEVEN 50K, BIG STRAIGHT 25K</li>
                                 <li>Mid-tier balanced: HEXTET 10K, FULLEST HOUSE 5K, STRAIGHT 2.5K, FIVE OF A KIND 2K</li>
                                 <li>Common patterns remain profitable: THREE OF A KIND 100, TWO PAIR 25, ALL NUMBERS 10</li>
-                                <li>~99% return rate for sustainable long-term play</li>
                             </ul>
                         </div>
                     </div>

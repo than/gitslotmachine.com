@@ -76,7 +76,17 @@ git-slot-machine init</pre>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ REPOSITORY BADGES</h3>
                 <p class="text-sm sm:text-base mb-4" style="color: var(--term-text);">Show off your last commit results with dynamic badges! Add this to your README:</p>
-                <pre class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto mb-4" style="border-color: var(--term-accent); color: var(--term-accent);">[![Git Slot Machine](https://gitslotmachine.com/badge/owner/repo.svg)](https://gitslotmachine.com)</pre>
+                <div class="relative">
+                    <pre id="badge-markdown" class="bg-black border p-4 text-xs sm:text-sm overflow-x-auto mb-2" style="border-color: var(--term-accent); color: var(--term-accent);">[![Git Slot Machine](https://gitslotmachine.com/badge/owner/repo.svg)](https://gitslotmachine.com)</pre>
+                    <button
+                        id="copy-badge-btn"
+                        onclick="copyBadgeMarkdown()"
+                        class="w-full border px-4 py-2 text-sm font-mono hover:bg-white/10 transition-colors mb-4"
+                        style="border-color: var(--term-accent); color: var(--term-text);"
+                    >
+                        <span id="copy-btn-text" style="color: var(--term-accent);">[</span>COPY<span style="color: var(--term-accent);">]</span>
+                    </button>
+                </div>
                 <div class="space-y-2 text-xs sm:text-sm" style="color: var(--term-text);">
                     <p><span class="font-bold" style="color: #00ff00;">✓ Green</span> - Last commit won! Shows pattern, payout, and hash</p>
                     <p><span class="font-bold" style="color: #ff0000;">✗ Red</span> - Last commit didn't win. Better luck next time!</p>
@@ -84,6 +94,35 @@ git-slot-machine init</pre>
                     <p style="color: var(--term-dim);">Badge auto-refreshes every 5 minutes</p>
                 </div>
             </div>
+
+            <script>
+                function copyBadgeMarkdown() {
+                    const markdownText = document.getElementById('badge-markdown').textContent;
+                    const button = document.getElementById('copy-badge-btn');
+                    const buttonText = button.innerHTML;
+
+                    navigator.clipboard.writeText(markdownText).then(function() {
+                        // Success feedback
+                        button.innerHTML = '<span style="color: var(--term-accent);">[</span>COPIED!<span style="color: var(--term-accent);">]</span>';
+                        button.style.backgroundColor = 'rgba(var(--term-accent-rgb), 0.2)';
+
+                        // Reset after 2 seconds
+                        setTimeout(function() {
+                            button.innerHTML = buttonText;
+                            button.style.backgroundColor = '';
+                        }, 2000);
+                    }).catch(function(err) {
+                        // Error feedback
+                        button.innerHTML = '<span style="color: var(--term-accent);">[</span>ERROR<span style="color: var(--term-accent);">]</span>';
+                        console.error('Failed to copy:', err);
+
+                        // Reset after 2 seconds
+                        setTimeout(function() {
+                            button.innerHTML = buttonText;
+                        }, 2000);
+                    });
+                }
+            </script>
 
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-lg sm:text-xl font-bold mb-3" style="color: var(--term-text);">$ WHAT IS THIS?</h3>

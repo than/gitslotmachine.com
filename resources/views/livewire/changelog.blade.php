@@ -22,6 +22,44 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 1.5.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v1.5.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>SEO: Comprehensive meta descriptions on all pages</li>
+                                <li>SEO: Twitter Card and Open Graph tags for social sharing</li>
+                                <li>SEO: Dynamic sitemap.xml generation</li>
+                                <li>Default OG image (1200x630px) for social media sharing</li>
+                                <li>Copy-to-clipboard button for badge markdown on About page</li>
+                                <li>Pattern odds quick reference on About page</li>
+                                <li>Balance mechanics explainer on About page</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">📄 Documentation:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Privacy mode documentation in README</li>
+                                <li>Moved TL;DR to top of privacy policy</li>
+                                <li>Better explanation of how balances and net profit work</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Negative net profit now shows in red in Luckiest Repos</li>
+                                <li>Removed redundant balance tag from Luckiest Repos</li>
+                                <li>Standardized win rate percentages to 1 decimal place</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 1.4.2 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

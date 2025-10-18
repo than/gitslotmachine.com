@@ -63,6 +63,9 @@ Enhance command-line experience:
 - ASCII art improvements
 - More detailed stats output
 - Offline mode improvements
+- Smart share URL display (only show for big wins/rare patterns, not every win)
+- Option to configure --small vs full mode in post-commit hook
+- Copy share URL to clipboard automatically on big wins
 
 ### 9. Achievement System
 Unlock achievements for milestones:

@@ -22,6 +22,24 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.1.7 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.1.7</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-17</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Fixed "Plays Per Day" and "Payouts Per Day" calculations using wrong start date</li>
+                                <li>Now correctly uses October 15, 2025 (v1.0.0 launch date) as reference</li>
+                                <li>Previously used first database entry which could be test data</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.6 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

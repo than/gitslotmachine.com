@@ -16,11 +16,9 @@ class GlobalStats extends Component
             $winningPlays = Play::where('payout', '>', 0)->count();
             $totalPayouts = Play::sum('payout');
 
-            // Calculate days since launch (first play)
-            $firstPlay = Play::oldest('played_at')->first();
-            $daysSinceLaunch = $firstPlay
-                ? max(1, now()->diffInDays($firstPlay->played_at))
-                : 1;
+            // Calculate days since launch (October 15, 2025 - v1.0.0)
+            $launchDate = \Carbon\Carbon::parse('2025-10-15');
+            $daysSinceLaunch = max(1, now()->diffInDays($launchDate));
 
             // Calculate theoretical win rate based on pattern probabilities
             $theoreticalWinRate = $this->getTheoreticalWinRate();

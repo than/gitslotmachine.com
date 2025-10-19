@@ -169,7 +169,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                     <div class="flex-1">
                         <div class="flex items-center gap-3 mb-2">
-                            <a href="{{ $repo['github_url'] }}" target="_blank" class="text-lg sm:text-xl font-bold hover:underline" style="color: #ff6b6b;">{{ $repo['repo_full_name'] }}</a>
+                            <a href="{{ $repo['github_url'] }}" target="_blank" class="text-lg sm:text-xl font-bold hover:underline" style="color: var(--term-text);">{{ $repo['repo_full_name'] }}</a>
                         </div>
                         <div class="flex items-center gap-4 text-xs sm:text-sm">
                             <span style="color: var(--term-dim);">{{ number_format($repo['total_plays']) }} plays</span>

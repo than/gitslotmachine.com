@@ -22,6 +22,31 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.1.8 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.1.8</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-19</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">♻️ Refactoring:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Luckiest Repos now only shows repos with positive net profit (winners only)</li>
+                                <li>Hall of Shame (Unluckiest Repos) now only shows repos with negative net profit (losers only)</li>
+                                <li>Better thematic separation between winner and loser categories</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🎨 UI/UX:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Hall of Shame repo links now use default terminal color instead of red</li>
+                                <li>Improved visual consistency across stats page</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.7 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

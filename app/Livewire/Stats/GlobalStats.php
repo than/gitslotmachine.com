@@ -209,7 +209,7 @@ class GlobalStats extends Component
     private function getLuckiestRepos(): array
     {
         // Get repos with highest net profit (total payouts - wagers)
-        // Minimum 5 plays to qualify
+        // Minimum 5 plays to qualify, net profit must be positive
         $repos = Play::select(
             'repositories.id',
             'repositories.owner',
@@ -225,6 +225,7 @@ class GlobalStats extends Component
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
             ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
             ->having('total_plays', '>=', 5)
+            ->havingRaw('SUM(plays.payout - 10) > 0')
             ->orderByDesc('net_profit')
             ->limit(10)
             ->get()
@@ -240,7 +241,7 @@ class GlobalStats extends Component
     private function getUnluckiestRepos(): array
     {
         // Get repos with lowest net profit (total payouts - wagers)
-        // Minimum 5 plays to qualify
+        // Minimum 5 plays to qualify, net profit must be negative
         $repos = Play::select(
             'repositories.id',
             'repositories.owner',
@@ -256,6 +257,7 @@ class GlobalStats extends Component
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
             ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
             ->having('total_plays', '>=', 5)
+            ->havingRaw('SUM(plays.payout - 10) < 0')
             ->orderBy('net_profit', 'asc')
             ->limit(10)
             ->get()

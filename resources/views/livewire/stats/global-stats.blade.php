@@ -157,6 +157,34 @@
     </div>
     @endif
 
+    <!-- Unluckiest Repos -->
+    @if(count($unluckiest_repos ?? []) > 0)
+    <div class="border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
+        <h3 class="text-xl sm:text-2xl font-bold mb-6" style="color: var(--term-text);">💀 HALL OF SHAME 💀</h3>
+        <p class="mb-4 text-sm" style="color: var(--term-dim);">Repositories with the worst net profit (min. 5 plays)</p>
+
+        <div class="space-y-3">
+            @foreach($unluckiest_repos as $repo)
+            <div class="border bg-black/40 p-4" style="border-color: var(--term-accent);">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <a href="{{ $repo['github_url'] }}" target="_blank" class="text-lg sm:text-xl font-bold hover:underline" style="color: #ff6b6b;">{{ $repo['repo_full_name'] }}</a>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs sm:text-sm">
+                            <span style="color: var(--term-dim);">{{ number_format($repo['total_plays']) }} plays</span>
+                            <span style="color: var(--term-dim);">{{ $repo['win_rate'] }}% win rate</span>
+                            <span style="color: var(--term-dim);">{{ number_format($repo['avg_payout'], 1) }} avg payout</span>
+                        </div>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-bold" style="color: #ff6b6b;">{{ $repo['net_profit'] >= 0 ? '+' : '' }}{{ number_format($repo['net_profit']) }}</div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
     <!-- Chart.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>

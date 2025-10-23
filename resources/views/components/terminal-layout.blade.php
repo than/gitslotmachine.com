@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="app-version" content="2.1.8">
+    <meta name="app-version" content="2.2.0">
     <title>{{ $title }} - Git Slot Machine</title>
 
     @isset($meta)

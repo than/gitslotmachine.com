@@ -22,6 +22,33 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.2.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.2.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-23</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Hash grinding detection - Flags suspicious commit amending behavior</li>
+                                <li>New database columns track suspicious activity and amend counts</li>
+                                <li>Artisan command <code>play:remove</code> - Safely remove plays and recalculate stats</li>
+                                <li>Artisan command <code>plays:suspicious</code> - View all flagged commits with filtering options</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #f92672;">🔒 Security:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Prevents hash grinding exploitation by detecting repeated amend patterns</li>
+                                <li>Automatic detection of 5+ amends in 5-minute windows</li>
+                                <li>Terminal-based admin functions (secure for public repositories)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.8 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">
@@ -566,6 +593,33 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.2.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.2.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-10-23</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Hash grinding detection via git reflog analysis</li>
+                                <li>Automatic flagging of commits with 5+ amends in 5 minutes</li>
+                                <li>Warning display when suspicious activity is detected</li>
+                                <li>Sends suspicious flag and amend count to API for tracking</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #f92672;">🔒 Security:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Detects users repeatedly amending commits to grind for jackpot hashes</li>
+                                <li>Checks git reflog for "commit (amend)" patterns</li>
+                                <li>Helps prevent gaming the system for high-value patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.1.7 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

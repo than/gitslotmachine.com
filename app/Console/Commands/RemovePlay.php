@@ -12,8 +12,7 @@ class RemovePlay extends Command
 {
     protected $signature = 'play:remove
                             {commit_hash : The 7-character commit hash to remove}
-                            {username : The GitHub username who made the play}
-                            {--force : Skip confirmation prompt}';
+                            {username : The GitHub username who made the play}';
 
     protected $description = 'Remove a play and recalculate all related statistics';
 
@@ -56,13 +55,9 @@ class RemovePlay extends Command
             ]
         );
 
-        // Confirm deletion
-        if (!$this->option('force')) {
-            if (!$this->confirm('Are you sure you want to remove this play and recalculate stats?')) {
-                $this->info('Operation cancelled.');
-                return 0;
-            }
-        }
+        // Proceed with deletion
+        $this->newLine();
+        $this->info('Removing play and recalculating statistics...');
 
         DB::beginTransaction();
 

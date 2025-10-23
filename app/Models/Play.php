@@ -18,6 +18,8 @@ class Play extends Model
         'payout',
         'repo_balance_after',
         'played_at',
+        'suspicious',
+        'amend_count',
     ];
 
     protected static function booted(): void
@@ -35,6 +37,8 @@ class Play extends Model
             'payout' => 'integer',
             'repo_balance_after' => 'integer',
             'played_at' => 'datetime',
+            'suspicious' => 'boolean',
+            'amend_count' => 'integer',
         ];
     }
 

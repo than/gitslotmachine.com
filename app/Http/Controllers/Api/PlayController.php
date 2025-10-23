@@ -63,6 +63,8 @@ class PlayController extends Controller
             'payout' => $payout,
             'repo_balance_after' => $balanceAfter,
             'played_at' => now(),
+            'suspicious' => $validated['suspicious'] ?? false,
+            'amend_count' => $validated['amend_count'] ?? 0,
         ]);
 
         // Update repository stats

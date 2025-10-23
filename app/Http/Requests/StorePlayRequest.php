@@ -33,6 +33,8 @@ class StorePlayRequest extends FormRequest
             'repo_owner' => ['required', 'string'],
             'repo_name' => ['required', 'string'],
             'github_username' => ['required', 'string'],
+            'suspicious' => ['nullable', 'boolean'],
+            'amend_count' => ['nullable', 'integer', 'min:0'],
         ];
     }
 }

@@ -16,7 +16,11 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::get('/odds', function () {
-    return view('odds');
+    $discoveries = \App\Models\SecretDiscovery::with('user')
+        ->orderBy('discovered_at')
+        ->get();
+
+    return view('odds', compact('discoveries'));
 })->name('odds');
 
 Route::get('/changelog', function () {

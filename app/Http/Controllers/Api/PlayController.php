@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePlayRequest;
 use App\Models\Play;
 use App\Models\Repository;
+use App\Models\SecretDiscovery;
 use App\Models\User;
 use App\Services\PatternDetector;
 use Illuminate\Http\JsonResponse;
@@ -66,6 +67,20 @@ class PlayController extends Controller
             'suspicious' => $validated['suspicious'] ?? false,
             'amend_count' => $validated['amend_count'] ?? 0,
         ]);
+
+        // Track secret discovery (first player to hit a secret gets recorded)
+        if ($detectedPattern['type'] === 'SECRET') {
+            $secretHash = hash('sha256', strtolower($validated['commit_hash']));
+            SecretDiscovery::firstOrCreate(
+                ['secret_hash' => $secretHash],
+                [
+                    'secret_name' => $detectedPattern['name'],
+                    'play_id' => $play->id,
+                    'user_id' => $user->id,
+                    'discovered_at' => now(),
+                ]
+            );
+        }
 
         // Update repository stats
         $repository->update([

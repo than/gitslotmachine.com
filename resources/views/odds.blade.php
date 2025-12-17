@@ -169,6 +169,45 @@
             </table>
         </div>
 
+        @if($discoveries->count() > 0)
+        <div class="mt-8 border p-4 bg-black/30" style="border-color: var(--term-win);">
+            <h3 class="text-lg sm:text-xl font-bold mb-4" style="color: var(--term-win);">🔓 DISCOVERED SECRETS</h3>
+            <p class="mb-4 text-xs sm:text-sm" style="color: var(--term-dim);">Hidden patterns discovered by lucky players. More secrets remain undiscovered...</p>
+            <div class="overflow-x-auto">
+                <table class="w-full font-mono text-xs sm:text-sm">
+                    <thead>
+                        <tr class="border-b" style="color: var(--term-text); border-color: var(--term-win);">
+                            <th class="p-2 text-left">SECRET</th>
+                            <th class="p-2 text-right">PAYOUT</th>
+                            <th class="p-2 text-left">DISCOVERED BY</th>
+                            <th class="p-2 text-left hidden sm:table-cell">DATE</th>
+                        </tr>
+                    </thead>
+                    <tbody style="color: var(--term-dim);">
+                        @foreach($discoveries as $discovery)
+                        <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                            <td class="p-2 font-bold" style="color: var(--term-win);">{{ $discovery->secret_name }}</td>
+                            <td class="p-2 text-right font-bold" style="color: var(--term-win);">
+                                @php
+                                    $payouts = ['BAD FOOD' => 42069, 'COFFEES' => 42069, 'DEAD BED' => 42069, 'DISEASE' => 42069, 'ICE COLD' => 6969, 'SAD FACE' => 6969, 'BOASTED' => 6969, 'BAD CAFE' => 1337, 'DEFACED' => 1337];
+                                @endphp
+                                +{{ number_format($payouts[$discovery->secret_name] ?? 0) }}
+                            </td>
+                            <td class="p-2">
+                                <a href="https://github.com/{{ $discovery->user->github_username }}" target="_blank" class="hover:underline" style="color: var(--term-text);">
+                                    {{ $discovery->user->github_username }}
+                                </a>
+                            </td>
+                            <td class="p-2 hidden sm:table-cell">{{ $discovery->discovered_at->format('M j, Y') }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-4 text-xs" style="color: var(--term-dim);">{{ 9 - $discoveries->count() }} secrets remain hidden...</p>
+        </div>
+        @endif
+
         <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">STATS FOR NERDS</h3>

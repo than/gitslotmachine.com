@@ -6,7 +6,15 @@ use InvalidArgumentException;
 
 class PatternDetector
 {
+    private SecretDetector $secretDetector;
+
+    public function __construct()
+    {
+        $this->secretDetector = new SecretDetector;
+    }
+
     private const PAYOUTS = [
+        'SECRET' => ['name' => 'SECRET', 'payout' => 0], // Placeholder
         'LUCKY_SEVENS' => ['name' => 'LUCKY SEVENS', 'payout' => 1000000],
         'ALL_SAME' => ['name' => 'JACKPOT', 'payout' => 100000],
         'STRAIGHT_7' => ['name' => 'LUCKY SEVEN', 'payout' => 50000],
@@ -41,6 +49,16 @@ class PatternDetector
 
         // Normalize to lowercase
         $hash = strtolower($hash);
+
+        // Check for secret combos first
+        $secret = $this->secretDetector->check($hash);
+        if ($secret) {
+            return [
+                'type' => 'SECRET',
+                'name' => $secret['name'],
+                'payout' => $secret['payout'],
+            ];
+        }
 
         // Detect pattern - check in order of rarity/value
         $type = $this->detectPatternType($hash);

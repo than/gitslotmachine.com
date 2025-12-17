@@ -73,6 +73,7 @@ class GlobalStats extends Component
             'FIVE_OF_KIND' => 'FIVE OF A KIND',
             'STRAIGHT_6' => 'BIG STRAIGHT',
             'FOUR_OF_KIND' => 'FOUR OF A KIND',
+            'FULLER_HOUSE' => 'FULLER HOUSE',
             'ALL_LETTERS' => 'ALPHABET SOUP',
             'STRAIGHT_5' => 'STRAIGHT',
             'THREE_OF_KIND_PLUS_THREE' => 'DOUBLE TRIPLE',
@@ -88,23 +89,25 @@ class GlobalStats extends Component
     private function getTheoreticalWinRate(): float
     {
         // Sum all winning pattern probabilities (everything except NO_WIN)
+        // Updated 2025-12-16 with corrected probability calculations
         $winningProbabilities = [
-            'ALL_SAME' => 1 / 16777216,
-            'SIX_OF_KIND' => 1 / 159784,
-            'STRAIGHT_7' => 1 / 2500000,
-            'FULLEST_HOUSE' => 1 / 31956,
-            'FIVE_OF_KIND' => 1 / 7989,
-            'STRAIGHT_6' => 1 / 280000,
-            'FOUR_OF_KIND' => 1 / 799,
-            'ALL_LETTERS' => 1 / 959,
-            'STRAIGHT_5' => 1 / 9000,
-            'THREE_OF_KIND_PLUS_THREE' => 1 / 2000,
-            'FULL_HOUSE' => 1 / 1000,
-            'THREE_PAIR' => 1 / 1600,
-            'THREE_OF_KIND' => 1 / 133,
-            'TWO_PAIR' => 1 / 45,
-            'ALL_NUMBERS' => 1 / 485,
-            'ONE_PAIR' => 1 / 7,
+            'ALL_SAME' => 1 / 16777216,      // 1 in 16.7M
+            'STRAIGHT_7' => 1 / 13400000,    // 1 in 13.4M
+            'STRAIGHT_6' => 1 / 400000,      // 1 in 400K
+            'SIX_OF_KIND' => 1 / 160000,     // 1 in 160K
+            'FULLEST_HOUSE' => 1 / 32000,    // 1 in 32K
+            'STRAIGHT_5' => 1 / 38000,       // 1 in 38K
+            'FIVE_OF_KIND' => 1 / 3800,      // 1 in 3.8K
+            'THREE_OF_KIND_PLUS_THREE' => 1 / 1100, // 1 in 1.1K
+            'THREE_PAIR' => 1 / 1500,        // 1 in 1.5K
+            'FULLER_HOUSE' => 1 / 762,       // 1 in 762
+            'ALL_LETTERS' => 1 / 960,        // 1 in 960
+            'FOUR_OF_KIND' => 1 / 176,       // 1 in 176
+            'FULL_HOUSE' => 1 / 29,          // 1 in 29
+            'ALL_NUMBERS' => 1 / 27,         // 1 in 27
+            'THREE_OF_KIND' => 1 / 15,       // 1 in 15
+            'TWO_PAIR' => 1 / 25,            // 1 in 25
+            'ONE_PAIR' => 1 / 4,             // 1 in 4
         ];
 
         return array_sum($winningProbabilities);
@@ -112,24 +115,25 @@ class GlobalStats extends Component
 
     private function getTheoreticalVsActual(int $totalPlays): array
     {
-        // Theoretical probabilities (approximate)
+        // Theoretical probabilities - updated 2025-12-16 with corrected calculations
         $theoreticalProbabilities = [
-            'ALL_SAME' => 1 / 16777216,
-            'SIX_OF_KIND' => 1 / 159784,
-            'STRAIGHT_7' => 1 / 2500000,
-            'FULLEST_HOUSE' => 1 / 31956,
-            'FIVE_OF_KIND' => 1 / 7989,
-            'STRAIGHT_6' => 1 / 280000,
-            'FOUR_OF_KIND' => 1 / 799,
-            'ALL_LETTERS' => 1 / 959,
-            'STRAIGHT_5' => 1 / 9000,
-            'THREE_OF_KIND_PLUS_THREE' => 1 / 2000,
-            'FULL_HOUSE' => 1 / 1000,
-            'THREE_PAIR' => 1 / 1600,
-            'THREE_OF_KIND' => 1 / 133,
-            'TWO_PAIR' => 1 / 45,
-            'ALL_NUMBERS' => 1 / 485,
-            'ONE_PAIR' => 1 / 7,
+            'ALL_SAME' => 1 / 16777216,      // 1 in 16.7M
+            'STRAIGHT_7' => 1 / 13400000,    // 1 in 13.4M
+            'STRAIGHT_6' => 1 / 400000,      // 1 in 400K
+            'SIX_OF_KIND' => 1 / 160000,     // 1 in 160K
+            'FULLEST_HOUSE' => 1 / 32000,    // 1 in 32K
+            'STRAIGHT_5' => 1 / 38000,       // 1 in 38K
+            'FIVE_OF_KIND' => 1 / 3800,      // 1 in 3.8K
+            'THREE_OF_KIND_PLUS_THREE' => 1 / 1100, // 1 in 1.1K
+            'THREE_PAIR' => 1 / 1500,        // 1 in 1.5K
+            'FULLER_HOUSE' => 1 / 762,       // 1 in 762
+            'ALL_LETTERS' => 1 / 960,        // 1 in 960
+            'FOUR_OF_KIND' => 1 / 176,       // 1 in 176
+            'FULL_HOUSE' => 1 / 29,          // 1 in 29
+            'ALL_NUMBERS' => 1 / 27,         // 1 in 27
+            'THREE_OF_KIND' => 1 / 15,       // 1 in 15
+            'TWO_PAIR' => 1 / 25,            // 1 in 25
+            'ONE_PAIR' => 1 / 4,             // 1 in 4
         ];
 
         // Get actual counts

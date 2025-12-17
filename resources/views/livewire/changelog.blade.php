@@ -22,6 +22,39 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.2.1 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.2.1</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-12-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>New FULLER HOUSE pattern [3,2,2] - pays +400 at 1 in 762 odds</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #f92672;">⚠️ Payout Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>FULL HOUSE reduced from +300 to +50 (now only matches [3,2,1,1])</li>
+                                <li>THREE OF A KIND reduced from +100 to +25</li>
+                                <li>Game now balanced for ~12-13 EV per 10-point play</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">📊 Odds Corrections:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Fixed incorrect probabilities on odds page</li>
+                                <li>LUCKY SEVEN: 1 in 2.5M → 1 in 13.4M</li>
+                                <li>STRAIGHT: 1 in 9K → 1 in 38K</li>
+                                <li>FOUR OF A KIND: 1 in 800 → 1 in 176</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.2.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">
@@ -593,6 +626,31 @@
         @if($tab === 'cli')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 2.2.1 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v2.2.1</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2025-12-16</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ New Features:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>LUCKY SEVENS secret jackpot (7777777) - pays +1,000,000</li>
+                                <li>FULLER HOUSE pattern [3,2,2] - pays +400 at 1 in 762 odds</li>
+                            </ul>
+                        </div>
+                        <div class="mt-3" style="color: var(--term-text);">
+                            <span style="color: #f92672;">⚠️ Payout Changes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>FULL HOUSE reduced from +300 to +50 (now only matches [3,2,1,1])</li>
+                                <li>THREE OF A KIND reduced from +100 to +25</li>
+                                <li>Game now balanced for ~12-13 EV per 10-point play</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.2.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

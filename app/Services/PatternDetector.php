@@ -17,10 +17,11 @@ class PatternDetector
         'FIVE_OF_KIND' => ['name' => 'FIVE OF A KIND', 'payout' => 2000],
         'THREE_OF_KIND_PLUS_THREE' => ['name' => 'DOUBLE TRIPLE', 'payout' => 1000],
         'THREE_PAIR' => ['name' => 'THREE PAIR', 'payout' => 500],
-        'FULL_HOUSE' => ['name' => 'FULL HOUSE', 'payout' => 300],
+        'FULLER_HOUSE' => ['name' => 'FULLER HOUSE', 'payout' => 400],
         'ALL_LETTERS' => ['name' => 'ALPHABET SOUP', 'payout' => 250],
         'FOUR_OF_KIND' => ['name' => 'FOUR OF A KIND', 'payout' => 200],
-        'THREE_OF_KIND' => ['name' => 'THREE OF A KIND', 'payout' => 100],
+        'FULL_HOUSE' => ['name' => 'FULL HOUSE', 'payout' => 50],
+        'THREE_OF_KIND' => ['name' => 'THREE OF A KIND', 'payout' => 25],
         'ALL_NUMBERS' => ['name' => 'ALL NUMBERS', 'payout' => 50],
         'TWO_PAIR' => ['name' => 'TWO PAIR', 'payout' => 25],
         'ONE_PAIR' => ['name' => 'ONE PAIR', 'payout' => 10],
@@ -112,7 +113,12 @@ class PatternDetector
             return 'THREE_OF_KIND_PLUS_THREE';
         }
 
-        // Check for full house (3-2-2 or 3-2-1-1)
+        // Check for fuller house (3-2-2)
+        if ($distribution[0] === 3 && $distribution[1] === 2 && $distribution[2] === 2) {
+            return 'FULLER_HOUSE';
+        }
+
+        // Check for full house (3-2-1-1)
         if ($distribution[0] === 3 && $distribution[1] === 2) {
             return 'FULL_HOUSE';
         }

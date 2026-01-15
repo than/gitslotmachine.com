@@ -114,7 +114,7 @@
                             <code class="text-base sm:text-lg" style="color: var(--term-text);">{{ $win['hash_short'] }}</code>
                         </div>
                         <div class="flex items-center gap-4 text-xs sm:text-sm">
-                            <a href="https://github.com/{{ $win['github_username'] }}" target="_blank" class="hover:underline" style="color: var(--term-accent);">@{{ $win['github_username'] }}</a>
+                            <a href="https://github.com/{{ $win['github_username'] }}" target="_blank" class="hover:underline" style="color: var(--term-accent);">{{ $win['github_username'] }}</a>
                             <span style="color: var(--term-dim);">{{ \Carbon\Carbon::parse($win['played_at'])->diffForHumans() }}</span>
                             @if($win['repo_url'] && $win['repo_url'] !== 'private')
                             <a href="{{ $win['repo_url'] }}/commit/{{ $win['hash_full'] }}" target="_blank" class="hover:underline hidden sm:inline" style="color: var(--term-dim);">{{ $win['repo_owner'] }}/{{ $win['repo_name'] }}</a>

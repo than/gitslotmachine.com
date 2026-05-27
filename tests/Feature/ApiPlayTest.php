@@ -3,12 +3,13 @@
 use App\Models\Play;
 use App\Models\Repository;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\postJson;
 
 uses()->group('api');
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 it('can submit a play', function () {
     $response = postJson('/api/play', [
@@ -33,10 +34,11 @@ it('can submit a play', function () {
         ->where('name', 'test-repo')
         ->exists())->toBeTrue();
 
-    // Verify play created
+    // Verify play created with the server-computed payout (THREE_PAIR = 500),
+    // not the client-supplied value.
     expect(Play::where('commit_hash', 'aabbcc1')
         ->where('pattern_type', 'THREE_PAIR')
-        ->where('payout', 150)
+        ->where('payout', 500)
         ->exists())->toBeTrue();
 });
 
@@ -72,20 +74,28 @@ it('rejects non-hex characters in hash', function () {
     $response->assertJsonValidationErrors(['commit_hash']);
 });
 
-it('rejects mismatched pattern', function () {
+it('ignores a lying client and records the server-computed pattern', function () {
+    // The API does not trust client-supplied pattern/payout; it recomputes them
+    // from the commit hash. A client claiming NO_WIN for a THREE_PAIR hash is
+    // silently overridden, not rejected.
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
         'repo_owner' => 'thantibbetts',
         'repo_name' => 'test-repo',
         'github_username' => 'thantibbetts',
         'commit_hash' => 'aabbcc1', // Actually THREE_PAIR
-        'pattern_type' => 'NO_WIN', // Claiming NO_WIN
+        'pattern_type' => 'NO_WIN',  // Lie: claiming NO_WIN
         'pattern_name' => 'NO WIN',
         'payout' => 0,
     ]);
 
-    $response->assertStatus(422);
-    $response->assertJsonFragment(['message' => 'Pattern mismatch - verification failed']);
+    $response->assertStatus(201);
+
+    // The stored play reflects the true server-detected pattern, not the lie.
+    expect(Play::where('commit_hash', 'aabbcc1')
+        ->where('pattern_type', 'THREE_PAIR')
+        ->where('payout', 500)
+        ->exists())->toBeTrue();
 });
 
 it('updates existing user and repo', function () {
@@ -112,9 +122,9 @@ it('updates existing user and repo', function () {
 
     $response->assertStatus(201);
 
-    // Verify balance updated (100 - 10 cost + 300 payout = 390)
+    // Balance uses the server-computed payout (ALL_LETTERS = 250): 100 - 10 + 250 = 340
     $repo->refresh();
-    expect($repo->balance)->toBe(390);
+    expect($repo->balance)->toBe(340);
     expect($repo->total_commits)->toBe(1);
 });
 
@@ -175,7 +185,7 @@ it('requires commit_hash field', function () {
     $response->assertJsonValidationErrors(['commit_hash']);
 });
 
-it('requires pattern_type field', function () {
+it('does not require client pattern_type (server computes it)', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
         'repo_owner' => 'thantibbetts',
@@ -186,11 +196,13 @@ it('requires pattern_type field', function () {
         'payout' => 150,
     ]);
 
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors(['pattern_type']);
+    $response->assertStatus(201);
+    expect(Play::where('commit_hash', 'aabbcc1')
+        ->where('pattern_type', 'THREE_PAIR')
+        ->exists())->toBeTrue();
 });
 
-it('requires pattern_name field', function () {
+it('does not require client pattern_name (server computes it)', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
         'repo_owner' => 'thantibbetts',
@@ -201,11 +213,13 @@ it('requires pattern_name field', function () {
         'payout' => 150,
     ]);
 
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors(['pattern_name']);
+    $response->assertStatus(201);
+    expect(Play::where('commit_hash', 'aabbcc1')
+        ->where('pattern_name', 'THREE PAIR')
+        ->exists())->toBeTrue();
 });
 
-it('requires payout field', function () {
+it('does not require client payout (server computes it)', function () {
     $response = postJson('/api/play', [
         'repo_url' => 'https://github.com/thantibbetts/test-repo',
         'repo_owner' => 'thantibbetts',
@@ -216,8 +230,10 @@ it('requires payout field', function () {
         'pattern_name' => 'THREE PAIR',
     ]);
 
-    $response->assertStatus(422);
-    $response->assertJsonValidationErrors(['payout']);
+    $response->assertStatus(201);
+    expect(Play::where('commit_hash', 'aabbcc1')
+        ->where('payout', 500)
+        ->exists())->toBeTrue();
 });
 
 it('rejects non-github URLs', function () {
@@ -264,8 +280,8 @@ it('updates user stats correctly', function () {
 
     $user->refresh();
     expect($user->total_commits)->toBe(1);
-    expect($user->total_balance)->toBe(290); // 300 payout - 10 cost
-    expect($user->biggest_win)->toBe(300);
+    expect($user->total_balance)->toBe(240); // server-computed ALL_LETTERS (250) - 10 cost
+    expect($user->biggest_win)->toBe(250);
 });
 
 it('increments current streak on win', function () {

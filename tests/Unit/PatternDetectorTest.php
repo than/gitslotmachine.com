@@ -30,7 +30,7 @@ it('detects ALL_SAME pattern', function () {
     expect($result)->toBe([
         'type' => 'ALL_SAME',
         'name' => 'JACKPOT',
-        'payout' => 10000,
+        'payout' => 100000,
     ]);
 });
 
@@ -38,7 +38,7 @@ it('detects ALL_SAME with zeros', function () {
     $result = $this->detector->detect('0000000');
 
     expect($result['type'])->toBe('ALL_SAME');
-    expect($result['payout'])->toBe(10000);
+    expect($result['payout'])->toBe(100000);
 });
 
 // STRAIGHT_7 (7 in a row)
@@ -48,7 +48,7 @@ it('detects STRAIGHT_7 ascending', function () {
     expect($result)->toBe([
         'type' => 'STRAIGHT_7',
         'name' => 'LUCKY SEVEN',
-        'payout' => 2500,
+        'payout' => 50000,
     ]);
 });
 
@@ -56,7 +56,7 @@ it('detects STRAIGHT_7 descending', function () {
     $result = $this->detector->detect('fedcba9');
 
     expect($result['type'])->toBe('STRAIGHT_7');
-    expect($result['payout'])->toBe(2500);
+    expect($result['payout'])->toBe(50000);
 });
 
 // SIX_OF_KIND
@@ -66,7 +66,7 @@ it('detects SIX_OF_KIND', function () {
     expect($result)->toBe([
         'type' => 'SIX_OF_KIND',
         'name' => 'HEXTET',
-        'payout' => 5000,
+        'payout' => 10000,
     ]);
 });
 
@@ -77,7 +77,7 @@ it('detects STRAIGHT_6', function () {
     expect($result)->toBe([
         'type' => 'STRAIGHT_6',
         'name' => 'BIG STRAIGHT',
-        'payout' => 500,
+        'payout' => 25000,
     ]);
 });
 
@@ -88,7 +88,7 @@ it('detects FULLEST_HOUSE', function () {
     expect($result)->toBe([
         'type' => 'FULLEST_HOUSE',
         'name' => 'FULLEST HOUSE',
-        'payout' => 2000,
+        'payout' => 5000,
     ]);
 });
 
@@ -99,7 +99,7 @@ it('detects STRAIGHT_5', function () {
     expect($result)->toBe([
         'type' => 'STRAIGHT_5',
         'name' => 'STRAIGHT',
-        'payout' => 200,
+        'payout' => 2500,
     ]);
 });
 
@@ -110,7 +110,7 @@ it('detects FIVE_OF_KIND', function () {
     expect($result)->toBe([
         'type' => 'FIVE_OF_KIND',
         'name' => 'FIVE OF A KIND',
-        'payout' => 1000,
+        'payout' => 2000,
     ]);
 });
 
@@ -121,7 +121,7 @@ it('detects FOUR_OF_KIND', function () {
     expect($result)->toBe([
         'type' => 'FOUR_OF_KIND',
         'name' => 'FOUR OF A KIND',
-        'payout' => 400,
+        'payout' => 200,
     ]);
 });
 
@@ -132,7 +132,7 @@ it('detects THREE_OF_KIND_PLUS_THREE', function () {
     expect($result)->toBe([
         'type' => 'THREE_OF_KIND_PLUS_THREE',
         'name' => 'DOUBLE TRIPLE',
-        'payout' => 150,
+        'payout' => 1000,
     ]);
 });
 
@@ -142,8 +142,8 @@ it('detects ALL_LETTERS', function () {
 
     expect($result)->toBe([
         'type' => 'ALL_LETTERS',
-        'name' => 'ALL LETTERS',
-        'payout' => 300,
+        'name' => 'ALPHABET SOUP',
+        'payout' => 250,
     ]);
 });
 
@@ -154,7 +154,7 @@ it('detects FULL_HOUSE', function () {
     expect($result)->toBe([
         'type' => 'FULL_HOUSE',
         'name' => 'FULL HOUSE',
-        'payout' => 100,
+        'payout' => 50,
     ]);
 });
 
@@ -165,7 +165,7 @@ it('detects THREE_PAIR', function () {
     expect($result)->toBe([
         'type' => 'THREE_PAIR',
         'name' => 'THREE PAIR',
-        'payout' => 150,
+        'payout' => 500,
     ]);
 });
 
@@ -174,7 +174,7 @@ it('detects THREE_PAIR with scattered pairs', function () {
     $result = $this->detector->detect('11aa22b');
 
     expect($result['type'])->toBe('THREE_PAIR');
-    expect($result['payout'])->toBe(150);
+    expect($result['payout'])->toBe(500);
 });
 
 // THREE_OF_KIND
@@ -184,7 +184,7 @@ it('detects THREE_OF_KIND', function () {
     expect($result)->toBe([
         'type' => 'THREE_OF_KIND',
         'name' => 'THREE OF A KIND',
-        'payout' => 50,
+        'payout' => 25,
     ]);
 });
 
@@ -195,13 +195,14 @@ it('detects TWO_PAIR', function () {
     expect($result)->toBe([
         'type' => 'TWO_PAIR',
         'name' => 'TWO PAIR',
-        'payout' => 50,
+        'payout' => 25,
     ]);
 });
 
 it('does not detect TWO_PAIR for non-consecutive pairs', function () {
-    // d0cca60 has two 0s and two cs but they're not consecutive pairs
-    $result = $this->detector->detect('d0cca60');
+    // 0c0c123 has two 0s and two cs, but none are *consecutive* pairs,
+    // so it should not win (consecutive 'cc'/'00' would make it ONE_PAIR).
+    $result = $this->detector->detect('0c0c123');
 
     expect($result['type'])->toBe('NO_WIN');
     expect($result['payout'])->toBe(0);
@@ -214,7 +215,7 @@ it('detects ALL_NUMBERS when no straight', function () {
     expect($result)->toBe([
         'type' => 'ALL_NUMBERS',
         'name' => 'ALL NUMBERS',
-        'payout' => 10,
+        'payout' => 50,
     ]);
 });
 
@@ -222,17 +223,17 @@ it('detects STRAIGHT_7 not ALL_NUMBERS for sequential digits', function () {
     $result = $this->detector->detect('1234567');
 
     expect($result['type'])->toBe('STRAIGHT_7');
-    expect($result['payout'])->toBe(2500);
+    expect($result['payout'])->toBe(50000);
 });
 
-// NO_WIN (no pattern, all unique or single pair)
-it('detects NO_WIN for single pair no straight', function () {
+// ONE_PAIR (a single consecutive pair now pays out, no longer NO_WIN)
+it('detects ONE_PAIR for single pair no straight', function () {
     $result = $this->detector->detect('aa13579');
 
     expect($result)->toBe([
-        'type' => 'NO_WIN',
-        'name' => 'NO WIN',
-        'payout' => 0,
+        'type' => 'ONE_PAIR',
+        'name' => 'ONE PAIR',
+        'payout' => 10,
     ]);
 });
 

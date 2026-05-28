@@ -104,18 +104,22 @@ class PlayController extends Controller
             $updateData['biggest_win_hash'] = strtolower($validated['commit_hash']);
         }
 
-        // Track win streaks
+        // Track win streaks (mirrors the authoritative BackfillStreaks logic).
         if ($payout > 0) {
             // Win - increment current streak
-            $updateData['current_streak'] = $user->current_streak + 1;
+            $newStreak = $user->current_streak + 1;
+            $updateData['current_streak'] = $newStreak;
 
-            // Update longest streak and timestamp if current equals or exceeds it
-            if ($updateData['current_streak'] >= $user->longest_streak) {
-                $updateData['longest_streak'] = $updateData['current_streak'];
-                $updateData['longest_streak_ended_at'] = now();
+            // Extend the longest streak when the current run surpasses it
+            if ($newStreak > $user->longest_streak) {
+                $updateData['longest_streak'] = $newStreak;
             }
         } else {
-            // Loss - reset current streak
+            // Loss - record when the longest streak ended (a loss that breaks a
+            // run equal to the record), then reset the current streak
+            if ($user->current_streak > 0 && $user->current_streak === $user->longest_streak) {
+                $updateData['longest_streak_ended_at'] = now();
+            }
             $updateData['current_streak'] = 0;
         }
 

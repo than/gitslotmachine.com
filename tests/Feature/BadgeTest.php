@@ -3,11 +3,12 @@
 use App\Models\Play;
 use App\Models\Repository;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\get;
 
 uses()->group('badge');
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 it('generates badge for existing repo', function () {
     $user = User::factory()->create(['github_username' => 'thantibbetts']);
@@ -47,5 +48,5 @@ it('returns default badge for nonexistent repo', function () {
     $response->assertHeader('Content-Type', 'image/svg+xml');
 
     $content = $response->getContent();
-    expect($content)->toContain('No plays yet');
+    expect($content)->toContain('no plays yet');
 });

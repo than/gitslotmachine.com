@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\BadgeController;
+use App\Http\Controllers\WinnerController;
+use App\Models\SecretDiscovery;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,7 +19,7 @@ Route::get('/about', function () {
 })->name('about');
 
 Route::get('/odds', function () {
-    $discoveries = \App\Models\SecretDiscovery::with('user')
+    $discoveries = SecretDiscovery::with('user')
         ->orderBy('discovered_at')
         ->get();
 
@@ -61,13 +64,13 @@ Route::get('/sitemap.xml', function () {
     return response($xml, 200)->header('Content-Type', 'application/xml');
 })->name('sitemap');
 
-Route::get('/winner/{uuid}', [App\Http\Controllers\WinnerController::class, 'show'])->name('winner.show');
-Route::get('/winner/{uuid}/image.png', [App\Http\Controllers\WinnerController::class, 'image'])->name('winner.image');
+Route::get('/winner/{uuid}', [WinnerController::class, 'show'])->name('winner.show');
+Route::get('/winner/{uuid}/image.png', [WinnerController::class, 'image'])->name('winner.image');
 
 // Fallback routes for when custom domain is not configured
 // These work on the main domain (e.g., gitslotmachinecom-main-vilmm1.laravel.cloud/api/play)
 // Once custom domain is set up, api.gitslotmachine.com will be used instead
-Route::middleware(['api'])->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class])->prefix('api')->group(base_path('routes/api.php'));
+Route::middleware(['api'])->withoutMiddleware([PreventRequestForgery::class])->prefix('api')->group(base_path('routes/api.php'));
 
 // Badge fallback route
 Route::get('/badge/{owner}/{repo}.svg', [BadgeController::class, 'show']);

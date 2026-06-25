@@ -9,3 +9,14 @@
 allowBuilds:
   esbuild: true
   puppeteer: true
+
+# Force patched versions of transitive dev deps flagged by Dependabot
+# (all dev-chain, not shipped in the production PHP artifact):
+#   - shell-quote (via concurrently): newline-escape bug, GHSA
+#   - form-data   (via axios): CRLF injection
+#   - js-yaml     (via cosmiconfig←puppeteer): quadratic-complexity DoS
+overrides:
+  shell-quote: '>=1.8.4'
+  form-data: '>=4.0.6'
+  js-yaml: '^4.1.2'
+  esbuild: '>=0.28.1'

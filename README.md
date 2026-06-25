@@ -2,7 +2,7 @@
 
 [![Git Slot Machine](https://gitslotmachine.com/badge/than/gitslotmachine.com.svg)](https://gitslotmachine.com)
 
-[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel)](https://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel)](https://laravel.com)
 [![Livewire](https://img.shields.io/badge/Livewire-3-4E56A6?logo=livewire)](https://livewire.laravel.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38BDF8?logo=tailwindcss)](https://tailwindcss.com)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1?logo=postgresql)](https://www.postgresql.org)
@@ -33,7 +33,7 @@ Git Slot Machine is a fun CLI tool that analyzes your commit hashes and rewards 
 
 ## Tech Stack
 
-- **Laravel 12** - Modern PHP framework
+- **Laravel 13** - Modern PHP framework
 - **Livewire 3** - Reactive components
 - **PostgreSQL** - Database
 - **Tailwind CSS 4** - Styling
@@ -49,7 +49,7 @@ Git Slot Machine is a fun CLI tool that analyzes your commit hashes and rewards 
 
 - PHP 8.4+
 - Composer
-- Node.js 18+
+- Node.js 20.19+ or 22.12+ (Laravel Cloud runs Node 24)
 - PostgreSQL
 - Chrome/Chromium (for OG image generation)
 
@@ -64,7 +64,7 @@ cd gitslotmachine.com
 composer install
 
 # Install Node dependencies
-npm install
+pnpm install
 
 # Copy environment file
 cp .env.example .env
@@ -84,7 +84,7 @@ DB_PASSWORD=your_password
 php artisan migrate
 
 # Build assets
-npm run build
+pnpm run build
 
 # Start development server
 php artisan serve
@@ -98,7 +98,7 @@ composer run dev
 
 # Or run separately:
 php artisan serve
-npm run dev
+pnpm run dev
 ```
 
 ---
@@ -386,11 +386,14 @@ DB_PASSWORD=...
 SESSION_DRIVER=database
 CACHE_STORE=database
 QUEUE_CONNECTION=database
-
-# For OG image generation
-BROWSERSHOT_NODE_BIN=/path/to/node
-BROWSERSHOT_NPM_BIN=/path/to/npm
 ```
+
+### Cloud Build Configuration
+
+- The Cloud runtime is pinned to **Node 24 / PHP 8.5 / Octane off**.
+- The build command installs pnpm via `npm install -g pnpm@11.4.0` and must **not** use `corepack enable` (corepack is no longer on the Cloud build image's PATH).
+- The build command lives in the Cloud environment settings (the source of truth, not the repo).
+- Keep that pnpm version in sync with `package.json`'s `"packageManager"` field.
 
 ### Auto-Deployment
 

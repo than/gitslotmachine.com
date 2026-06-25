@@ -1,10 +1,10 @@
 # pnpm settings (pnpm 10+ moved these out of package.json's "pnpm" field).
 # pnpm blocks dependency install/build scripts by default; opt in per package.
-allowBuilds:
+onlyBuiltDependencies:
   # Required: Vite's native bundler. The asset build fails without it.
-  esbuild: true
+  - esbuild
   # puppeteer's postinstall downloads a full Chromium (~150MB), used for
   # OG/social image generation (Spatie Browsershot in WinnerController and the
   # GenerateDefaultOgImage command). Enabled so production deploys get Chromium.
   # For faster local installs, set PUPPETEER_SKIP_DOWNLOAD=1 in your environment.
-  puppeteer: true
+  - puppeteer

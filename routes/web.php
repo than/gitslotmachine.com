@@ -3,6 +3,7 @@
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\WinnerController;
 use App\Models\SecretDiscovery;
+use App\Services\Ruleset;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +24,18 @@ Route::get('/odds', function () {
         ->orderBy('discovered_at')
         ->get();
 
-    return view('odds', compact('discoveries'));
+    // Render the table from the canonical ruleset (single source of truth).
+    $patterns = collect(Ruleset::patterns())
+        ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
+        ->values();
+
+    return view('odds', [
+        'discoveries' => $discoveries,
+        'patterns' => $patterns,
+        'rulesetVersion' => Ruleset::version(),
+        'rtp' => Ruleset::rtp(),
+        'winRate' => Ruleset::winRate(),
+    ]);
 })->name('odds');
 
 Route::get('/changelog', function () {

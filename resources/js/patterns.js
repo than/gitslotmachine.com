@@ -61,7 +61,11 @@ export function detectPattern(hash) {
     else if (distribution[0] === 3 && distribution[1] === 3) {
         type = 'THREE_OF_KIND_PLUS_THREE';
     }
-    // Check for full house (3-2-2 or 3-2-1-1)
+    // Check for fuller house (3-2-2) — must precede FULL_HOUSE; the server scores these as FULLER
+    else if (distribution[0] === 3 && distribution[1] === 2 && distribution[2] === 2) {
+        type = 'FULLER_HOUSE';
+    }
+    // Check for full house (3-2-1-1)
     else if (distribution[0] === 3 && distribution[1] === 2) {
         type = 'FULL_HOUSE';
     }
@@ -221,7 +225,7 @@ function getHighlightIndices(hash, type) {
             }
         }
     }
-    else if (type === 'FULLEST_HOUSE' || type === 'FULL_HOUSE' ||
+    else if (type === 'FULLEST_HOUSE' || type === 'FULLER_HOUSE' || type === 'FULL_HOUSE' ||
              type === 'THREE_OF_KIND_PLUS_THREE') {
         // Highlight all paired/tripled characters
         for (const [char, count] of counts.entries()) {

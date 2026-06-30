@@ -3,6 +3,8 @@
 namespace App\Livewire\Stats;
 
 use App\Models\Play;
+use App\Services\Ruleset;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
 
@@ -17,7 +19,7 @@ class GlobalStats extends Component
             $totalPayouts = Play::sum('payout');
 
             // Calculate days since launch (October 15, 2025 - v1.0.0)
-            $launchDate = \Carbon\Carbon::parse('2025-10-15');
+            $launchDate = Carbon::parse('2025-10-15');
             $daysSinceLaunch = max(1, now()->diffInDays($launchDate));
 
             // Calculate theoretical win rate based on pattern probabilities
@@ -63,78 +65,42 @@ class GlobalStats extends Component
             ->toArray();
     }
 
+    /**
+     * Pattern display names, derived from the canonical ruleset so they can't drift.
+     *
+     * @return array<string, string>
+     */
     private function getPatternNames(): array
     {
-        return [
-            'ALL_SAME' => 'JACKPOT',
-            'SIX_OF_KIND' => 'HEXTET',
-            'STRAIGHT_7' => 'LUCKY SEVEN',
-            'FULLEST_HOUSE' => 'FULLEST HOUSE',
-            'FIVE_OF_KIND' => 'FIVE OF A KIND',
-            'STRAIGHT_6' => 'BIG STRAIGHT',
-            'FOUR_OF_KIND' => 'FOUR OF A KIND',
-            'FULLER_HOUSE' => 'FULLER HOUSE',
-            'ALL_LETTERS' => 'ALPHABET SOUP',
-            'STRAIGHT_5' => 'STRAIGHT',
-            'THREE_OF_KIND_PLUS_THREE' => 'DOUBLE TRIPLE',
-            'FULL_HOUSE' => 'FULL HOUSE',
-            'THREE_PAIR' => 'THREE PAIR',
-            'THREE_OF_KIND' => 'THREE OF A KIND',
-            'TWO_PAIR' => 'TWO PAIR',
-            'ALL_NUMBERS' => 'ALL NUMBERS',
-            'ONE_PAIR' => 'ONE PAIR',
-        ];
+        return collect(Ruleset::patterns())
+            ->reject(fn ($pattern) => $pattern['type'] === 'NO_WIN' || $pattern['secret'])
+            ->mapWithKeys(fn ($pattern) => [$pattern['type'] => $pattern['name']])
+            ->all();
+    }
+
+    /**
+     * Winning-pattern probabilities from the canonical ruleset
+     * (resources/data/patterns.json, the single source of truth), excluding NO_WIN and
+     * secret patterns. Keyed by pattern type. These are exact (enumerated over all 16^7 hashes).
+     *
+     * @return array<string, float>
+     */
+    private function winningProbabilities(): array
+    {
+        return collect(Ruleset::patterns())
+            ->reject(fn ($pattern) => $pattern['type'] === 'NO_WIN' || $pattern['secret'])
+            ->mapWithKeys(fn ($pattern) => [$pattern['type'] => $pattern['probability']])
+            ->all();
     }
 
     private function getTheoreticalWinRate(): float
     {
-        // Sum all winning pattern probabilities (everything except NO_WIN)
-        // Updated 2025-12-16 with corrected probability calculations
-        $winningProbabilities = [
-            'ALL_SAME' => 1 / 16777216,      // 1 in 16.7M
-            'STRAIGHT_7' => 1 / 13400000,    // 1 in 13.4M
-            'STRAIGHT_6' => 1 / 400000,      // 1 in 400K
-            'SIX_OF_KIND' => 1 / 160000,     // 1 in 160K
-            'FULLEST_HOUSE' => 1 / 32000,    // 1 in 32K
-            'STRAIGHT_5' => 1 / 38000,       // 1 in 38K
-            'FIVE_OF_KIND' => 1 / 3800,      // 1 in 3.8K
-            'THREE_OF_KIND_PLUS_THREE' => 1 / 1100, // 1 in 1.1K
-            'THREE_PAIR' => 1 / 1500,        // 1 in 1.5K
-            'FULLER_HOUSE' => 1 / 762,       // 1 in 762
-            'ALL_LETTERS' => 1 / 960,        // 1 in 960
-            'FOUR_OF_KIND' => 1 / 176,       // 1 in 176
-            'FULL_HOUSE' => 1 / 29,          // 1 in 29
-            'ALL_NUMBERS' => 1 / 27,         // 1 in 27
-            'THREE_OF_KIND' => 1 / 15,       // 1 in 15
-            'TWO_PAIR' => 1 / 25,            // 1 in 25
-            'ONE_PAIR' => 1 / 4,             // 1 in 4
-        ];
-
-        return array_sum($winningProbabilities);
+        return array_sum($this->winningProbabilities());
     }
 
     private function getTheoreticalVsActual(int $totalPlays): array
     {
-        // Theoretical probabilities - updated 2025-12-16 with corrected calculations
-        $theoreticalProbabilities = [
-            'ALL_SAME' => 1 / 16777216,      // 1 in 16.7M
-            'STRAIGHT_7' => 1 / 13400000,    // 1 in 13.4M
-            'STRAIGHT_6' => 1 / 400000,      // 1 in 400K
-            'SIX_OF_KIND' => 1 / 160000,     // 1 in 160K
-            'FULLEST_HOUSE' => 1 / 32000,    // 1 in 32K
-            'STRAIGHT_5' => 1 / 38000,       // 1 in 38K
-            'FIVE_OF_KIND' => 1 / 3800,      // 1 in 3.8K
-            'THREE_OF_KIND_PLUS_THREE' => 1 / 1100, // 1 in 1.1K
-            'THREE_PAIR' => 1 / 1500,        // 1 in 1.5K
-            'FULLER_HOUSE' => 1 / 762,       // 1 in 762
-            'ALL_LETTERS' => 1 / 960,        // 1 in 960
-            'FOUR_OF_KIND' => 1 / 176,       // 1 in 176
-            'FULL_HOUSE' => 1 / 29,          // 1 in 29
-            'ALL_NUMBERS' => 1 / 27,         // 1 in 27
-            'THREE_OF_KIND' => 1 / 15,       // 1 in 15
-            'TWO_PAIR' => 1 / 25,            // 1 in 25
-            'ONE_PAIR' => 1 / 4,             // 1 in 4
-        ];
+        $theoreticalProbabilities = $this->winningProbabilities();
 
         // Get actual counts
         $actualCounts = Play::select('pattern_type')
@@ -187,6 +153,7 @@ class GlobalStats extends Component
         )
             ->join('users', 'plays.user_id', '=', 'users.id')
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
+            ->where('repositories.owner', '!=', 'private')
             ->whereIn('plays.pattern_type', $legendaryPatterns)
             ->orderByRaw("CASE
                 WHEN plays.pattern_type = 'ALL_SAME' THEN 1
@@ -227,6 +194,7 @@ class GlobalStats extends Component
             ->selectRaw('ROUND(AVG(plays.payout), 1) as avg_payout')
             ->selectRaw('ROUND((COUNT(CASE WHEN plays.payout > 0 THEN 1 END) * 100.0 / COUNT(*)), 1) as win_rate')
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
+            ->where('repositories.owner', '!=', 'private')
             ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
             ->having('total_plays', '>=', 5)
             ->havingRaw('SUM(plays.payout - 10) > 0')
@@ -259,6 +227,7 @@ class GlobalStats extends Component
             ->selectRaw('ROUND(AVG(plays.payout), 1) as avg_payout')
             ->selectRaw('ROUND((COUNT(CASE WHEN plays.payout > 0 THEN 1 END) * 100.0 / COUNT(*)), 1) as win_rate')
             ->join('repositories', 'plays.repository_id', '=', 'repositories.id')
+            ->where('repositories.owner', '!=', 'private')
             ->groupBy('repositories.id', 'repositories.owner', 'repositories.name', 'repositories.github_url', 'repositories.balance')
             ->having('total_plays', '>=', 5)
             ->havingRaw('SUM(plays.payout - 10) < 0')

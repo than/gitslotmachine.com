@@ -1,19 +1,19 @@
 <x-terminal-layout title="Odds" activeTab="odds">
     <x-slot name="meta">
-        <meta name="description" content="Complete guide to winning patterns and payouts. From Jackpot (10,000 points) to Three of a Kind (50 points). Know your odds before you commit.">
+        <meta name="description" content="Complete guide to winning patterns and payouts. From the Jackpot (250,000 points) down to One Pair (10). Exact, enumerated odds for every commit.">
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url('/odds') }}">
         <meta property="og:title" content="Winning Patterns & Odds - Git Slot Machine">
-        <meta property="og:description" content="Complete guide to winning patterns and payouts. From Jackpot (10,000 points) to Three of a Kind (50 points). Know your odds before you commit.">
+        <meta property="og:description" content="Complete guide to winning patterns and payouts. From the Jackpot (250,000 points) down to One Pair (10). Exact, enumerated odds for every commit.">
         <meta property="og:image" content="https://gitslotmachine.com/og-image.png">
 
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:url" content="{{ url('/odds') }}">
         <meta name="twitter:title" content="Winning Patterns & Odds - Git Slot Machine">
-        <meta name="twitter:description" content="Complete guide to winning patterns and payouts. From Jackpot (10,000 points) to Three of a Kind (50 points). Know your odds before you commit.">
+        <meta name="twitter:description" content="Complete guide to winning patterns and payouts. From the Jackpot (250,000 points) down to One Pair (10). Exact, enumerated odds for every commit.">
         <meta name="twitter:image" content="https://gitslotmachine.com/og-image.png">
     </x-slot>
 
@@ -26,13 +26,14 @@
 </pre>
         <h1 class="text-3xl sm:text-5xl font-bold mb-4" style="color: var(--term-text);">🎰 KNOW THE ODDS 🎰</h1>
         <p class="text-sm sm:text-lg" style="color: var(--term-dim);">&gt; Every commit costs 10 points. Here's what you're playing for.</p>
+        <p class="text-xs mt-2" style="color: var(--term-dim);">Ruleset v{{ $rulesetVersion }} · payouts return ~{{ number_format($rtp * 100, 1) }}% over the long run · odds enumerated over all 16⁷ hashes</p>
     </header>
 
     <!-- Patterns Reference -->
     <div class="border-t pt-8" style="border-color: rgba(var(--term-accent-rgb), 0.3);">
         <h2 class="text-2xl sm:text-3xl font-bold mb-8" style="color: var(--term-text);">&gt; WINNING PATTERNS</h2>
 
-        <p class="mb-6 text-sm sm:text-base" style="color: var(--term-dim);">Every commit costs 10 points. You start with 100. Here's what you're playing for:</p>
+        <p class="mb-6 text-sm sm:text-base" style="color: var(--term-dim);">Every commit costs 10 points. You start with 100. Patterns are checked rarest-first, so the best match always wins. Here's what you're playing for:</p>
 
         <div class="border bg-black/30 overflow-x-auto" style="border-color: var(--term-accent);">
             <table class="w-full font-mono text-xs sm:text-sm">
@@ -41,130 +42,31 @@
                         <th class="p-3 text-left">PATTERN</th>
                         <th class="p-3 text-left">EXAMPLE</th>
                         <th class="p-3 text-right">PAYOUT</th>
-                        <th class="p-3 text-right hidden sm:table-cell">PROBABILITY</th>
-                        <th class="p-3 text-left">DESCRIPTION</th>
+                        <th class="p-3 text-right hidden sm:table-cell">ODDS</th>
+                        <th class="p-3 text-left hidden md:table-cell">PROBABILITY</th>
                     </tr>
                 </thead>
                 <tbody style="color: var(--term-dim);">
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">JACKPOT</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaaaaaa"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+100,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 16.7M</td>
-                        <td class="p-3 description-cell" data-calculation="(1/16)^7"><span class="description-text">All same character</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">LUCKY SEVEN</td>
-                        <td class="p-3"><span class="hash-display" data-hash="1234567"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+50,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 13.4M</td>
-                        <td class="p-3 description-cell" data-calculation="20 × 16^0 / 16^7"><span class="description-text">Seven sequential hex digits</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">BIG STRAIGHT</td>
-                        <td class="p-3"><span class="hash-display" data-hash="012345a"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+25,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 400K</td>
-                        <td class="p-3 description-cell" data-calculation="2 × 22 × 16 / 16^7"><span class="description-text">Six sequential hex digits</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">HEXTET</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaaaaa1"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+10,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 160K</td>
-                        <td class="p-3 description-cell" data-calculation="7·(15/16)·(1/16)^6"><span class="description-text">Six of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">FULLEST HOUSE</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaaabbb"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+5,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 32K</td>
-                        <td class="p-3 description-cell" data-calculation="16·15·(1/16)^7"><span class="description-text">4 + 3 of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">STRAIGHT</td>
-                        <td class="p-3"><span class="hash-display" data-hash="01234ab"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+2,500</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 38K</td>
-                        <td class="p-3 description-cell" data-calculation="3 × 24 × 16^2 / 16^7"><span class="description-text">Five sequential hex digits</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">FIVE OF A KIND</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaaaa12"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+2,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 3.8K</td>
-                        <td class="p-3 description-cell" data-calculation="C(7,5)×16×15^2/16^7"><span class="description-text">Five of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">DOUBLE TRIPLE</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaabbb1"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+1,000</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 2K</td>
-                        <td class="p-3 description-cell" data-calculation="35·16·15·(1/16)^7"><span class="description-text">Two threes of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">THREE PAIR</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aabbcc1"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+500</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 1.5K</td>
-                        <td class="p-3 description-cell" data-calculation="C(16,3)×16/16^7"><span class="description-text">Three consecutive pairs</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">FULLER HOUSE</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaabbcc"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+400</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 762</td>
-                        <td class="p-3 description-cell" data-calculation="C(7,3)×C(4,2)×C(16,3)/16^7"><span class="description-text">3 + 2 + 2 of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">ALPHABET SOUP</td>
-                        <td class="p-3"><span class="hash-display" data-hash="abcdefa"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+250</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 960</td>
-                        <td class="p-3 description-cell" data-calculation="(6/16)^7"><span class="description-text">Only letters (a-f)</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">FOUR OF A KIND</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaaa123"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+200</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 176</td>
-                        <td class="p-3 description-cell" data-calculation="C(7,4)×16×15^3/16^7"><span class="description-text">Four of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">FULL HOUSE</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaabb12"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+50</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 29</td>
-                        <td class="p-3 description-cell" data-calculation="C(7,3)×C(4,2)×16×15×14^2/16^7"><span class="description-text">3 + 2 of a kind (3-2-1-1)</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">THREE OF A KIND</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aaa1234"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+25</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 15</td>
-                        <td class="p-3 description-cell" data-calculation="C(7,3)×16×15^4/16^7"><span class="description-text">Three of a kind</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">ALL NUMBERS</td>
-                        <td class="p-3"><span class="hash-display" data-hash="1230984"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+50</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 485</td>
-                        <td class="p-3 description-cell" data-calculation="(10/16)^7"><span class="description-text">Only numbers (0-9)</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">TWO PAIR</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aa1bb2c"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-win);">+25</td>
-                        <td class="p-3 text-right hidden sm:table-cell">1 in 25</td>
-                        <td class="p-3 description-cell" data-calculation="15×C(16,2)×16^3/16^7"><span class="description-text">Two consecutive pairs (e.g., aa...bb)</span></td>
-                    </tr>
-                    <tr class="border-b hover:bg-white/5 odds-row" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
-                        <td class="p-3 font-bold" style="color: var(--term-text);">ONE PAIR</td>
-                        <td class="p-3"><span class="hash-display" data-hash="aa1b3d5"></span></td>
-                        <td class="p-3 text-right font-bold" style="color: var(--term-text);">+10</td>
-                        <td class="p-3 text-right hidden sm:table-cell">~1 in 4</td>
-                        <td class="p-3 description-cell" data-calculation="6×16×15^5/16^7"><span class="description-text">One consecutive pair (e.g., aa...)</span></td>
-                    </tr>
+                    @foreach ($patterns as $pattern)
+                        @php
+                            $oneIn = $pattern['oneIn'];
+                            $odds = $oneIn >= 1000000
+                                ? rtrim(rtrim(number_format($oneIn / 1000000, 1), '0'), '.').'M'
+                                : ($oneIn >= 1000
+                                    ? rtrim(rtrim(number_format($oneIn / 1000, 1), '0'), '.').'K'
+                                    : number_format($oneIn));
+                        @endphp
+                        <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
+                            <td class="p-3 font-bold align-top" style="color: var(--term-text);">
+                                {{ $pattern['name'] }}
+                                <div class="text-xs font-normal mt-1" style="color: var(--term-dim);">{{ $pattern['description'] }}</div>
+                            </td>
+                            <td class="p-3 align-top"><span class="hash-display" data-hash="{{ $pattern['example'] }}"></span></td>
+                            <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
+                            <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
+                            <td class="p-3 align-top hidden md:table-cell"><span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}"></span></td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -212,19 +114,19 @@
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">STATS FOR NERDS</h3>
                 <ul class="space-y-1 text-xs sm:text-sm" style="color: var(--term-dim);">
-                    <li><span style="color: var(--term-win);">Check the Stats page</span> for real-world pattern frequencies</li>
-                    <li><span style="color: var(--term-text);">Three of a Kind</span> is the most common win (~7% of commits)</li>
-                    <li><span style="color: var(--term-text);">Two Pair</span> hits about 1 in 45 commits (~2%)</li>
-                    <li><span style="color: var(--term-text);">All Numbers</span> breaks even (~3% of commits)</li>
+                    <li><span style="color: var(--term-win);">{{ number_format($winRate * 100, 1) }}%</span> of commits win something — the other {{ number_format((1 - $winRate) * 100, 1) }}% are NO WIN</li>
+                    <li><span style="color: var(--term-text);">Three of a Kind</span> is the most common win (~1 in 15, ~6.8%)</li>
+                    <li><span style="color: var(--term-text);">One Pair</span> pays 10 — exactly your ante back (a push), ~1 in 5</li>
+                    <li><span style="color: var(--term-text);">Hover the formulas</span> — every probability is exact over all 16⁷ hashes</li>
                 </ul>
             </div>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">
                 <h3 class="text-base sm:text-lg font-bold mb-2" style="color: var(--term-text);">PATTERN RULES</h3>
                 <ul class="space-y-1 text-xs sm:text-sm" style="color: var(--term-dim);">
-                    <li><span style="color: var(--term-text);">Straights</span> - Sequential hex values (ascending or descending)</li>
-                    <li><span style="color: var(--term-text);">Pairs</span> - Consecutive identical characters (aa, bb, etc.)</li>
-                    <li><span style="color: var(--term-text);">Priority</span> - Checked from rarest to most common</li>
-                    <li><span style="color: var(--term-text);">All hashes</span> - Every commit gets a fair shake!</li>
+                    <li><span style="color: var(--term-text);">Straights</span> - Sequential hex values in a row (ascending or descending)</li>
+                    <li><span style="color: var(--term-text);">Pairs</span> - Must be <em>adjacent</em> identical characters (aa, bb)</li>
+                    <li><span style="color: var(--term-text);">Priority</span> - Rarest pattern wins when a hash matches several</li>
+                    <li><span style="color: var(--term-text);">Letters beat numbers</span> - ALPHABET SOUP outranks ALL NUMBERS (rarer)</li>
                 </ul>
             </div>
         </div>

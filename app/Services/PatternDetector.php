@@ -13,28 +13,28 @@ class PatternDetector
         $this->secretDetector = new SecretDetector;
     }
 
-    private const PAYOUTS = [
-        'SECRET' => ['name' => 'SECRET', 'payout' => 0], // Placeholder
-        'LUCKY_SEVENS' => ['name' => 'LUCKY SEVENS', 'payout' => 1000000],
-        'ALL_SAME' => ['name' => 'JACKPOT', 'payout' => 100000],
-        'STRAIGHT_7' => ['name' => 'LUCKY SEVEN', 'payout' => 50000],
-        'STRAIGHT_6' => ['name' => 'BIG STRAIGHT', 'payout' => 25000],
-        'SIX_OF_KIND' => ['name' => 'HEXTET', 'payout' => 10000],
-        'FULLEST_HOUSE' => ['name' => 'FULLEST HOUSE', 'payout' => 5000],
-        'STRAIGHT_5' => ['name' => 'STRAIGHT', 'payout' => 2500],
-        'FIVE_OF_KIND' => ['name' => 'FIVE OF A KIND', 'payout' => 2000],
-        'THREE_OF_KIND_PLUS_THREE' => ['name' => 'DOUBLE TRIPLE', 'payout' => 1000],
-        'THREE_PAIR' => ['name' => 'THREE PAIR', 'payout' => 500],
-        'FULLER_HOUSE' => ['name' => 'FULLER HOUSE', 'payout' => 400],
-        'ALL_LETTERS' => ['name' => 'ALPHABET SOUP', 'payout' => 250],
-        'FOUR_OF_KIND' => ['name' => 'FOUR OF A KIND', 'payout' => 200],
-        'FULL_HOUSE' => ['name' => 'FULL HOUSE', 'payout' => 50],
-        'THREE_OF_KIND' => ['name' => 'THREE OF A KIND', 'payout' => 25],
-        'ALL_NUMBERS' => ['name' => 'ALL NUMBERS', 'payout' => 50],
-        'TWO_PAIR' => ['name' => 'TWO PAIR', 'payout' => 25],
-        'ONE_PAIR' => ['name' => 'ONE PAIR', 'payout' => 10],
-        'NO_WIN' => ['name' => 'NO WIN', 'payout' => 0],
-    ];
+    /** @var array<string, array{name: string, payout: int}>|null */
+    private static ?array $payouts = null;
+
+    /**
+     * Payout table, loaded from the canonical ruleset (resources/data/patterns.json) so the
+     * CLI, server, and odds page share a single source of truth. See PATTERN-DETECTION-SPEC.md.
+     *
+     * @return array<string, array{name: string, payout: int}>
+     */
+    private static function payouts(): array
+    {
+        if (self::$payouts === null) {
+            $map = [];
+            foreach (Ruleset::patterns() as $pattern) {
+                $map[$pattern['type']] = ['name' => $pattern['name'], 'payout' => $pattern['payout']];
+            }
+
+            self::$payouts = $map;
+        }
+
+        return self::$payouts;
+    }
 
     public function detect(string $hash): array
     {
@@ -63,7 +63,7 @@ class PatternDetector
         // Detect pattern - check in order of rarity/value
         $type = $this->detectPatternType($hash);
 
-        $config = self::PAYOUTS[$type];
+        $config = self::payouts()[$type];
 
         return [
             'type' => $type,

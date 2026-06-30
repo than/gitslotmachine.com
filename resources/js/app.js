@@ -1,8 +1,24 @@
 import './bootstrap';
 import { detectPattern } from './patterns.js';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 // Make detectPattern available globally
 window.detectPattern = detectPattern;
+
+// Render LaTeX odds formulas (used on the /odds page). Idempotent.
+window.renderFormulas = function () {
+    document.querySelectorAll('.katex-formula').forEach((el) => {
+        const latex = el.dataset.latex;
+        if (!latex || el.dataset.rendered) return;
+        try {
+            katex.render(latex, el, { throwOnError: false, displayMode: false });
+            el.dataset.rendered = '1';
+        } catch (e) {
+            el.textContent = latex;
+        }
+    });
+};
 
 // Global hash highlighting function
 window.highlightHashes = function() {
@@ -31,6 +47,7 @@ window.highlightHashes = function() {
 
 // Run on page load
 document.addEventListener('DOMContentLoaded', window.highlightHashes);
+document.addEventListener('DOMContentLoaded', window.renderFormulas);
 
 // Also run after Livewire updates (if Livewire is present)
 document.addEventListener('livewire:init', () => {

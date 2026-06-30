@@ -22,6 +22,31 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 3.0.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v3.0.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2026-06-27</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ Payout Ruleset v3:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Rebuilt every payout against exact, enumerated odds (all 16⁷ hashes) — payouts now follow rarity, RTP ≈ 109%</li>
+                                <li>Odds page rewritten from a single source of truth, with LaTeX probability formulas (KaTeX)</li>
+                                <li>Corrected the published odds, which were wrong for several patterns (STRAIGHT, ALL NUMBERS, …)</li>
+                            </ul>
+                        </div>
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Bug Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Browser detector now scores FULLER HOUSE (3-2-2) the same as the server (was paying it as FULL HOUSE)</li>
+                                <li>Fixed wrong example hashes on the odds page</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 2.3.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

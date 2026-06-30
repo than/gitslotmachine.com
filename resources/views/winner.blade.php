@@ -80,7 +80,7 @@
                             <span style="color: var(--term-accent);">●</span>
                         </div>
                         <span class="text-xs font-mono text-center" style="color: var(--term-dim);">{{ $play->commit_hash }}</span>
-                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v1.0.0</span>
+                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v{{ config('app.version') }}</span>
                     </div>
                     <div class="border-t pt-2" style="border-color: rgba(var(--term-accent-rgb), 0.3);"></div>
                 </div>

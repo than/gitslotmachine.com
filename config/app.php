@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    |
+    | The web app's display version, shown in the terminal chrome header and the
+    | "new version available" banner (meta[name=app-version]). Single source so the
+    | header can't drift. Distinct from the payout ruleset version (see Ruleset).
+    |
+    */
+
+    'version' => env('APP_VERSION', '3.0.0'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

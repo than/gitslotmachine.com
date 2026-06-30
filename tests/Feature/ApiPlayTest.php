@@ -34,11 +34,11 @@ it('can submit a play', function () {
         ->where('name', 'test-repo')
         ->exists())->toBeTrue();
 
-    // Verify play created with the server-computed payout (THREE_PAIR = 500),
+    // Verify play created with the server-computed payout (THREE_PAIR = 1000),
     // not the client-supplied value.
     expect(Play::where('commit_hash', 'aabbcc1')
         ->where('pattern_type', 'THREE_PAIR')
-        ->where('payout', 500)
+        ->where('payout', 1000)
         ->exists())->toBeTrue();
 });
 
@@ -94,7 +94,7 @@ it('ignores a lying client and records the server-computed pattern', function ()
     // The stored play reflects the true server-detected pattern, not the lie.
     expect(Play::where('commit_hash', 'aabbcc1')
         ->where('pattern_type', 'THREE_PAIR')
-        ->where('payout', 500)
+        ->where('payout', 1000)
         ->exists())->toBeTrue();
 });
 
@@ -122,9 +122,9 @@ it('updates existing user and repo', function () {
 
     $response->assertStatus(201);
 
-    // Balance uses the server-computed payout (ALL_LETTERS = 250): 100 - 10 + 250 = 340
+    // Balance uses the server-computed payout (ALL_LETTERS = 500): 100 - 10 + 500 = 590
     $repo->refresh();
-    expect($repo->balance)->toBe(340);
+    expect($repo->balance)->toBe(590);
     expect($repo->total_commits)->toBe(1);
 });
 
@@ -232,7 +232,7 @@ it('does not require client payout (server computes it)', function () {
 
     $response->assertStatus(201);
     expect(Play::where('commit_hash', 'aabbcc1')
-        ->where('payout', 500)
+        ->where('payout', 1000)
         ->exists())->toBeTrue();
 });
 
@@ -280,8 +280,8 @@ it('updates user stats correctly', function () {
 
     $user->refresh();
     expect($user->total_commits)->toBe(1);
-    expect($user->total_balance)->toBe(240); // server-computed ALL_LETTERS (250) - 10 cost
-    expect($user->biggest_win)->toBe(250);
+    expect($user->total_balance)->toBe(490); // server-computed ALL_LETTERS (500) - 10 cost
+    expect($user->biggest_win)->toBe(500);
 });
 
 it('increments current streak on win', function () {

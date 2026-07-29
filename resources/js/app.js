@@ -25,12 +25,24 @@ let activeFormulaPart = null;
 function positionFormulaTip(part) {
     const tip = formulaTooltip();
     const r = part.getBoundingClientRect();
+
+    // Measure at the origin, not at wherever the previous anchor left us. The tip is
+    // absolutely positioned with a max-width and no width, so its shrink-to-fit width
+    // is measured against the space remaining to the right of its current `left` —
+    // measuring in place makes it wrap narrower and taller than it will actually be.
+    tip.style.left = '0px';
+    tip.style.top = '0px';
     const tr = tip.getBoundingClientRect();
+
     // Centre above the part, clamped to the viewport.
     let left = r.left + r.width / 2 - tr.width / 2 + window.scrollX;
     left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - tr.width - 8));
     tip.style.left = `${left}px`;
-    tip.style.top = `${r.top + window.scrollY - tr.height - 8}px`;
+
+    // Flip below when there isn't room above — the first table row sits near enough to
+    // the top that the tip would otherwise render off-screen.
+    const above = r.top - tr.height - 8;
+    tip.style.top = `${(above < 8 ? r.bottom + 8 : above) + window.scrollY}px`;
 }
 
 function showFormulaTip(part, text) {
@@ -78,7 +90,10 @@ function wireFormulaTips(el, tips) {
         const show = () => showFormulaTip(part, text);
         part.addEventListener('mouseenter', show);
         part.addEventListener('focus', show);
-        part.addEventListener('mouseleave', hideFormulaTip);
+        // Don't let the pointer leaving yank a tooltip the keyboard is still holding.
+        part.addEventListener('mouseleave', () => {
+            if (document.activeElement !== part) hideFormulaTip();
+        });
         part.addEventListener('blur', hideFormulaTip);
     });
 }

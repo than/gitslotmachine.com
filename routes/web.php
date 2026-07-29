@@ -33,7 +33,7 @@ Route::get('/odds', function () {
     $patterns = collect(Ruleset::patterns())
         ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
         ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])
-        ->map(function ($pattern) {
+        ->map(function (array $pattern): array {
             $annotated = FormulaAnnotator::annotate($pattern);
             $pattern['formulaLatex'] = $annotated['latex'];
             $pattern['formulaTips'] = $annotated['tips'];

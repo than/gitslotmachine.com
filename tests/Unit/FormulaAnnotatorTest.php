@@ -4,10 +4,12 @@ use App\Services\FormulaAnnotator;
 use App\Services\Ruleset;
 
 /**
- * Removes every \htmlData{tip=N}{BODY} wrapper, keeping BODY — brace-aware so
- * nested \binom{}{} bodies survive. Used to prove annotation is non-destructive.
+ * Unwraps every \htmlData{tip=N}{BODY} — brace-aware, so nested \binom{}{} bodies
+ * survive. $keepBody true leaves BODY in place (proving annotation is
+ * non-destructive); false drops it too, leaving only the formula skeleton
+ * (operators, \dfrac, braces).
  */
-function stripHtmlData(string $latex): string
+function unwrapHtmlData(string $latex, bool $keepBody): string
 {
     while (($start = strpos($latex, '\htmlData{tip=')) !== false) {
         // Find the opening brace of the BODY (the second {...} group).
@@ -28,41 +30,21 @@ function stripHtmlData(string $latex): string
             }
         }
 
-        $body = substr($latex, $bodyOpen + 1, $bodyClose - $bodyOpen - 1);
+        $body = $keepBody ? substr($latex, $bodyOpen + 1, $bodyClose - $bodyOpen - 1) : '';
         $latex = substr($latex, 0, $start).$body.substr($latex, $bodyClose + 1);
     }
 
     return $latex;
 }
 
-/**
- * Removes each \htmlData{tip=N}{BODY} wrapper AND its body entirely — brace-aware,
- * leaving only the formula skeleton (operators, \dfrac, braces).
- */
+function stripHtmlData(string $latex): string
+{
+    return unwrapHtmlData($latex, keepBody: true);
+}
+
 function removeHtmlData(string $latex): string
 {
-    while (($start = strpos($latex, '\htmlData{tip=')) !== false) {
-        $braceOpen = strpos($latex, '{', $start + strlen('\htmlData'));
-        $bodyOpen = strpos($latex, '{', strpos($latex, '}', $braceOpen) + 1);
-
-        $depth = 0;
-        $bodyClose = null;
-        for ($i = $bodyOpen; $i < strlen($latex); $i++) {
-            if ($latex[$i] === '{') {
-                $depth++;
-            } elseif ($latex[$i] === '}') {
-                $depth--;
-                if ($depth === 0) {
-                    $bodyClose = $i;
-                    break;
-                }
-            }
-        }
-
-        $latex = substr($latex, 0, $start).substr($latex, $bodyClose + 1);
-    }
-
-    return $latex;
+    return unwrapHtmlData($latex, keepBody: false);
 }
 
 // Secret patterns are annotated too, even though /odds hides them — otherwise the

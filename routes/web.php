@@ -26,9 +26,10 @@ Route::get('/odds', function () {
         ->get();
 
     // Render the table from the canonical ruleset (single source of truth). The JSON
-    // stores patterns in pattern-family groups, not priority order — so sort for the
-    // page. Payout is monotonic with rarity in this ruleset, so biggest-payout-first
-    // also mirrors the detector's rarest-first priority; rarity breaks payout ties.
+    // stores patterns in pattern-family groups, so sort for the page: biggest payout
+    // first, rarity breaking ties. This is display order only — it is NOT
+    // PatternDetector's check order, which tests FOUR_OF_KIND before the rarer
+    // ALL_LETTERS (so e.g. `aaaabcd` pays 100, not 500).
     $patterns = collect(Ruleset::patterns())
         ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
         ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])

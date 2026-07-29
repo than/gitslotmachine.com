@@ -28,6 +28,9 @@ class FormulaAnnotator
     private static function tokens(): array
     {
         return [
+            'LUCKY_SEVENS' => [
+                ['1', 'Exactly one hash in the whole space: 7777777.'],
+            ],
             'ALL_SAME' => [
                 ['16', '16 all-same hashes — one for each hex digit 0–f.'],
                 ['1', 'Minus 1 all-same hash that a rarer secret pattern claims first.'],

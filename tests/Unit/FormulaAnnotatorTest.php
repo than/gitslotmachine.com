@@ -65,8 +65,12 @@ function removeHtmlData(string $latex): string
     return $latex;
 }
 
-$visible = collect(Ruleset::patterns())
-    ->reject(fn ($p) => $p['secret'] || $p['type'] === 'NO_WIN')
+// Secret patterns are annotated too, even though /odds hides them — otherwise the
+// guard below shares its blind spot with the bug it exists to catch, and a secret
+// surfaced later would arrive with untooltipped numbers. NO_WIN is excluded: its
+// formula is a single enumerated total with nothing to explain term by term.
+$annotatable = collect(Ruleset::patterns())
+    ->reject(fn ($p) => $p['type'] === 'NO_WIN')
     ->values()
     ->all();
 
@@ -74,7 +78,7 @@ it('annotates without changing the underlying formula', function (array $pattern
     $annotated = FormulaAnnotator::annotate($pattern);
 
     expect(stripHtmlData($annotated['latex']))->toBe($pattern['formulaLatex']);
-})->with(array_map(fn ($p) => [$p], $visible));
+})->with(array_map(fn ($p) => [$p], $annotatable));
 
 it('always explains the sample space (denominator) and the counting', function (array $pattern) {
     $annotated = FormulaAnnotator::annotate($pattern);
@@ -88,7 +92,7 @@ it('always explains the sample space (denominator) and the counting', function (
     foreach ($m[1] as $i) {
         expect($annotated['tips'][(int) $i] ?? null)->not->toBeNull();
     }
-})->with(array_map(fn ($p) => [$p], $visible));
+})->with(array_map(fn ($p) => [$p], $annotatable));
 
 it('leaves no bare number untiled — every magic number has a tooltip', function (array $pattern) {
     $annotated = FormulaAnnotator::annotate($pattern);
@@ -98,4 +102,4 @@ it('leaves no bare number untiled — every magic number has a tooltip', functio
     $skeleton = removeHtmlData($annotated['latex']);
 
     expect($skeleton)->not->toMatch('/\d/');
-})->with(array_map(fn ($p) => [$p], $visible));
+})->with(array_map(fn ($p) => [$p], $annotatable));

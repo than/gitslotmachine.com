@@ -19,10 +19,11 @@ function formulaTooltip() {
     return tip;
 }
 
-function showFormulaTip(part, text) {
+// The part the tooltip is currently anchored to, so scrolling can reposition it.
+let activeFormulaPart = null;
+
+function positionFormulaTip(part) {
     const tip = formulaTooltip();
-    tip.textContent = text;
-    tip.classList.add('is-visible');
     const r = part.getBoundingClientRect();
     const tr = tip.getBoundingClientRect();
     // Centre above the part, clamped to the viewport.
@@ -32,10 +33,38 @@ function showFormulaTip(part, text) {
     tip.style.top = `${r.top + window.scrollY - tr.height - 8}px`;
 }
 
+function showFormulaTip(part, text) {
+    const tip = formulaTooltip();
+    tip.textContent = text;
+    tip.classList.add('is-visible');
+    activeFormulaPart = part;
+    // describedby, not label: the KaTeX span's accessible name stays the maths,
+    // and the explanation is announced as a description on top of it.
+    part.setAttribute('aria-describedby', 'formula-tooltip');
+    positionFormulaTip(part);
+}
+
 function hideFormulaTip() {
     const tip = document.getElementById('formula-tooltip');
     if (tip) tip.classList.remove('is-visible');
+    if (activeFormulaPart) activeFormulaPart.removeAttribute('aria-describedby');
+    activeFormulaPart = null;
 }
+
+// WCAG 1.4.13: hover/focus content must be dismissible without moving the pointer
+// or focus.
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hideFormulaTip();
+});
+
+// A tooltip anchored on focus would otherwise strand mid-page once the user scrolls.
+window.addEventListener(
+    'scroll',
+    () => {
+        if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
+    },
+    { passive: true }
+);
 
 // Attach hover/focus tooltips to every \htmlData{tip=i} span KaTeX rendered.
 function wireFormulaTips(el, tips) {
@@ -43,7 +72,6 @@ function wireFormulaTips(el, tips) {
         const text = tips[Number(part.dataset.tip)];
         if (!text) return;
         part.setAttribute('tabindex', '0');
-        part.setAttribute('aria-label', text);
         part.classList.add('formula-part');
         const show = () => showFormulaTip(part, text);
         part.addEventListener('mouseenter', show);
@@ -66,7 +94,9 @@ window.renderFormulas = function () {
                 throwOnError: false,
                 displayMode: false,
                 trust: (context) => context.command === '\\htmlData',
-                strict: false,
+                // Silence only the htmlExtension warning \htmlData itself triggers;
+                // every other diagnostic still surfaces for formulas added later.
+                strict: (errorCode) => (errorCode === 'htmlExtension' ? 'ignore' : 'warn'),
             });
             let tips = [];
             try { tips = JSON.parse(el.dataset.tips || '[]'); } catch (e) { tips = []; }

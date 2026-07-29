@@ -27,9 +27,9 @@ return [
     |
     */
 
-    'version' => env('APP_VERSION', '3.0.0'),
+    'version' => $appVersion = (string) env('APP_VERSION', '3.1.0'),
 
-    'version_display' => implode('.', array_slice(explode('.', (string) env('APP_VERSION', '3.0.0')), 0, 2)),
+    'version_display' => implode('.', array_slice(explode('.', $appVersion), 0, 2)),
 
     /*
     |--------------------------------------------------------------------------

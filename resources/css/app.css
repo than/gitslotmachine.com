@@ -68,8 +68,52 @@
 
 [data-theme="solarized"] {
     --term-bg: #002b36;
-    --term-text: #839496;
-    --term-dim: #586e75;
+    --term-text: #93a1a1;
+    --term-dim: #829496;
     --term-accent: #2aa198;
     --term-win: #b58900;
+}
+
+/* A commit hash is a single 7-character token — never let its tiles wrap. */
+.hash-display {
+    white-space: nowrap;
+}
+
+/* Interactive parts of an /odds probability formula — hover/focus for an explanation. */
+.katex .formula-part {
+    border-bottom: 1px dotted currentColor;
+    cursor: help;
+    border-radius: 2px;
+}
+
+.katex .formula-part:hover,
+.katex .formula-part:focus {
+    background: color-mix(in srgb, var(--term-accent) 22%, transparent);
+    outline: none;
+}
+
+.formula-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    max-width: 22rem;
+    padding: 0.5rem 0.65rem;
+    font-family: var(--font-mono), monospace;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--term-bg);
+    background: var(--term-text);
+    border: 1px solid var(--term-accent);
+    border-radius: 3px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.12s ease;
+    pointer-events: none;
+}
+
+.formula-tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
 }

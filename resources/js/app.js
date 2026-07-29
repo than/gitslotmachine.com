@@ -6,13 +6,71 @@ import 'katex/dist/katex.min.css';
 // Make detectPattern available globally
 window.detectPattern = detectPattern;
 
+// One shared tooltip element, lazily created, reused by every formula part.
+function formulaTooltip() {
+    let tip = document.getElementById('formula-tooltip');
+    if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'formula-tooltip';
+        tip.className = 'formula-tooltip';
+        tip.setAttribute('role', 'tooltip');
+        document.body.appendChild(tip);
+    }
+    return tip;
+}
+
+function showFormulaTip(part, text) {
+    const tip = formulaTooltip();
+    tip.textContent = text;
+    tip.classList.add('is-visible');
+    const r = part.getBoundingClientRect();
+    const tr = tip.getBoundingClientRect();
+    // Centre above the part, clamped to the viewport.
+    let left = r.left + r.width / 2 - tr.width / 2 + window.scrollX;
+    left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - tr.width - 8));
+    tip.style.left = `${left}px`;
+    tip.style.top = `${r.top + window.scrollY - tr.height - 8}px`;
+}
+
+function hideFormulaTip() {
+    const tip = document.getElementById('formula-tooltip');
+    if (tip) tip.classList.remove('is-visible');
+}
+
+// Attach hover/focus tooltips to every \htmlData{tip=i} span KaTeX rendered.
+function wireFormulaTips(el, tips) {
+    el.querySelectorAll('[data-tip]').forEach((part) => {
+        const text = tips[Number(part.dataset.tip)];
+        if (!text) return;
+        part.setAttribute('tabindex', '0');
+        part.setAttribute('aria-label', text);
+        part.classList.add('formula-part');
+        const show = () => showFormulaTip(part, text);
+        part.addEventListener('mouseenter', show);
+        part.addEventListener('focus', show);
+        part.addEventListener('mouseleave', hideFormulaTip);
+        part.addEventListener('blur', hideFormulaTip);
+    });
+}
+
 // Render LaTeX odds formulas (used on the /odds page). Idempotent.
 window.renderFormulas = function () {
     document.querySelectorAll('.katex-formula').forEach((el) => {
         const latex = el.dataset.latex;
         if (!latex || el.dataset.rendered) return;
         try {
-            katex.render(latex, el, { throwOnError: false, displayMode: false });
+            // `trust` is scoped to \htmlData only — the sole command FormulaAnnotator
+            // emits. This keeps \href/\includegraphics un-trusted if the formula
+            // source ever stops being static.
+            katex.render(latex, el, {
+                throwOnError: false,
+                displayMode: false,
+                trust: (context) => context.command === '\\htmlData',
+                strict: false,
+            });
+            let tips = [];
+            try { tips = JSON.parse(el.dataset.tips || '[]'); } catch (e) { tips = []; }
+            wireFormulaTips(el, tips);
             el.dataset.rendered = '1';
         } catch (e) {
             el.textContent = latex;

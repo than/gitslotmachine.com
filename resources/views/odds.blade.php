@@ -46,7 +46,7 @@
                         <th class="p-3 text-left hidden md:table-cell">PROBABILITY</th>
                     </tr>
                 </thead>
-                <tbody style="color: var(--term-dim);">
+                <tbody style="color: var(--term-text);">
                     @foreach ($patterns as $pattern)
                         @php
                             $oneIn = $pattern['oneIn'];
@@ -64,7 +64,7 @@
                             <td class="p-3 align-top"><span class="hash-display" data-hash="{{ $pattern['example'] }}"></span></td>
                             <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
                             <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
-                            <td class="p-3 align-top hidden md:table-cell"><span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}"></span></td>
+                            <td class="p-3 align-top hidden md:table-cell"><span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -117,7 +117,7 @@
                     <li><span style="color: var(--term-win);">{{ number_format($winRate * 100, 1) }}%</span> of commits win something — the other {{ number_format((1 - $winRate) * 100, 1) }}% are NO WIN</li>
                     <li><span style="color: var(--term-text);">Three of a Kind</span> is the most common win (~1 in 15, ~6.8%)</li>
                     <li><span style="color: var(--term-text);">One Pair</span> pays 10 — exactly your ante back (a push), ~1 in 5</li>
-                    <li><span style="color: var(--term-text);">Hover the formulas</span> — every probability is exact over all 16⁷ hashes</li>
+                    <li><span style="color: var(--term-text);">Hover any part of a formula</span> — each piece explains itself; every probability is exact over all 16⁷ hashes</li>
                 </ul>
             </div>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">

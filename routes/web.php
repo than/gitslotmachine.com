@@ -3,6 +3,7 @@
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\WinnerController;
 use App\Models\SecretDiscovery;
+use App\Services\FormulaAnnotator;
 use App\Services\Ruleset;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,20 @@ Route::get('/odds', function () {
         ->orderBy('discovered_at')
         ->get();
 
-    // Render the table from the canonical ruleset (single source of truth).
+    // Render the table from the canonical ruleset (single source of truth). The JSON
+    // stores patterns in pattern-family groups, not priority order — so sort for the
+    // page. Payout is monotonic with rarity in this ruleset, so biggest-payout-first
+    // also mirrors the detector's rarest-first priority; rarity breaks payout ties.
     $patterns = collect(Ruleset::patterns())
         ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
+        ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])
+        ->map(function ($pattern) {
+            $annotated = FormulaAnnotator::annotate($pattern);
+            $pattern['formulaLatex'] = $annotated['latex'];
+            $pattern['formulaTips'] = $annotated['tips'];
+
+            return $pattern;
+        })
         ->values();
 
     return view('odds', [

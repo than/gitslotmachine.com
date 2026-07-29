@@ -109,7 +109,7 @@
                             <span style="color: var(--term-accent);">●</span>
                         </div>
                         <span id="random-hash" class="text-xs font-mono text-center" style="color: var(--term-dim);"></span>
-                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v{{ config('app.version') }}</span>
+                        <span class="text-xs text-right" style="color: var(--term-dim);">git-slot-machine v{{ config('app.version_display') }}</span>
                     </div>
                     <div class="border-t pt-2" style="border-color: var(--term-dim);"></div>
                 </div>

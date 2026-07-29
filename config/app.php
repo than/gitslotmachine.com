@@ -20,13 +20,16 @@ return [
     | Application Version
     |--------------------------------------------------------------------------
     |
-    | The web app's display version, shown in the terminal chrome header and the
-    | "new version available" banner (meta[name=app-version]). Single source so the
-    | header can't drift. Distinct from the payout ruleset version (see Ruleset).
+    | The full x.x.x version — the source of truth that matches the npm package,
+    | git tags, and the "new version available" banner (meta[name=app-version]).
+    | 'version_display' is the human-facing major.minor label shown in the terminal
+    | chrome (e.g. "3.0"). Distinct from the payout ruleset version (see Ruleset).
     |
     */
 
     'version' => env('APP_VERSION', '3.0.0'),
+
+    'version_display' => implode('.', array_slice(explode('.', (string) env('APP_VERSION', '3.0.0')), 0, 2)),
 
     /*
     |--------------------------------------------------------------------------

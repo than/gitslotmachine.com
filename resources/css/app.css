@@ -86,10 +86,28 @@
     border-radius: 2px;
 }
 
-.katex .formula-part:hover,
-.katex .formula-part:focus {
+.katex .formula-part:hover {
     background: color-mix(in srgb, var(--term-accent) 22%, transparent);
-    outline: none;
+}
+
+/* The keyboard/assistive-tech path for the same explanations. The KaTeX spans above
+   sit inside aria-hidden="true" and can't carry it. */
+.formula-explain > summary {
+    cursor: pointer;
+    color: var(--term-dim);
+}
+
+.formula-explain > summary:hover {
+    color: var(--term-text);
+}
+
+.formula-explain > summary:focus-visible {
+    outline: 2px solid var(--term-accent);
+    outline-offset: 2px;
+}
+
+.formula-explain ul {
+    color: var(--term-dim);
 }
 
 .formula-tooltip {

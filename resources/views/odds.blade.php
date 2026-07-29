@@ -64,7 +64,24 @@
                             <td class="p-3 align-top"><span class="hash-display" data-hash="{{ $pattern['example'] }}"></span></td>
                             <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
                             <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
-                            <td class="p-3 align-top hidden md:table-cell"><span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span></td>
+                            <td class="p-3 align-top hidden md:table-cell">
+                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
+                                {{-- KaTeX puts the visual render (and so every hover target) inside
+                                     aria-hidden="true", so the tooltips can never reach assistive tech.
+                                     This list is the same explanations as real content: keyboard
+                                     reachable, announced, and collapsed by default so the table reads
+                                     the same as before. --}}
+                                @if(! empty($pattern['formulaTips']))
+                                <details class="formula-explain mt-2 text-xs">
+                                    <summary>Explain this formula</summary>
+                                    <ul class="list-disc list-outside pl-4 mt-1 space-y-1">
+                                        @foreach($pattern['formulaTips'] as $tip)
+                                        <li>{{ $tip }}</li>
+                                        @endforeach
+                                    </ul>
+                                </details>
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

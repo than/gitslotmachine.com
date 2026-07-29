@@ -32,6 +32,19 @@ it('carries annotated formulas and their tooltips into the page', function () {
         ->assertSee('268,435,456');
 });
 
+// KaTeX renders the visual formula inside aria-hidden="true", so the hover tooltips
+// are invisible to assistive tech and can't be fixed in place — aria-hidden is
+// inherited and a descendant can't override it. These <details> lists are the
+// keyboard/screen-reader path, so they have to be real content on the page.
+it('exposes every tooltip as readable content outside the aria-hidden render', function () {
+    $response = $this->get('/odds');
+
+    $response->assertSee('formula-explain', false)
+        ->assertSee('Explain this formula')
+        // A tip that only ever existed inside a tooltip before.
+        ->assertSee('16 choices for the six-of-a-kind digit.');
+});
+
 // EXAMPLE VALIDATION: every example hash in the canonical ruleset must detect as its own type,
 // guarding the example hashes the odds page displays.
 it('detects each canonical example as its own pattern type', function () {

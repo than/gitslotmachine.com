@@ -14,16 +14,21 @@ it('exposes a full x.y.z version and a major.minor display label', function () {
 // derived once at config-load from a local in that file, so a runtime set can never
 // re-derive it and the test would assert nothing.
 it('derives the display label from the env value', function (string $full, string $display) {
-    $original = $_ENV['APP_VERSION'] ?? null;
-    $_ENV['APP_VERSION'] = $full;
+    // Both superglobals: phpdotenv's default adapters read $_SERVER before $_ENV, so
+    // setting only $_ENV would be silently overridden anywhere APP_VERSION is actually
+    // set — a real OS env var, or .env once the commented line is uncommented.
+    $original = ['env' => $_ENV['APP_VERSION'] ?? null, 'server' => $_SERVER['APP_VERSION'] ?? null];
+    $_ENV['APP_VERSION'] = $_SERVER['APP_VERSION'] = $full;
 
     try {
         $config = require config_path('app.php');
     } finally {
-        if ($original === null) {
-            unset($_ENV['APP_VERSION']);
-        } else {
-            $_ENV['APP_VERSION'] = $original;
+        foreach (['env' => '_ENV', 'server' => '_SERVER'] as $key => $global) {
+            if ($original[$key] === null) {
+                unset($GLOBALS[$global]['APP_VERSION']);
+            } else {
+                $GLOBALS[$global]['APP_VERSION'] = $original[$key];
+            }
         }
     }
 

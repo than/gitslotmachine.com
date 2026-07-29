@@ -50,51 +50,53 @@ function showFormulaTip(part, text) {
     tip.textContent = text;
     tip.classList.add('is-visible');
     activeFormulaPart = part;
-    // describedby, not label: the KaTeX span's accessible name stays the maths,
-    // and the explanation is announced as a description on top of it.
-    part.setAttribute('aria-describedby', 'formula-tooltip');
     positionFormulaTip(part);
 }
 
 function hideFormulaTip() {
     const tip = document.getElementById('formula-tooltip');
     if (tip) tip.classList.remove('is-visible');
-    if (activeFormulaPart) activeFormulaPart.removeAttribute('aria-describedby');
     activeFormulaPart = null;
 }
 
-// WCAG 1.4.13: hover/focus content must be dismissible without moving the pointer
-// or focus.
+// WCAG 1.4.13: hover content must be dismissible without moving the pointer.
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') hideFormulaTip();
 });
 
-// A tooltip anchored on focus would otherwise strand once the anchor moves. capture
-// is required, not optional: scroll events fired on an element do not bubble, and the
-// container that actually moves here is the odds table's own overflow-x-auto wrapper,
-// not the document.
+// An open tooltip would otherwise strand once its anchor moves. capture is required,
+// not optional: scroll events fired on an element do not bubble, and the container
+// that actually moves here is the odds table's own overflow-x-auto wrapper, not the
+// document. The rAF gate keeps positionFormulaTip's write-then-read (a forced
+// synchronous reflow) to once per frame rather than once per scroll event.
+let repositionQueued = false;
 const repositionFormulaTip = () => {
-    if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
+    if (!activeFormulaPart || repositionQueued) return;
+    repositionQueued = true;
+    requestAnimationFrame(() => {
+        repositionQueued = false;
+        if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
+    });
 };
 
 window.addEventListener('scroll', repositionFormulaTip, { passive: true, capture: true });
 window.addEventListener('resize', repositionFormulaTip, { passive: true });
 
-// Attach hover/focus tooltips to every \htmlData{tip=i} span KaTeX rendered.
+// Attach hover tooltips to every \htmlData{tip=i} span KaTeX rendered.
+//
+// Pointer only, deliberately. katex.render defaults to htmlAndMathml: the MathML is
+// what assistive tech reads, and the visual render carrying these spans is marked
+// aria-hidden="true". aria-hidden is inherited and a descendant cannot override it,
+// so anything set here — tabindex, aria-describedby — is either inert or an outright
+// WCAG 4.1.2 violation (focusable element inside aria-hidden). The keyboard and
+// screen-reader path is the <details> list in odds.blade.php instead.
 function wireFormulaTips(el, tips) {
     el.querySelectorAll('[data-tip]').forEach((part) => {
         const text = tips[Number(part.dataset.tip)];
         if (!text) return;
-        part.setAttribute('tabindex', '0');
         part.classList.add('formula-part');
-        const show = () => showFormulaTip(part, text);
-        part.addEventListener('mouseenter', show);
-        part.addEventListener('focus', show);
-        // Don't let the pointer leaving yank a tooltip the keyboard is still holding.
-        part.addEventListener('mouseleave', () => {
-            if (document.activeElement !== part) hideFormulaTip();
-        });
-        part.addEventListener('blur', hideFormulaTip);
+        part.addEventListener('mouseenter', () => showFormulaTip(part, text));
+        part.addEventListener('mouseleave', hideFormulaTip);
     });
 }
 

@@ -36,6 +36,12 @@
                                 <li>Odds table reordered biggest-payout-first, with rarity breaking ties</li>
                             </ul>
                         </div>
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Raised dim-text contrast in the Solarized theme — it was below WCAG AA against the background</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 

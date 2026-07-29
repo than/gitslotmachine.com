@@ -20,8 +20,9 @@ return [
     | Application Version
     |--------------------------------------------------------------------------
     |
-    | The full x.x.x version — the source of truth that matches the npm package,
-    | git tags, and the "new version available" banner (meta[name=app-version]).
+    | The full x.y.z version of *this site*, shown by the "new version available"
+    | banner (meta[name=app-version]) and tracked against this repo's git tags. The
+    | CLI in than/git-slot-machine versions independently — they are not in lockstep.
     | 'version_display' is the human-facing major.minor label shown in the terminal
     | chrome (e.g. "3.0"). Distinct from the payout ruleset version (see Ruleset).
     |

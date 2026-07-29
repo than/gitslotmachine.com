@@ -78,7 +78,7 @@ it('annotates without changing the underlying formula', function (array $pattern
     $annotated = FormulaAnnotator::annotate($pattern);
 
     expect(stripHtmlData($annotated['latex']))->toBe($pattern['formulaLatex']);
-})->with(array_map(fn ($p) => [$p], $annotatable));
+})->with(collect($annotatable)->mapWithKeys(fn ($p) => [$p['type'] => [$p]])->all());
 
 it('always explains the sample space (denominator) and the counting', function (array $pattern) {
     $annotated = FormulaAnnotator::annotate($pattern);
@@ -92,7 +92,7 @@ it('always explains the sample space (denominator) and the counting', function (
     foreach ($m[1] as $i) {
         expect($annotated['tips'][(int) $i] ?? null)->not->toBeNull();
     }
-})->with(array_map(fn ($p) => [$p], $annotatable));
+})->with(collect($annotatable)->mapWithKeys(fn ($p) => [$p['type'] => [$p]])->all());
 
 it('leaves no bare number untiled — every magic number has a tooltip', function (array $pattern) {
     $annotated = FormulaAnnotator::annotate($pattern);
@@ -102,4 +102,4 @@ it('leaves no bare number untiled — every magic number has a tooltip', functio
     $skeleton = removeHtmlData($annotated['latex']);
 
     expect($skeleton)->not->toMatch('/\d/');
-})->with(array_map(fn ($p) => [$p], $annotatable));
+})->with(collect($annotatable)->mapWithKeys(fn ($p) => [$p['type'] => [$p]])->all());

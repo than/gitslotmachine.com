@@ -57,14 +57,16 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') hideFormulaTip();
 });
 
-// A tooltip anchored on focus would otherwise strand mid-page once the user scrolls.
-window.addEventListener(
-    'scroll',
-    () => {
-        if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
-    },
-    { passive: true }
-);
+// A tooltip anchored on focus would otherwise strand once the anchor moves. capture
+// is required, not optional: scroll events fired on an element do not bubble, and the
+// container that actually moves here is the odds table's own overflow-x-auto wrapper,
+// not the document.
+const repositionFormulaTip = () => {
+    if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
+};
+
+window.addEventListener('scroll', repositionFormulaTip, { passive: true, capture: true });
+window.addEventListener('resize', repositionFormulaTip, { passive: true });
 
 // Attach hover/focus tooltips to every \htmlData{tip=i} span KaTeX rendered.
 function wireFormulaTips(el, tips) {

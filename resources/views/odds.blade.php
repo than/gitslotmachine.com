@@ -60,27 +60,29 @@
                             <td class="p-3 font-bold align-top" style="color: var(--term-text);">
                                 {{ $pattern['name'] }}
                                 <div class="text-xs font-normal mt-1" style="color: var(--term-dim);">{{ $pattern['description'] }}</div>
-                            </td>
-                            <td class="p-3 align-top"><span class="hash-display" data-hash="{{ $pattern['example'] }}"></span></td>
-                            <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
-                            <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
-                            <td class="p-3 align-top hidden md:table-cell">
-                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
                                 {{-- KaTeX puts the visual render (and so every hover target) inside
                                      aria-hidden="true", so the tooltips can never reach assistive tech.
                                      This list is the same explanations as real content: keyboard
-                                     reachable, announced, and collapsed by default so the table reads
-                                     the same as before. --}}
+                                     reachable, announced, and collapsed by default. It lives here, not
+                                     in the PROBABILITY cell, because that cell is hidden md:table-cell —
+                                     display:none removes it from the accessibility tree, and below md
+                                     there's no hover either, so touch/mobile readers would get nothing. --}}
                                 @if(! empty($pattern['formulaTips']))
-                                <details class="formula-explain mt-2 text-xs">
-                                    <summary>Explain this formula</summary>
-                                    <ul class="list-disc list-outside pl-4 mt-1 space-y-1">
+                                <details class="formula-explain mt-2 text-xs font-normal">
+                                    <summary>Explain this formula<span class="sr-only"> for {{ $pattern['name'] }}</span></summary>
+                                    <ul class="list-disc list-outside pl-4 mt-1 space-y-1" style="color: var(--term-dim);">
                                         @foreach($pattern['formulaTips'] as $tip)
                                         <li>{{ $tip }}</li>
                                         @endforeach
                                     </ul>
                                 </details>
                                 @endif
+                            </td>
+                            <td class="p-3 align-top"><span class="hash-display" data-hash="{{ $pattern['example'] }}"></span></td>
+                            <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
+                            <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
+                            <td class="p-3 align-top hidden md:table-cell">
+                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
                             </td>
                         </tr>
                     @endforeach
@@ -134,7 +136,7 @@
                     <li><span style="color: var(--term-win);">{{ number_format($winRate * 100, 1) }}%</span> of commits win something — the other {{ number_format((1 - $winRate) * 100, 1) }}% are NO WIN</li>
                     <li><span style="color: var(--term-text);">Three of a Kind</span> is the most common win (~1 in 15, ~6.8%)</li>
                     <li><span style="color: var(--term-text);">One Pair</span> pays 10 — exactly your ante back (a push), ~1 in 5</li>
-                    <li><span style="color: var(--term-text);">Hover any part of a formula</span> — each piece explains itself; every probability is exact over all 16⁷ hashes</li>
+                    <li><span style="color: var(--term-text);">Hover any part of a formula</span> — or open <em>Explain this formula</em> under a pattern's name for the same notes as text; every probability is exact over all 16⁷ hashes</li>
                 </ul>
             </div>
             <div class="border p-4 bg-black/30" style="border-color: var(--term-accent);">

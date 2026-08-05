@@ -162,8 +162,8 @@ class FormulaAnnotator
         $denomWrapped = self::hook(self::pushTip($tips, self::DENOMINATOR_TIP), self::DENOMINATOR);
 
         // Rebuild via placeholders so no wrap re-matches another region's digits.
-        $phRaw = "\1";
-        $phNet = "\2";
+        $phRaw = "\x01";
+        $phNet = "\x02";
         if ($rawText !== null) {
             $latex = self::replaceFirst($latex, '\dfrac{'.$rawText.'}', '\dfrac{'.$phRaw.'}');
         }

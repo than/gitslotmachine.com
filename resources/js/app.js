@@ -13,7 +13,10 @@ function formulaTooltip() {
         tip = document.createElement('div');
         tip.id = 'formula-tooltip';
         tip.className = 'formula-tooltip';
-        tip.setAttribute('role', 'tooltip');
+        // aria-hidden, not role="tooltip": nothing references this element (no
+        // aria-describedby survives inside KaTeX's aria-hidden render), and its text
+        // duplicates the <details> lists that are already real page content.
+        tip.setAttribute('aria-hidden', 'true');
         document.body.appendChild(tip);
     }
     return tip;

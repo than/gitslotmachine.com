@@ -23,12 +23,15 @@ it('derives the display label from the env value', function (string $full, strin
     try {
         $config = require config_path('app.php');
     } finally {
-        foreach (['env' => '_ENV', 'server' => '_SERVER'] as $key => $global) {
-            if ($original[$key] === null) {
-                unset($GLOBALS[$global]['APP_VERSION']);
-            } else {
-                $GLOBALS[$global]['APP_VERSION'] = $original[$key];
-            }
+        if ($original['env'] === null) {
+            unset($_ENV['APP_VERSION']);
+        } else {
+            $_ENV['APP_VERSION'] = $original['env'];
+        }
+        if ($original['server'] === null) {
+            unset($_SERVER['APP_VERSION']);
+        } else {
+            $_SERVER['APP_VERSION'] = $original['server'];
         }
     }
 

@@ -31,7 +31,7 @@ Route::get('/odds', function () {
     // PatternDetector's check order, which tests FOUR_OF_KIND before the rarer
     // ALL_LETTERS (so e.g. `aaaabcd` pays 100, not 500).
     $patterns = collect(Ruleset::patterns())
-        ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
+        ->reject(fn (array $pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
         ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])
         ->map(function (array $pattern): array {
             $annotated = FormulaAnnotator::annotate($pattern);

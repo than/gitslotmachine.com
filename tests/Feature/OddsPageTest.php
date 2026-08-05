@@ -41,8 +41,10 @@ it('exposes every tooltip as readable content outside the aria-hidden render', f
 
     $response->assertSee('formula-explain', false)
         ->assertSee('Explain this formula')
-        // A tip that only ever existed inside a tooltip before.
-        ->assertSee('16 choices for the six-of-a-kind digit.');
+        // Anchored to the <li> markup: the bare tip string also survives verbatim
+        // inside the data-tips attribute (json_encode only escapes non-ASCII), so an
+        // unanchored assertSee would stay green with the list deleted.
+        ->assertSee('<li>16 choices for the six-of-a-kind digit.</li>', false);
 });
 
 // EXAMPLE VALIDATION: every example hash in the canonical ruleset must detect as its own type,

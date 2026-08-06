@@ -35,6 +35,9 @@ Route::get('/odds', function () {
         ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])
         ->map(function (array $pattern): array {
             $annotated = FormulaAnnotator::annotate($pattern);
+            // Keep the canonical string for the render-failure fallback: the annotated
+            // one is full of \htmlData{tip=N}{...} wrappers nobody should ever read.
+            $pattern['formulaPlain'] = $pattern['formulaLatex'];
             $pattern['formulaLatex'] = $annotated['latex'];
             $pattern['formulaTips'] = $annotated['tips'];
 

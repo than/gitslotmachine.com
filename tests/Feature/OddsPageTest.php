@@ -47,6 +47,15 @@ it('exposes every tooltip as readable content outside the aria-hidden render', f
         ->assertSee('<li>16 choices for the six-of-a-kind digit.</li>', false);
 });
 
+// Pins the disclosure to the PATTERN cell. The PROBABILITY cell is hidden
+// md:table-cell — display:none removes it from the accessibility tree, and below md
+// there's no hover either — so moving the <details> back there would make the a11y
+// path desktop-only again while every other assertion stayed green. hash-display is
+// the EXAMPLE cell, the td right after PATTERN.
+it('keeps the formula explanations in the always-visible pattern cell', function () {
+    $this->get('/odds')->assertSeeInOrder(['JACKPOT', 'Explain this formula', 'hash-display'], false);
+});
+
 // EXAMPLE VALIDATION: every example hash in the canonical ruleset must detect as its own type,
 // guarding the example hashes the odds page displays.
 it('detects each canonical example as its own pattern type', function () {

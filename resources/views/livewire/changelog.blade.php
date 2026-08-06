@@ -26,7 +26,7 @@
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">
                         <h3 class="text-2xl font-bold" style="color: var(--term-text);">v3.1.0</h3>
-                        <span class="text-sm" style="color: var(--term-dim);">2026-07-29</span>
+                        <span class="text-sm" style="color: var(--term-dim);">2026-08-05</span>
                     </div>
                     <div class="pl-4 space-y-2 text-sm">
                         <div style="color: var(--term-text);">
@@ -39,7 +39,7 @@
                         <div style="color: var(--term-text);">
                             <span style="color: #66d9ef;">🐛 Fixes:</span>
                             <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
-                                <li>Raised dim-text contrast in the Solarized theme — it was below WCAG AA against the background</li>
+                                <li>Raised dim-text contrast in the Solarized theme (it was below WCAG AA) and switched the odds table body to full-strength text in every theme</li>
                             </ul>
                         </div>
                     </div>

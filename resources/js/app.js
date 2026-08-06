@@ -125,7 +125,9 @@ window.renderFormulas = function () {
             wireFormulaTips(el, tips);
             el.dataset.rendered = '1';
         } catch (e) {
-            el.textContent = latex;
+            // data-latex is the annotated string, full of \htmlData{tip=N}{...}
+            // wrappers — the canonical formula is the readable fallback.
+            el.textContent = el.dataset.latexPlain || latex;
         }
     });
 };

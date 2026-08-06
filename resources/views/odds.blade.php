@@ -70,7 +70,7 @@
                                 @if(! empty($pattern['formulaTips']))
                                 <details class="formula-explain mt-2 text-xs font-normal">
                                     <summary>Explain this formula<span class="sr-only"> for {{ $pattern['name'] }}</span></summary>
-                                    <ul class="list-disc list-outside pl-4 mt-1 space-y-1" style="color: var(--term-dim);">
+                                    <ul class="list-disc list-outside pl-4 mt-1 space-y-1">
                                         @foreach($pattern['formulaTips'] as $tip)
                                         <li>{{ $tip }}</li>
                                         @endforeach
@@ -82,7 +82,7 @@
                             <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
                             <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
                             <td class="p-3 align-top hidden md:table-cell">
-                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
+                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-latex-plain="{{ $pattern['formulaPlain'] ?? '' }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
                             </td>
                         </tr>
                     @endforeach
@@ -104,7 +104,10 @@
                             <th class="p-2 text-left hidden sm:table-cell">DATE</th>
                         </tr>
                     </thead>
-                    <tbody style="color: var(--term-dim);">
+                    {{-- --term-text, same as the main odds table: only the DATE cell
+                         actually inherits this (the others set their own colors), and
+                         dim date text has the same contrast problem the main table had. --}}
+                    <tbody style="color: var(--term-text);">
                         @foreach($discoveries as $discovery)
                         <tr class="border-b hover:bg-white/5" style="border-color: rgba(var(--term-accent-rgb), 0.2);">
                             <td class="p-2 font-bold" style="color: var(--term-win);">{{ $discovery->secret_name }}</td>

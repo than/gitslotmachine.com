@@ -1,6 +1,6 @@
 <?php
 
-$appVersion = (string) env('APP_VERSION', '3.1.0');
+$appVersion = (string) env('APP_VERSION', '3.1.1');
 
 return [
 

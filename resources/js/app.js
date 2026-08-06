@@ -1,4 +1,3 @@
-import './bootstrap';
 import { detectPattern } from './patterns.js';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';

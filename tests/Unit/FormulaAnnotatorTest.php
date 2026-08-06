@@ -76,6 +76,15 @@ it('always explains the sample space (denominator) and the counting', function (
     }
 })->with('annotatable patterns');
 
+// TOKENS mirrors the canonical LaTeX exactly, so a miss is drift and must fail
+// loudly (CI red) rather than degrade to a silently dropped tooltip.
+it('fails loudly when a configured token is missing from the formula', function () {
+    $pattern = collect(Ruleset::patterns())->firstWhere('type', 'SIX_OF_KIND');
+    $pattern['formulaLatex'] = str_replace('16', '99', $pattern['formulaLatex']);
+
+    expect(fn () => FormulaAnnotator::annotate($pattern))->toThrow(RuntimeException::class, "'16'");
+});
+
 it('leaves no bare number untiled — every magic number has a tooltip', function (array $pattern) {
     $annotated = FormulaAnnotator::annotate($pattern);
 

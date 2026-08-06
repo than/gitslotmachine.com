@@ -27,6 +27,9 @@ it('carries annotated formulas and their tooltips into the page', function () {
     $response = $this->get('/odds');
 
     $response->assertSee('data-latex', false)
+        // Named in full: 'data-latex' alone also matches as a substring of this
+        // attribute, so it can't pin the fallback on its own.
+        ->assertSee('data-latex-plain', false)
         ->assertSee('htmlData{tip=', false)
         ->assertSee('data-tips', false)
         ->assertSee('268,435,456');
@@ -53,7 +56,14 @@ it('exposes every tooltip as readable content outside the aria-hidden render', f
 // path desktop-only again while every other assertion stayed green. hash-display is
 // the EXAMPLE cell, the td right after PATTERN.
 it('keeps the formula explanations in the always-visible pattern cell', function () {
-    $this->get('/odds')->assertSeeInOrder(['JACKPOT', 'Explain this formula', 'hash-display'], false);
+    $html = $this->get('/odds')->getContent();
+
+    // First-occurrence comparison, not assertSeeInOrder: both needles appear once per
+    // row, so a sequential sweep is free to straddle rows and passes even after the
+    // revert. The first disclosure preceding the first hash-display (the EXAMPLE cell,
+    // the td right after PATTERN) is only true while the <details> is in PATTERN.
+    expect(strpos($html, 'Explain this formula'))
+        ->toBeLessThan(strpos($html, 'hash-display'));
 });
 
 // EXAMPLE VALIDATION: every example hash in the canonical ruleset must detect as its own type,

@@ -79,7 +79,9 @@
     white-space: nowrap;
 }
 
-/* Interactive parts of an /odds probability formula — hover/focus for an explanation. */
+/* Interactive parts of an /odds probability formula — hover for an explanation.
+   Deliberately no focus path: these spans live inside KaTeX's aria-hidden render,
+   so the keyboard/screen-reader path is the <details> list in the PATTERN cell. */
 .katex .formula-part {
     border-bottom: 1px dotted currentColor;
     cursor: help;

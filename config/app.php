@@ -1,5 +1,7 @@
 <?php
 
+$appVersion = (string) env('APP_VERSION', '3.1.0');
+
 return [
 
     /*
@@ -20,13 +22,17 @@ return [
     | Application Version
     |--------------------------------------------------------------------------
     |
-    | The web app's display version, shown in the terminal chrome header and the
-    | "new version available" banner (meta[name=app-version]). Single source so the
-    | header can't drift. Distinct from the payout ruleset version (see Ruleset).
+    | The full x.y.z version of *this site*, shown by the "new version available"
+    | banner (meta[name=app-version]) and tracked against this repo's git tags. The
+    | CLI in than/git-slot-machine versions independently — they are not in lockstep.
+    | 'version_display' is the human-facing major.minor label shown in the terminal
+    | chrome (e.g. "3.0"). Distinct from the payout ruleset version (see Ruleset).
     |
     */
 
-    'version' => env('APP_VERSION', '3.0.0'),
+    'version' => $appVersion,
+
+    'version_display' => implode('.', array_slice(explode('.', $appVersion), 0, 2)),
 
     /*
     |--------------------------------------------------------------------------

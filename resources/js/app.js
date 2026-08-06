@@ -6,16 +6,136 @@ import 'katex/dist/katex.min.css';
 // Make detectPattern available globally
 window.detectPattern = detectPattern;
 
+// One shared tooltip element, lazily created, reused by every formula part.
+function formulaTooltip() {
+    let tip = document.getElementById('formula-tooltip');
+    if (!tip) {
+        tip = document.createElement('div');
+        tip.id = 'formula-tooltip';
+        tip.className = 'formula-tooltip';
+        // aria-hidden, not role="tooltip": nothing references this element (no
+        // aria-describedby survives inside KaTeX's aria-hidden render), and its text
+        // duplicates the <details> lists that are already real page content.
+        tip.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(tip);
+    }
+    return tip;
+}
+
+// The part the tooltip is currently anchored to, so scrolling can reposition it.
+let activeFormulaPart = null;
+
+function positionFormulaTip(part) {
+    const tip = formulaTooltip();
+    const r = part.getBoundingClientRect();
+
+    // Measure at the origin, not at wherever the previous anchor left us. The tip is
+    // absolutely positioned with a max-width and no width, so its shrink-to-fit width
+    // is measured against the space remaining to the right of its current `left` —
+    // measuring in place makes it wrap narrower and taller than it will actually be.
+    tip.style.left = '0px';
+    tip.style.top = '0px';
+    const tr = tip.getBoundingClientRect();
+
+    // Centre above the part, clamped to the viewport.
+    let left = r.left + r.width / 2 - tr.width / 2 + window.scrollX;
+    left = Math.max(8, Math.min(left, window.scrollX + document.documentElement.clientWidth - tr.width - 8));
+    tip.style.left = `${left}px`;
+
+    // Flip below when there isn't room above — the first table row sits near enough to
+    // the top that the tip would otherwise render off-screen.
+    const above = r.top - tr.height - 8;
+    tip.style.top = `${(above < 8 ? r.bottom + 8 : above) + window.scrollY}px`;
+}
+
+function showFormulaTip(part, text) {
+    const tip = formulaTooltip();
+    tip.textContent = text;
+    tip.classList.add('is-visible');
+    activeFormulaPart = part;
+    positionFormulaTip(part);
+}
+
+function hideFormulaTip() {
+    const tip = document.getElementById('formula-tooltip');
+    if (tip) tip.classList.remove('is-visible');
+    activeFormulaPart = null;
+}
+
+// An open tooltip would otherwise strand once its anchor moves. capture is required,
+// not optional: scroll events fired on an element do not bubble, and the container
+// that actually moves here is the odds table's own overflow-x-auto wrapper, not the
+// document. The rAF gate keeps positionFormulaTip's write-then-read (a forced
+// synchronous reflow) to once per frame rather than once per scroll event.
+let repositionQueued = false;
+const repositionFormulaTip = () => {
+    if (!activeFormulaPart || repositionQueued) return;
+    repositionQueued = true;
+    requestAnimationFrame(() => {
+        repositionQueued = false;
+        if (activeFormulaPart) positionFormulaTip(activeFormulaPart);
+    });
+};
+
+// Registered on first wireFormulaTips call (like the lazily created tooltip element),
+// so this app-wide bundle adds no listeners on pages with no formulas.
+let tipListenersWired = false;
+function wireTipGlobalListeners() {
+    if (tipListenersWired) return;
+    tipListenersWired = true;
+
+    // WCAG 1.4.13: hover content must be dismissible without moving the pointer.
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideFormulaTip();
+    });
+    window.addEventListener('scroll', repositionFormulaTip, { passive: true, capture: true });
+    window.addEventListener('resize', repositionFormulaTip, { passive: true });
+}
+
+// Attach hover tooltips to every \htmlData{tip=i} span KaTeX rendered.
+//
+// Pointer only, deliberately. katex.render defaults to htmlAndMathml: the MathML is
+// what assistive tech reads, and the visual render carrying these spans is marked
+// aria-hidden="true". aria-hidden is inherited and a descendant cannot override it,
+// so anything set here — tabindex, aria-describedby — is either inert or an outright
+// WCAG 4.1.2 violation (focusable element inside aria-hidden). The keyboard and
+// screen-reader path is the <details> list in odds.blade.php instead.
+function wireFormulaTips(el, tips) {
+    wireTipGlobalListeners();
+    el.querySelectorAll('[data-tip]').forEach((part) => {
+        const text = tips[Number(part.dataset.tip)];
+        if (!text) return;
+        part.classList.add('formula-part');
+        part.addEventListener('mouseenter', () => showFormulaTip(part, text));
+        part.addEventListener('mouseleave', hideFormulaTip);
+    });
+}
+
 // Render LaTeX odds formulas (used on the /odds page). Idempotent.
 window.renderFormulas = function () {
     document.querySelectorAll('.katex-formula').forEach((el) => {
         const latex = el.dataset.latex;
         if (!latex || el.dataset.rendered) return;
         try {
-            katex.render(latex, el, { throwOnError: false, displayMode: false });
+            // `trust` is scoped to \htmlData only — the sole command FormulaAnnotator
+            // emits. This keeps \href/\includegraphics un-trusted if the formula
+            // source ever stops being static.
+            katex.render(latex, el, {
+                throwOnError: false,
+                displayMode: false,
+                trust: (context) => context.command === '\\htmlData',
+                // Silence only the htmlExtension warning \htmlData itself triggers;
+                // every other diagnostic still surfaces for formulas added later.
+                strict: (errorCode) => (errorCode === 'htmlExtension' ? 'ignore' : 'warn'),
+            });
+            let tips = [];
+            try { tips = JSON.parse(el.dataset.tips || '[]'); } catch (e) { tips = []; }
+            wireFormulaTips(el, tips);
             el.dataset.rendered = '1';
         } catch (e) {
-            el.textContent = latex;
+            // data-latex is the annotated string, full of \htmlData{tip=N}{...}
+            // wrappers — the canonical formula is the readable fallback.
+            el.textContent = el.dataset.latexPlain || latex;
         }
     });
 };

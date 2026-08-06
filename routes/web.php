@@ -3,6 +3,7 @@
 use App\Http\Controllers\BadgeController;
 use App\Http\Controllers\WinnerController;
 use App\Models\SecretDiscovery;
+use App\Services\FormulaAnnotator;
 use App\Services\Ruleset;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Support\Facades\Route;
@@ -24,9 +25,24 @@ Route::get('/odds', function () {
         ->orderBy('discovered_at')
         ->get();
 
-    // Render the table from the canonical ruleset (single source of truth).
+    // Render the table from the canonical ruleset (single source of truth). The JSON
+    // stores patterns in pattern-family groups, so sort for the page: biggest payout
+    // first, rarity breaking ties. This is display order only — it is NOT
+    // PatternDetector's check order, which tests FOUR_OF_KIND before the rarer
+    // ALL_LETTERS (so e.g. `aaaabcd` pays 100, not 500).
     $patterns = collect(Ruleset::patterns())
-        ->reject(fn ($pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
+        ->reject(fn (array $pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
+        ->sortBy([['payout', 'desc'], ['oneIn', 'desc']])
+        ->map(function (array $pattern): array {
+            // Additive keys: formulaLatex keeps its canonical meaning (patterns.json,
+            // Ruleset, the CLI) — the view uses it as the render-failure fallback,
+            // since the annotated string is full of \htmlData{tip=N}{...} wrappers.
+            $annotated = FormulaAnnotator::annotate($pattern);
+            $pattern['formulaAnnotated'] = $annotated['latex'];
+            $pattern['formulaTips'] = $annotated['tips'];
+
+            return $pattern;
+        })
         ->values();
 
     return view('odds', [

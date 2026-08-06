@@ -22,6 +22,29 @@
         @if($tab === 'app')
         <div class="mt-8 border bg-black/30 p-6 font-mono" style="border-color: var(--term-accent);">
             <div class="space-y-8">
+                <!-- Version 3.1.0 -->
+                <div>
+                    <div class="flex items-baseline gap-3 mb-3">
+                        <h3 class="text-2xl font-bold" style="color: var(--term-text);">v3.1.0</h3>
+                        <span class="text-sm" style="color: var(--term-dim);">2026-08-05</span>
+                    </div>
+                    <div class="pl-4 space-y-2 text-sm">
+                        <div style="color: var(--term-text);">
+                            <span style="color: var(--term-win);">✨ Annotated odds formulas:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Every number in every probability formula now has a hover tooltip explaining where it comes from — plus an "Explain this formula" disclosure under each pattern name with the same notes as plain text (keyboard and screen-reader friendly)</li>
+                                <li>Odds table reordered biggest-payout-first, with rarity breaking ties</li>
+                            </ul>
+                        </div>
+                        <div style="color: var(--term-text);">
+                            <span style="color: #66d9ef;">🐛 Fixes:</span>
+                            <ul class="list-disc list-inside pl-4 mt-2 space-y-1" style="color: var(--term-dim);">
+                                <li>Raised dim-text contrast in the Solarized theme (it was below WCAG AA) and switched the odds table body to full-strength text in every theme</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Version 3.0.0 -->
                 <div>
                     <div class="flex items-baseline gap-3 mb-3">

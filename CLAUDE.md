@@ -45,7 +45,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - Todo items MUST include:
   1. Implement the feature/fix
   2. Update changelog (resources/views/livewire/changelog.blade.php)
-  3. Bump version if needed (resources/views/components/terminal-layout.blade.php)
+  3. Bump version if needed (config/app.php — `APP_VERSION` fallback; the terminal chrome renders the derived `app.version_display`)
   4. Commit and push
 - Mark each todo as completed immediately after finishing
 - Version bumping rules:

@@ -1,5 +1,7 @@
 <?php
 
+$appVersion = (string) env('APP_VERSION', '3.1.0');
+
 return [
 
     /*
@@ -28,7 +30,7 @@ return [
     |
     */
 
-    'version' => $appVersion = (string) env('APP_VERSION', '3.1.0'),
+    'version' => $appVersion,
 
     'version_display' => implode('.', array_slice(explode('.', $appVersion), 0, 2)),
 

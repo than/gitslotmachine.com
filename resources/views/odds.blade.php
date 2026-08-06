@@ -82,7 +82,7 @@
                             <td class="p-3 text-right font-bold align-top" style="color: {{ $pattern['payout'] >= 1000 ? 'var(--term-win)' : 'var(--term-text)' }};">+{{ number_format($pattern['payout']) }}</td>
                             <td class="p-3 text-right align-top hidden sm:table-cell">1 in {{ $odds }}</td>
                             <td class="p-3 align-top hidden md:table-cell">
-                                <span class="katex-formula" data-latex="{{ $pattern['formulaLatex'] }}" data-latex-plain="{{ $pattern['formulaPlain'] ?? '' }}" data-tips="{{ json_encode($pattern['formulaTips'] ?? []) }}"></span>
+                                <span class="katex-formula" data-latex="{{ $pattern['formulaAnnotated'] }}" data-latex-plain="{{ $pattern['formulaLatex'] }}" data-tips="{{ json_encode($pattern['formulaTips']) }}"></span>
                             </td>
                         </tr>
                     @endforeach

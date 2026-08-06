@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
+
 /**
  * Adds per-token hover tooltips to a pattern's probability formula for the /odds page.
  *
@@ -150,22 +152,22 @@ class FormulaAnnotator
         // The simplified net numerator (present only when the formula reduces).
         $netWrapped = null;
         if ($netText !== null) {
-            $netWrapped = self::hook(self::pushTip($tips,
-                'Net winning hashes: '.number_format((int) $pattern['net']).' (≈ 1 in '.number_format((int) $pattern['oneIn']).').'
-            ), $netText);
+            $netWrapped = self::wrap($tips,
+                'Net winning hashes: '.number_format((int) $pattern['net']).' (≈ 1 in '.number_format((int) $pattern['oneIn']).').',
+                $netText);
         }
 
         // The denominator — the sample space, identical wherever 16^7 appears.
-        $denomWrapped = self::hook(self::pushTip($tips, self::DENOMINATOR_TIP), self::DENOMINATOR);
+        $denomWrapped = self::wrap($tips, self::DENOMINATOR_TIP, self::DENOMINATOR);
 
         // Rebuild via placeholders so no wrap re-matches another region's digits.
         $phRaw = "\x01";
         $phNet = "\x02";
         if ($rawText !== null) {
-            $latex = self::replaceFirst($latex, '\dfrac{'.$rawText.'}', '\dfrac{'.$phRaw.'}');
+            $latex = Str::replaceFirst('\dfrac{'.$rawText.'}', '\dfrac{'.$phRaw.'}', $latex);
         }
         if ($netText !== null) {
-            $latex = self::replaceFirst($latex, '\dfrac{'.$netText.'}', '\dfrac{'.$phNet.'}');
+            $latex = Str::replaceFirst('\dfrac{'.$netText.'}', '\dfrac{'.$phNet.'}', $latex);
         }
         $latex = str_replace(self::DENOMINATOR, $denomWrapped, $latex);
         if ($tiledRaw !== null) {
@@ -193,10 +195,12 @@ class FormulaAnnotator
         foreach ($tokens as [$token, $tip]) {
             $pos = strpos($text, $token, $cursor);
             if ($pos === false) {
-                continue;
+                // TOKENS mirrors the canonical LaTeX exactly; a miss is always drift
+                // in one of the two, never a state to tolerate with a dropped tip.
+                throw new \RuntimeException("Formula token '{$token}' not found in numerator '{$text}'.");
             }
             $out .= substr($text, $cursor, $pos - $cursor);
-            $out .= self::hook(self::pushTip($tips, $tip), $token);
+            $out .= self::wrap($tips, $tip, $token);
             $cursor = $pos + strlen($token);
         }
 
@@ -236,26 +240,14 @@ class FormulaAnnotator
     }
 
     /**
+     * Record a tip and wrap the body with the \htmlData hook that references it.
+     *
      * @param  list<string>  $tips
      */
-    private static function pushTip(array &$tips, string $tip): int
+    private static function wrap(array &$tips, string $tip, string $body): string
     {
         $tips[] = $tip;
 
-        return count($tips) - 1;
-    }
-
-    private static function hook(int $index, string $body): string
-    {
-        return '\htmlData{tip='.$index.'}{'.$body.'}';
-    }
-
-    private static function replaceFirst(string $haystack, string $needle, string $replace): string
-    {
-        $pos = strpos($haystack, $needle);
-
-        return $pos === false
-            ? $haystack
-            : substr_replace($haystack, $replace, $pos, strlen($needle));
+        return '\htmlData{tip='.(count($tips) - 1).'}{'.$body.'}';
     }
 }

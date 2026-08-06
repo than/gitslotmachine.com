@@ -4,7 +4,8 @@ it('exposes a full x.y.z version and a major.minor display label', function () {
     $version = config('app.version');
 
     expect($version)->toMatch('/^\d+\.\d+\.\d+/')
-        ->and(config('app.version_display'))->toBe(implode('.', array_slice(explode('.', $version), 0, 2)));
+        ->and(config('app.version_display'))->toMatch('/^\d+\.\d+$/')
+        ->and($version)->toStartWith(config('app.version_display').'.');
 });
 
 // version_display must stay a prefix of version, or the terminal chrome and the update

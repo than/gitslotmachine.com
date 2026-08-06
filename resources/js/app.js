@@ -62,11 +62,6 @@ function hideFormulaTip() {
     activeFormulaPart = null;
 }
 
-// WCAG 1.4.13: hover content must be dismissible without moving the pointer.
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') hideFormulaTip();
-});
-
 // An open tooltip would otherwise strand once its anchor moves. capture is required,
 // not optional: scroll events fired on an element do not bubble, and the container
 // that actually moves here is the odds table's own overflow-x-auto wrapper, not the
@@ -82,8 +77,20 @@ const repositionFormulaTip = () => {
     });
 };
 
-window.addEventListener('scroll', repositionFormulaTip, { passive: true, capture: true });
-window.addEventListener('resize', repositionFormulaTip, { passive: true });
+// Registered on first wireFormulaTips call (like the lazily created tooltip element),
+// so this app-wide bundle adds no listeners on pages with no formulas.
+let tipListenersWired = false;
+function wireTipGlobalListeners() {
+    if (tipListenersWired) return;
+    tipListenersWired = true;
+
+    // WCAG 1.4.13: hover content must be dismissible without moving the pointer.
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideFormulaTip();
+    });
+    window.addEventListener('scroll', repositionFormulaTip, { passive: true, capture: true });
+    window.addEventListener('resize', repositionFormulaTip, { passive: true });
+}
 
 // Attach hover tooltips to every \htmlData{tip=i} span KaTeX rendered.
 //
@@ -94,6 +101,7 @@ window.addEventListener('resize', repositionFormulaTip, { passive: true });
 // WCAG 4.1.2 violation (focusable element inside aria-hidden). The keyboard and
 // screen-reader path is the <details> list in odds.blade.php instead.
 function wireFormulaTips(el, tips) {
+    wireTipGlobalListeners();
     el.querySelectorAll('[data-tip]').forEach((part) => {
         const text = tips[Number(part.dataset.tip)];
         if (!text) return;

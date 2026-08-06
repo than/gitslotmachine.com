@@ -32,13 +32,13 @@ Route::get('/odds', function () {
     // ALL_LETTERS (so e.g. `aaaabcd` pays 100, not 500).
     $patterns = collect(Ruleset::patterns())
         ->reject(fn (array $pattern) => $pattern['secret'] || $pattern['type'] === 'NO_WIN')
-        ->sort(fn ($a, $b) => [$b['payout'], $b['oneIn']] <=> [$a['payout'], $a['oneIn']])
+        ->sortBy([['payout', 'desc'], ['oneIn', 'desc']])
         ->map(function (array $pattern): array {
+            // Additive keys: formulaLatex keeps its canonical meaning (patterns.json,
+            // Ruleset, the CLI) — the view uses it as the render-failure fallback,
+            // since the annotated string is full of \htmlData{tip=N}{...} wrappers.
             $annotated = FormulaAnnotator::annotate($pattern);
-            // Keep the canonical string for the render-failure fallback: the annotated
-            // one is full of \htmlData{tip=N}{...} wrappers nobody should ever read.
-            $pattern['formulaPlain'] = $pattern['formulaLatex'];
-            $pattern['formulaLatex'] = $annotated['latex'];
+            $pattern['formulaAnnotated'] = $annotated['latex'];
             $pattern['formulaTips'] = $annotated['tips'];
 
             return $pattern;
